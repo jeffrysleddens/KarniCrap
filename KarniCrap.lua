@@ -2,48 +2,49 @@
 
 
 
-	--[[ Local Variables ]]--   
-	local KARNICRAP_VERSION = "3.2.1";
+	--[[ Local Variables ]]--
+	local KARNICRAP_VERSION = "6.0.2.1";
 
-	local debug = nil						-- debug mode default setting (nil or 1)
+	local debug = nil			-- debug mode default setting (nil or 1)
 
-	local loot_all = nil				-- variable to set next loot opened to loot all items
+	local loot_all = nil			-- variable to set next loot opened to loot all items
 	local justlooking = nil			-- alt key will temporarily disable autolooting
-	local lasttab = 1						-- which tab the user was showing last
-	local unit_level = nil			-- level of the	corpse being skinned/engineered/mined/gathered					
-	local using_tradeskill = nil-- player using tradeskill (used for preventing autodestroy)
+	local lasttab = 1			-- which tab the user was showing last
+	local unit_level = nil			-- level of the	corpse being skinned/engineered/mined/gathered
+	local using_tradeskill = nil		-- player using tradeskill (used for preventing autodestroy)
 
-	local amount_poor = 0				-- totalled amount for poor filter
+	local amount_poor = 0			-- totalled amount for poor filter
 	local amount_common = 0			-- totalled amount for common filter
 	local loot_threshold = 5		-- loot under threshold rarity will be autolooted (default is legendary
 	local playerlevel = nil			-- tracks current player level
 
-	local questlist_items = {}	-- a list that has all quest item names
+	local questlist_items = {}		-- a list that has all quest item names
 	local questlist_delay = 3		-- amount of delay before quest objectives are checked
 
 	--COLORS (Returns |cXXXXXX )
-	local _,_,_,poor_color = GetItemQualityColor(0)				-- 0 Poor #9d9d9d
-	local _,_,_,common_color = GetItemQualityColor(1)			-- 1 Common #ffffff
-	local _,_,_,uncommon_color = GetItemQualityColor(2)		-- 2 Uncommon #1eff00
-	local _,_,_,rare_color = GetItemQualityColor(3)				-- 3 Rare #0070dd
-	local _,_,_,epic_color = GetItemQualityColor(4)				-- 4 Epic #a335ee
+	local _,_,_,poor_color = GetItemQualityColor(0)		-- 0 Poor #9d9d9d
+	local _,_,_,common_color = GetItemQualityColor(1)	-- 1 Common #ffffff
+	local _,_,_,uncommon_color = GetItemQualityColor(2)	-- 2 Uncommon #1eff00
+	local _,_,_,rare_color = GetItemQualityColor(3)		-- 3 Rare #0070dd
+	local _,_,_,epic_color = GetItemQualityColor(4)		-- 4 Epic #a335ee
 	local _,_,_,legendary_color = GetItemQualityColor(5)	-- 5 Legendary #ff8000
-																												-- 6 Artifact
-																												-- 7 Heirloom
-	local error_hex = "|cffff0000"												-- red text for errors
+								-- 6 Artifact
+								-- 7 Heirloom
 
-	local echo = KarniCrap_Echo	-- localize the text output function
+	local error_hex = "|cffff0000"		-- red text for errors
+
+	local echo = KarniCrap_Echo		-- localize the text output function
 
 
 
---[[ OnLoad Handler ]]-- 
-  
+--[[ OnLoad Handler ]]--
+
 function KarniCrap_OnLoad(self)
 	self:RegisterEvent("ADDON_LOADED")
 	self:RegisterEvent("LOOT_OPENED")
 	self:RegisterEvent("LOOT_CLOSED")
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	self:RegisterEvent("RAID_ROSTER_UPDATE") 
+	self:RegisterEvent("RAID_ROSTER_UPDATE")
 	self:RegisterEvent("PLAYER_LEVEL_UP")
 	self:RegisterEvent("QUEST_FINISHED")
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
@@ -65,19 +66,19 @@ end
 
 
 
---[[ Databroker ]]--   
+--[[ Databroker ]]--
 
 LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("KarniCrap", {
-    type = "launcher",
-    icon = "Interface\\Icons\\Spell_Frost_Stun",
-    OnClick = function(clickedframe, button)
-        KarniCrap_ToggleFrame()
-    end,
-    label = "Karni's Crap Filter" })
+	type = "launcher",
+	icon = "Interface\\Icons\\Spell_Frost_Stun",
+	OnClick = function(clickedframe, button)
+		KarniCrap_ToggleFrame()
+	end,
+	label = "Karni's Crap Filter" })
 
 
 
---[[ Inventory Update delay ]]-- 
+--[[ Inventory Update delay ]]--
 
 local bagTimer = CreateFrame("Frame")
 local total_time = 0
@@ -85,19 +86,19 @@ local total_time = 0
 bagTimer:Hide()
 -- used to prevent multiple executions of inventory updates on BAG_UPDATE
 local function KarniCrap_BagUpdateDelay(self,elapsed)
-    total_time = total_time + elapsed
-    if total_time >= .1 then
+	total_time = total_time + elapsed
+	if total_time >= .1 then
 		KarniCrap_InventoryList()
 		KarniCrap_Scripts:RegisterEvent("BAG_UPDATE")
-        total_time = 0
+		total_time = 0
 		self:Hide()
-    end
+	end
 end
 bagTimer:SetScript("OnUpdate", KarniCrap_BagUpdateDelay) -- set script after function exists
 
 
 
---[[ Slash Command Handler ]]--   
+--[[ Slash Command Handler ]]--
 
 function KarniCrap_CommandHandler(text)
 	link = text
@@ -120,8 +121,8 @@ end
 
 --[[ Toggle user debug mode ]]--
 
-function KarniCrap_ToggleDebug() 
-	if debug then 
+function KarniCrap_ToggleDebug()
+	if debug then
 		debug = nil
 		echo("KarniCrap: Debug mode off")
 	else
@@ -145,7 +146,7 @@ function KarniCrap_ToggleFrame()
 			end
 		-- if frame is hidden, show it and regist BAG_UPDATE event
 		else
-			if lasttab == 1 then KarniCrap_ShowTab1() 
+			if lasttab == 1 then KarniCrap_ShowTab1()
 			elseif lasttab == 2 then KarniCrap_ShowTab2()
 			else KarniCrap_ShowTab3() end
 			frame:Show()
@@ -173,27 +174,23 @@ end
 --[[ Get UnitID ]]--
 
 function KarniCrap_GetUnitID()
-	-- TO DO: I think unit ID is changing in 4.0.1/Cataclysm
 	local unitString = UnitGUID("mouseover")
 	local id = nil
-	
-	if debug and not unitString == nil then echo("UnitGUID="..unitString) end
-	
+	local unitType = nil
+
+	if debug then echo("UnitGUID="..unitString) end
+
 	if unitString then -- not a chest/object
-		local unitType = bit.band(string.sub(unitString, 1, 5), "0x00F")
-		if unitType == 3 then  -- npc
-		
+		unitType, _, _, _, _, id, _ = strsplit("-", unitString);
+
+		if unitType == "Creature" then  -- npc
 			-- if user has SkilledEnough option checked, get the target's level. Boss or unknown (too high) will return -1
-			if KarniCrapConfig.SkilledEnough then	
+			if KarniCrapConfig.SkilledEnough then
 				unit_level = UnitLevel("mouseover") or nil
 				if unit_level == -1 then unit_level = nil end --boss or too high level. Attempt to use on Ony? or mineable boss in mana tombs?
 			end
-			-- extract the unit ID
-		 	id = tonumber(string.sub(unitString, 6, 12), 16)
-		 	id = tostring(id);
-		 	
 			if id then
-				--if debug and unit_level then echo("Unit ID is "..id..", level is "..unit_level) end
+				if debug and unit_level then echo("Unit ID is "..id..", level is "..unit_level) end
 				return id
 			else
 				return nil
@@ -209,19 +206,19 @@ end
 function KarniCrap_GetLootSlotInfo(i)
 	local link = GetLootSlotLink(i)
 	local _, _, quantity = GetLootSlotInfo(i)
-	
+
 	if link then
 		local _, _, id = string.find(link, "item:(%d+):")
 		local notcrap, details = CheckLoot(id)
-		-- notcrap will be true if item passed filters	
+		-- notcrap will be true if item passed filters
 		local x = 'Item does not pass filters'
 		if notcrap then
 			x = 'Item passes filters'
 		end
-		
+
 		x = "Lootslot("..i..")="..id..","..link..","..quantity..","..x.." ("..details..")"
 		if debug then echo(x) end
-		
+
 		return notcrap, id, link, quantity, details
 	end
 	return nil
@@ -234,11 +231,11 @@ end
 function KarniCrap_LootEverything(why)
 	why = why or "Looting everything" -- sets the reason to not be null if not passed (test!)
 	local destroy = KarniCrap_CheckDestroyConditions(using_tradeskill)
-	for i = 1, GetNumLootItems() do	
+	for i = 1, GetNumLootItems() do
 		-- to do: if inventory full then abort loot attempts with a warning	(need to check for UI errors?)
 		local passed, id, link, quantity, details = KarniCrap_GetLootSlotInfo(i)
-			
-		LootSlot(i) 
+
+		LootSlot(i)
 		-- check autodestroy settings
 		if destroy and not passed then
 			if debug then echo("destroy and not passed") end
@@ -275,12 +272,12 @@ function KarniCrap_HasEnoughSkill(skill)
 	--if debug then echo("skill_level for "..skill.." is "..skill_level) end
 
 	if skill_level > 0 then
-		if skill_level < 100 then 
+		if skill_level < 100 then
 			max_unit_level = floor(skill_level/10) + 10
-		else 
-			max_unit_level = floor(skill_level/5) 
+		else
+			max_unit_level = floor(skill_level/5)
 		end
-		
+
 		--if debug then echo("max unit "..skill.." level is "..max_unit_level) end
 		if max_unit_level >= unit_level then return 1 end
 	end
@@ -291,7 +288,7 @@ end
 
 
 
---[[ Event Handler ]]--   
+--[[ Event Handler ]]--
 
 function KarniCrap_OnEvent(self, event, ...)
 	  local arg1, arg2, arg3, arg4, arg5 = ...
@@ -325,7 +322,7 @@ function KarniCrap_OnEvent(self, event, ...)
 
 	elseif event == "PLAYER_LEVEL_UP" then
 		playerlevel = tonumber(arg1)
-		
+
 	elseif event == "PARTY_MEMBERS_CHANGED" then
 		KarniCrapConfig.NumberInParty = GetNumPartyMembers()
 		KarniCrap_GetLootThreshold()
@@ -333,52 +330,52 @@ function KarniCrap_OnEvent(self, event, ...)
 	elseif event == "RAID_ROSTER_UPDATE" then
 		KarniCrapConfig.NumberInRaid = GetNumRaidMembers()
 		KarniCrap_GetLootThreshold()
-			
+
 	elseif event == "QUEST_FINISHED" then
-		KarniCrap_TimerFrame:Show()	
-	
+		KarniCrap_TimerFrame:Show()
+
 	elseif event == "UNIT_SPELLCAST_SUCCEEDED" and arg1 == "player" then
 		-- arg1 = Unit casting spell
 		-- arg2 = Spell name
 		-- arg3 = Spell rank (deprecated)
 		-- arg4 = Spell lineID counter (?)
 		-- arg5 = Spell ID
-		
+
 		-- Spellcast detection is used to determine if a tradeskill has been used
-		-- what happens when tradeskill doesn't trigger a loot window? 
+		-- what happens when tradeskill doesn't trigger a loot window?
 
 	  --[[ Tradeskills ]]--
-		-- Disenchanting, Inscription, Milling & Prospecting all "lock" 
-  	-- an item in your bag automatically forcing a "loot all" situation
-  	-- The tradeskillList[] check should catch them anyway though.
+		-- Disenchanting, Inscription, Milling & Prospecting all "lock"
+	-- an item in your bag automatically forcing a "loot all" situation
+	-- The tradeskillList[] check should catch them anyway though.
 		using_tradeskill = nil
-  	if tradeskillList[arg5] then -- check if the spell cast is a tradeskill
+	if tradeskillList[arg5] then -- check if the spell cast is a tradeskill
 			using_tradeskill = true
 			loot_all = 1
 		else
 			loot_all = nil -- not in tradeskill list, don't loot everything
 		end
-		
+
 	elseif event == "MERCHANT_SHOW" then
 		KarniCrap_MerchantOpen()
-		
+
 	elseif event == "MERCHANT_CLOSED" then
 		KarniCrap_MerchantClosed()
-		
+
 	elseif event == "LOOT_CLOSED" then
 		loot_all = nil
-		
+
 	elseif event == "LOOT_OPENED" then
 		local link, itemID, quantity, looted = nil
 		if debug then echo("----- Looting ------") end
-		
+
 		autodestroy_iteminfo = {} --should contain itemID, itemLink and itemQuantity
-	
+
 		--[[ Just Looking (ALT modifier) ]]--
 		if IsAltKeyDown() then justlooking = true else justlooking = nil end
 
 		if arg1 == 0 and KarniCrapConfig.Enabled and not justlooking then
-			if loot_all then 
+			if loot_all then
 				looted = KarniCrap_LootEverything(arg2)
 			else
 				if KarniCrap_IsLocked()then looted = KarniCrap_LootEverything("Container") end
@@ -389,7 +386,7 @@ function KarniCrap_OnEvent(self, event, ...)
 			if not looted and KarniCrapConfig.Fishing and IsFishingLoot() then
 				looted = KarniCrap_LootEverything("Fishing")
 			end
-			
+
 			-- Get the source unit ID
 			local unitID = KarniCrap_GetUnitID();
 
@@ -401,33 +398,33 @@ function KarniCrap_OnEvent(self, event, ...)
 				if unitID then
 					if debug then echo("unit id="..unitID) end
 					local max_unit_level = 0
-					
+
 					-- skinnable corpse
 					if KarniCrapConfig.Skinnable and mobsSkinnableList[unitID] then
 						if KarniCrapConfig.SkilledEnough then
 							if KarniCrap_HasEnoughSkill("Skinning") then looted = KarniCrap_LootEverything("Skinnable corpse") end
-						else			
+						else
 							looted = KarniCrap_LootEverything("Skinnable corpse")
 						end
-					-- minable corpse	
+					-- minable corpse
 					elseif KarniCrapConfig.Minable and mobsMinableList[unitID] then
 						if KarniCrapConfig.SkilledEnough then
 							if KarniCrap_HasEnoughSkill("Mining") then looted = KarniCrap_LootEverything("Minable corpse") end
-						else			
+						else
 							looted = KarniCrap_LootEverything("Minable corpse")
 						end
 					-- gatherable corpse
 					elseif KarniCrapConfig.Gatherable and mobsGatherableList[unitID] then
 						if KarniCrapConfig.SkilledEnough then
 							if KarniCrap_HasEnoughSkill("Herb Gathering") then looted = KarniCrap_LootEverything("Gatherable corpse") end
-						else			
+						else
 							looted = KarniCrap_LootEverything("Gatherable corpse")
 						end
 					-- engineerable corpse
 					elseif KarniCrapConfig.Engineerable and mobsEngineerableList[unitID] then
 						if KarniCrapConfig.SkilledEnough then
 							if KarniCrap_HasEnoughSkill("Engineering") then looted = KarniCrap_LootEverything("Engineerable corpse") end
-						else			
+						else
 							looted = KarniCrap_LootEverything("Engineerable corpse")
 						end
 					end
@@ -444,12 +441,12 @@ function KarniCrap_OnEvent(self, event, ...)
 			-- If an attempt to loot everything hasn't been made, then do checks
 			if not looted then
 				local destroy = KarniCrap_CheckDestroyConditions()
-				
+
 				for i = 1, GetNumLootItems() do
 					--[[ Money ]]--
-					if LootSlotIsCoin(i) then 
+					if GetLootSlotType(i) == LOOT_SLOT_MONEY then
 						LootSlot(i)
-		
+
 -- TO DO --
 -- if getnumlootitmes is 1 and the 1 is coins
 -- Might need to do an items remaining check here to see if we can avoid lootslot taint errors
@@ -461,12 +458,12 @@ function KarniCrap_OnEvent(self, event, ...)
 						local passed, id, link, quantity, details = KarniCrap_GetLootSlotInfo(i)
 
 						if passed == 1 then LootSlot(i)
-							if debug then echo("Looting "..link.."("..details..")") end						
+							if debug then echo("Looting "..link.."("..details..")") end
 						elseif not passed then
 							if destroy then
-								if debug then echo("Looting "..link.." to destroy ("..details..")") end	
+								if debug then echo("Looting "..link.." to destroy ("..details..")") end
 								LootSlot(i)
-								
+
 								-- TO DO: NEED TO MAKE SURE ITEM IS NOT ADDED TO DESTROY QUEUE IF USER COULD NOT LOOT IT (BAGS FULL)
 								KarniCrap_AddToDestroyQueue(id, link, quantity, details)
 								KarniCrap_Scripts:RegisterEvent("BAG_UPDATE")
@@ -488,7 +485,7 @@ end
 
 function KarniCrap_GetLootThreshold()
 	if GetLootMethod() == "freeforall" then
-		loot_threshold = 5 
+		loot_threshold = 5
 	else
 		loot_threshold = GetLootThreshold()
 	end
@@ -499,7 +496,7 @@ end
 
 
 
---[[ Check Loot ]]--   
+--[[ Check Loot ]]--
 -- Loot = 1
 -- Crap = nil
 -- Ignore item = -1 (not marked as crap so auto-destroy won't catch it)
@@ -507,15 +504,15 @@ end
 function CheckLoot(itemID)
 	local lootName, lootLink, lootRarity, lootLevel, _, lootType, lootSubType, lootStackCount, _, _, lootValue = GetItemInfo(itemID)
 	local temp
-	
+
 	--[[ Blacklist ]]--
 	if KarniBlacklist[itemID] then return nil, "Blacklist" end
-	
+
 	--[[ Whitelist, Currency & Quest type items ]]--
-	if KarniWhitelist[itemID] or lootType == "Quest" or lootType == "Currency" then 
-		return 1, "Whitelist, Currency or Quest item" 
+	if KarniWhitelist[itemID] or lootType == "Quest" or lootType == "Currency" then
+		return 1, "Whitelist, Currency or Quest item"
 	end
-	
+
 	--[[ Quest Items ]]--
 	if ( lootRarity > 0 ) then
 		for key, value in pairs(questlist_items) do
@@ -528,7 +525,7 @@ function CheckLoot(itemID)
 		if lootRarity == 0 and KarniCrapConfig.Quality_Poor then return -1, "Ignoring: Quality settings"
 		elseif lootRarity == 1 and KarniCrapConfig.Quality_Common then return -1, "Ignoring: Quality settings"
 		elseif lootRarity == 2 and KarniCrapConfig.Quality_Uncommon then return -1, "Ignoring: Quality settings"
-		elseif lootRarity == 3 and KarniCrapConfig.Quality_Rare then return -1, "Ignoring: Quality settings" 
+		elseif lootRarity == 3 and KarniCrapConfig.Quality_Rare then return -1, "Ignoring: Quality settings"
 		elseif lootRarity == 4 and KarniCrapConfig.Quality_Epic then return -1, "Ignoring: Quality settings" end
 	end
 
@@ -538,14 +535,14 @@ function CheckLoot(itemID)
 	--[[ Cooking ]]--
 	if ( KarniCrapConfig.Cooking and cookingList[itemID] ) then	return 1, "Cooking" end
 
-	--[[ Cloth ]]-- 
+	--[[ Cloth ]]--
 	if itemID == "2589" then
 		if KarniCrapConfig.Cloth_Linen then return 1, "Linen"
 		elseif KarniCrapConfig.Cloth_Linen_Never then return nil, "Linen"	end
 	elseif itemID == "2592" then
 		if KarniCrapConfig.Cloth_Wool then return 1, "Wool"
 		elseif KarniCrapConfig.Cloth_Wool_Never then return nil, "Wool"	end
-	elseif itemID == "4306" then 
+	elseif itemID == "4306" then
 		if KarniCrapConfig.Cloth_Silk then return 1, "Silk"
 		elseif KarniCrapConfig.Cloth_Silk_Never then return nil, "Silk" end
 	elseif itemID == "4338" then
@@ -565,46 +562,46 @@ function CheckLoot(itemID)
 		elseif KarniCrapConfig.Cloth_Embersilk_Never then return nil, "Embersilk" end
 	end
 
-	--[[ Scrolls ]]-- 
+	--[[ Scrolls ]]--
 	-- needs to loot all max level scroll types if only the max button is checked
 	if lootSubType == "Scroll" then
-		if KarniCrapConfig.Scroll_Agility and ScrollList_Agility[itemID] then 
+		if KarniCrapConfig.Scroll_Agility and ScrollList_Agility[itemID] then
 			if KarniCrapConfig.ScrollMax then
 				if KarniCrap_CheckScroll(itemID, ScrollList_Agility) then return 1
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end 
-		elseif KarniCrapConfig.Scroll_Intellect and ScrollList_Intellect[itemID] then 
+			else return 1, "Scroll type" end
+		elseif KarniCrapConfig.Scroll_Intellect and ScrollList_Intellect[itemID] then
 			if KarniCrapConfig.ScrollMax then
 				if KarniCrap_CheckScroll(itemID, ScrollList_Intellect) then return 1
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end 
+			else return 1, "Scroll type" end
 		elseif KarniCrapConfig.Scroll_Protection and ScrollList_Protection[itemID] then
 			if KarniCrapConfig.ScrollMax then
 				if KarniCrap_CheckScroll(itemID, ScrollList_Protection) then return 1
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end 
-		elseif KarniCrapConfig.Scroll_Spirit and ScrollList_Spirit[itemID] then 
+			else return 1, "Scroll type" end
+		elseif KarniCrapConfig.Scroll_Spirit and ScrollList_Spirit[itemID] then
 			if KarniCrapConfig.ScrollMax then
 				if KarniCrap_CheckScroll(itemID, ScrollList_Spirit) then return 1
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end 
-		elseif KarniCrapConfig.Scroll_Stamina and ScrollList_Stamina[itemID] then 
+			else return 1, "Scroll type" end
+		elseif KarniCrapConfig.Scroll_Stamina and ScrollList_Stamina[itemID] then
 			if KarniCrapConfig.ScrollMax then
 				if KarniCrap_CheckScroll(itemID, ScrollList_Stamina) then return 1
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end 
-		elseif KarniCrapConfig.Scroll_Strength and ScrollList_Strength[itemID] then 
+			else return 1, "Scroll type" end
+		elseif KarniCrapConfig.Scroll_Strength and ScrollList_Strength[itemID] then
 			if KarniCrapConfig.ScrollMax then
 				if KarniCrap_CheckScroll(itemID, ScrollList_Strength) then return 1
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end 
+			else return 1, "Scroll type" end
 		end
 	end
-	
+
 	--[[ Food ]]--
-	if KarniCrapConfig.AlwaysFood or KarniCrapConfig.NeverFood then 
+	if KarniCrapConfig.AlwaysFood or KarniCrapConfig.NeverFood then
 		if foodList[itemID] then
-			if KarniCrapConfig.NeverFood then 
+			if KarniCrapConfig.NeverFood then
 				return nil, "Food"
 			elseif KarniCrapConfig.AlwaysFood then
 				if KarniCrapConfig.FoodMax then
@@ -618,9 +615,9 @@ function CheckLoot(itemID)
 	end
 
 	--[[ Water ]]--
-	if KarniCrapConfig.AlwaysWater or KarniCrapConfig.NeverWater then 
+	if KarniCrapConfig.AlwaysWater or KarniCrapConfig.NeverWater then
 		if waterList[itemID] then
-			if KarniCrapConfig.NeverWater then 
+			if KarniCrapConfig.NeverWater then
 				return nil, "Water"
 			elseif KarniCrapConfig.AlwaysWater then
 				if KarniCrapConfig.WaterMax then
@@ -634,22 +631,22 @@ function CheckLoot(itemID)
 	end
 
 	--[[ Health Potions ]]--
-	if ( KarniCrapConfig.AlwaysHealth or KarniCrapConfig.NeverHealth ) and HealingPotionList[itemID] then 
-		if KarniCrapConfig.NeverHealth then 
-		 	details = "Health Potion" return nil 
+	if ( KarniCrapConfig.AlwaysHealth or KarniCrapConfig.NeverHealth ) and HealingPotionList[itemID] then
+		if KarniCrapConfig.NeverHealth then
+		 	details = "Health Potion" return nil
 		elseif KarniCrapConfig.AlwaysHealth then
 			if KarniCrapConfig.HealthMax then
 				if KarniCrap_CheckMaxPotion(itemID, HealingPotionList) then return 1
 				else return nil, "Health Potion too low" end
-			else 
+			else
 				return 1, "Health Potion"
 			end
 		end
 	end
 
 	--[[ Mana Potions ]]--
-	if ( KarniCrapConfig.AlwaysMana or KarniCrapConfig.NeverMana ) and ManaPotionList[itemID] then 
-		if KarniCrapConfig.NeverMana then 
+	if ( KarniCrapConfig.AlwaysMana or KarniCrapConfig.NeverMana ) and ManaPotionList[itemID] then
+		if KarniCrapConfig.NeverMana then
 			return nil, "Mana Potion"
 		elseif KarniCrapConfig.AlwaysMana then
 			if KarniCrapConfig.ManaMax then
@@ -680,10 +677,10 @@ function CheckLoot(itemID)
 			end
 		end
 	end
-		
+
 	-- passed or didn't qualify for filters
 	return 1, "Looting: No filters apply"
-	
+
 end -- CheckLoot()
 
 
@@ -745,25 +742,25 @@ function KarniCrap_CheckMaxPotion(itemID, potion_list)
 	local unsorted_list = {}
 	local sorted_list = {}
 	local potion_level = potion_list[itemID]
- 	local temp_list = {}
-  
-  -- gets the unique levels from the potion list and sorts it
-  for k, v in pairs(potion_list) do
-  	unsorted_list[v] = true	
-	end  	
+	local temp_list = {}
+
+	-- gets the unique levels from the potion list and sorts it
+	for k, v in pairs(potion_list) do
+		unsorted_list[v] = true
+	end
 	for k, v in pairs(unsorted_list) do
 		table.insert(sorted_list,k)
 	end
-	-- 
+	--
 	table.insert(sorted_list, 100) -- add a high max level to the end of the array so it won't crash when doing index + 1
-  	table.sort(sorted_list)
-  	-- just get the next highest level of potion
-  	for i = 1, # sorted_list do
-		if potion_level == sorted_list[i] then 
-  			next_potion_level = sorted_list[i + 1]
-  			break
-  		end
-  	end
+	table.sort(sorted_list)
+	-- just get the next highest level of potion
+	for i = 1, # sorted_list do
+		if potion_level == sorted_list[i] then
+			next_potion_level = sorted_list[i + 1]
+			break
+		end
+	end
 	if potion_level >= playerlevel or ( playerlevel > potion_level and playerlevel <= next_potion_level ) then
 		return true
 	else
@@ -775,18 +772,18 @@ end
 function KarniCrap_CheckScroll(itemID, scroll_list)
 	local next_scroll_level
 	local sorted_list = {}
-  local scroll_level = scroll_list[itemID]
-  	
-  for id, value in pairs(scroll_list) do table.insert(sorted_list, value) end 
+	local scroll_level = scroll_list[itemID]
+
+	for id, value in pairs(scroll_list) do table.insert(sorted_list, value) end
 	table.insert(sorted_list, 100) -- add a high value to the end of the array so it won't crash when doing index+1
-  	table.sort(sorted_list)
-  	-- get the level of the next highest scroll of that type
-  	for i = 1, 6 do
-  		if scroll_level == sorted_list[i] then 
-  			next_scroll_level = sorted_list[i + 1]
-  			break
-  		end
-  	end
+	table.sort(sorted_list)
+	-- get the level of the next highest scroll of that type
+	for i = 1, 6 do
+		if scroll_level == sorted_list[i] then
+			next_scroll_level = sorted_list[i + 1]
+			break
+		end
+	end
 	if scroll_level >= playerlevel or ( playerlevel > scroll_level and playerlevel <= next_scroll_level ) then
 		return true
 	else
@@ -801,9 +798,9 @@ function KarniCrap_ScrollLevels(list)
 	local i = 1
 	local sorted_list = {}
 
-  for id, value in pairs(list) do table.insert(sorted_list, value) end 
+	for id, value in pairs(list) do table.insert(sorted_list, value) end
 	table.insert(sorted_list, 100) -- add a high value to the end of the array so it won't crash when doing index+1
-  	table.sort(sorted_list)
+	table.sort(sorted_list)
 	for index = 1, # Scrolllevel_List do
 		-- this will leave 1 level of overlap when looting scrolls, so when a character hits 70 you can still loot the level 5 scrolls
 		-- this was done since there are no level VI scrolls in BC checking 'max' would cause you not to loot any scrolls
@@ -820,7 +817,7 @@ function KarniCrap_ScrollLevels(list)
 end
 
 
-function KarniCrap_CBMaxScrolls() 
+function KarniCrap_CBMaxScrolls()
 	if (KarniCrap_Scrolls_CBMaxScrolls:GetChecked()) then
 		-- scrollmax should set the scrolls to be character level usable and above
 		-- if character is lvl 60, scrolls included should be IV-VI
@@ -848,23 +845,23 @@ function KarniCrap_RBHealth()
 		KarniCrapConfig.NeverHealth = true;
 		KarniCrapConfig.AlwaysHealth = false;
 		KarniCrap_Potions_RBHealth2:SetChecked(nil);
-		KarniCrap_Potions_CBHealthMax:SetAlpha(0.3); 
-		KarniCrap_Potions_CBHealthMax:Disable(); 
+		KarniCrap_Potions_CBHealthMax:SetAlpha(0.3);
+		KarniCrap_Potions_CBHealthMax:Disable();
 		KarniCrap_Potions_RBHealth1_Text:SetText("|cffffffffNever|r loot health potions (crap)");
 		KarniCrap_Potions_RBHealth2_Text:SetText("Always loot health potions");
 	elseif (KarniCrap_Potions_RBHealth2:GetChecked()) then
 		KarniCrapConfig.NeverHealth = false;
 		KarniCrapConfig.AlwaysHealth = true;
 		KarniCrap_Potions_RBHealth1:SetChecked(nil);
-		KarniCrap_Potions_CBHealthMax:SetAlpha(1); 
-		KarniCrap_Potions_CBHealthMax:Enable(); 
+		KarniCrap_Potions_CBHealthMax:SetAlpha(1);
+		KarniCrap_Potions_CBHealthMax:Enable();
 		KarniCrap_Potions_RBHealth1_Text:SetText("Never loot health potions (crap)");
 		KarniCrap_Potions_RBHealth2_Text:SetText("|cffffffffAlways|r loot health potions");
 	else
 		KarniCrapConfig.NeverHealth = false;
 		KarniCrapConfig.AlwaysHealth = false;
-		KarniCrap_Potions_CBHealthMax:SetAlpha(0.3); 
-		KarniCrap_Potions_CBHealthMax:Disable(); 
+		KarniCrap_Potions_CBHealthMax:SetAlpha(0.3);
+		KarniCrap_Potions_CBHealthMax:Disable();
 		KarniCrap_Potions_RBHealth1_Text:SetText("Never loot health potions (crap)");
 		KarniCrap_Potions_RBHealth2_Text:SetText("Always loot health potions");
 	end
@@ -875,22 +872,22 @@ function KarniCrap_RBMana()
 	if KarniCrap_Potions_RBMana1:GetChecked() then
 		KarniCrapConfig.NeverMana = true;
 		KarniCrapConfig.AlwaysMana = false;
-		KarniCrap_Potions_CBManaMax:SetAlpha(0.3); 
-		KarniCrap_Potions_CBManaMax:Disable(); 
+		KarniCrap_Potions_CBManaMax:SetAlpha(0.3);
+		KarniCrap_Potions_CBManaMax:Disable();
 		KarniCrap_Potions_RBMana1_Text:SetText("|cffffffffNever|r loot mana potions (crap)");
 		KarniCrap_Potions_RBMana2_Text:SetText("Always loot mana potions");
 	elseif KarniCrap_Potions_RBMana2:GetChecked() then
 		KarniCrapConfig.NeverMana = false;
 		KarniCrapConfig.AlwaysMana = true;
-		KarniCrap_Potions_CBManaMax:SetAlpha(1); 
-		KarniCrap_Potions_CBManaMax:Enable(); 
+		KarniCrap_Potions_CBManaMax:SetAlpha(1);
+		KarniCrap_Potions_CBManaMax:Enable();
 		KarniCrap_Potions_RBMana1_Text:SetText("Never loot mana potions (crap)");
 		KarniCrap_Potions_RBMana2_Text:SetText("|cffffffffAlways|r loot mana potions");
 	else
 		KarniCrapConfig.NeverMana = false;
 		KarniCrapConfig.AlwaysMana = false;
-		KarniCrap_Potions_CBManaMax:SetAlpha(0.3); 
-		KarniCrap_Potions_CBManaMax:Disable(); 
+		KarniCrap_Potions_CBManaMax:SetAlpha(0.3);
+		KarniCrap_Potions_CBManaMax:Disable();
 		KarniCrap_Potions_RBMana1_Text:SetText("Never loot mana potions (crap)");
 		KarniCrap_Potions_RBMana2_Text:SetText("Always loot mana potions");
 	end
@@ -902,21 +899,21 @@ function KarniCrap_RBFood()
 	if KarniCrap_Consumables_RBFood1:GetChecked() then
 		KarniCrapConfig.AlwaysFood = false;
 		KarniCrapConfig.NeverFood = true;
-		KarniCrap_Consumables_CBFoodMax:SetAlpha(0.3); 
+		KarniCrap_Consumables_CBFoodMax:SetAlpha(0.3);
 		KarniCrap_Consumables_CBFoodMax:Disable();
 		KarniCrap_Consumables_RBFood1_Text:SetText("|cffffffffNever|r loot food (crap)");
 		KarniCrap_Consumables_RBFood2_Text:SetText("Always loot food");
 	elseif KarniCrap_Consumables_RBFood2:GetChecked()  then
 		KarniCrapConfig.AlwaysFood = true;
 		KarniCrapConfig.NeverFood = false;
-		KarniCrap_Consumables_CBFoodMax:SetAlpha(1); 
+		KarniCrap_Consumables_CBFoodMax:SetAlpha(1);
 		KarniCrap_Consumables_CBFoodMax:Enable();
 		KarniCrap_Consumables_RBFood1_Text:SetText("Never loot food (crap)");
 		KarniCrap_Consumables_RBFood2_Text:SetText("|cffffffffAlways|r loot food");
 	else
 		KarniCrapConfig.AlwaysFood = false;
 		KarniCrapConfig.NeverFood = false;
-		KarniCrap_Consumables_CBFoodMax:SetAlpha(0.3); 
+		KarniCrap_Consumables_CBFoodMax:SetAlpha(0.3);
 		KarniCrap_Consumables_CBFoodMax:Disable();
 		KarniCrap_Consumables_RBFood1_Text:SetText("Never loot food (crap)");
 		KarniCrap_Consumables_RBFood2_Text:SetText("Always loot food");
@@ -929,21 +926,21 @@ function KarniCrap_RBWater()
 	if KarniCrap_Consumables_RBWater1:GetChecked() then
 		KarniCrapConfig.NeverWater = true;
 		KarniCrapConfig.AlwaysWater = false;
-		KarniCrap_Consumables_CBWaterMax:SetAlpha(0.3); 
+		KarniCrap_Consumables_CBWaterMax:SetAlpha(0.3);
 		KarniCrap_Consumables_CBWaterMax:Disable();
 		KarniCrap_Consumables_RBWater1_Text:SetText("|cffffffffNever|r loot water (crap)");
 		KarniCrap_Consumables_RBWater2_Text:SetText("Always loot water");
 	elseif KarniCrap_Consumables_RBWater2:GetChecked() then
 		KarniCrapConfig.NeverWater = false;
 		KarniCrapConfig.AlwaysWater = true;
-		KarniCrap_Consumables_CBWaterMax:SetAlpha(1); 
+		KarniCrap_Consumables_CBWaterMax:SetAlpha(1);
 		KarniCrap_Consumables_CBWaterMax:Enable();
 		KarniCrap_Consumables_RBWater1_Text:SetText("Never loot water (crap)");
 		KarniCrap_Consumables_RBWater2_Text:SetText("|cffffffffAlways|r loot water");
 	else
 		KarniCrapConfig.NeverWater = false;
 		KarniCrapConfig.AlwaysWater = false;
-		KarniCrap_Consumables_CBWaterMax:SetAlpha(0.3);	
+		KarniCrap_Consumables_CBWaterMax:SetAlpha(0.3);
 		KarniCrap_Consumables_CBWaterMax:Disable();
 		KarniCrap_Consumables_RBWater1_Text:SetText("Never loot water (crap)");
 		KarniCrap_Consumables_RBWater2_Text:SetText("Always loot water");
@@ -952,24 +949,24 @@ end
 
 
 function KarniCrap_CalcPoorThreshold()
-	amount_poor = 
-		KarniCrapConfig.PoorThreshold_Gold * 10000 + 
-		KarniCrapConfig.PoorThreshold_Silver * 100 + 
+	amount_poor =
+		KarniCrapConfig.PoorThreshold_Gold * 10000 +
+		KarniCrapConfig.PoorThreshold_Silver * 100 +
 		KarniCrapConfig.PoorThreshold_Copper;
 end
 
 
 function KarniCrap_CalcCommonThreshold()
-	amount_common = 
-		KarniCrapConfig.CommonThreshold_Gold * 10000 + 
-		KarniCrapConfig.CommonThreshold_Silver * 100 + 
+	amount_common =
+		KarniCrapConfig.CommonThreshold_Gold * 10000 +
+		KarniCrapConfig.CommonThreshold_Silver * 100 +
 		KarniCrapConfig.CommonThreshold_Copper;
 end
 
 
 
 function KarniCrap_DestroyUI()
-	if KarniCrap_CBDestroy:GetChecked() then	
+	if KarniCrap_CBDestroy:GetChecked() then
 		KarniCrapConfig.Destroy = true
 		KarniCrap_CBDestroySlots:Enable()
 		KarniCrap_CBDestroySlots:SetAlpha(1)
@@ -996,17 +993,17 @@ end
 
 
 
---[[ Load variables / set defaults ]]--   
+--[[ Load variables / set defaults ]]--
 
- function KarniCrap_Loaded()
+function KarniCrap_Loaded()
 
 	-- load each option, set default if not there
 	KarniCrapConfig = KarniCrapConfig or {}
 	KarniBlacklist = KarniBlacklist or {}
 	KarniWhitelist = KarniWhitelist or {}
 	KarniQuestlist = KarniQuestlist or {}
-	KarniQuestlist_Pending = KarniQuestlist_Pending or {}		
-			
+	KarniQuestlist_Pending = KarniQuestlist_Pending or {}
+
 	KarniCrapConfig.Version = KARNICRAP_VERSION
 
 	-- loading the external files
@@ -1029,10 +1026,10 @@ end
 	ScrollList_Spirit = ScrollList_Spirit or {}
 	ScrollList_Stamina = ScrollList_Stamina or {}
 	ScrollList_Strength = ScrollList_Strength or {}
-	
+
 	if KarniCrapConfig.NumberInParty == nil then KarniCrapConfig.NumberInParty = 0 end
 	if KarniCrapConfig.NumberInRaid == nil then KarniCrapConfig.NumberInRaid = 0 end
-	
+
 	-- enabled/disabled
 	if KarniCrapConfig.Enabled == nil then KarniCrapConfig.Enabled = true end
 
@@ -1051,13 +1048,13 @@ end
 	if KarniCrapConfig.Common == nil then KarniCrapConfig.Common = true end
 	if KarniCrapConfig.UseStackValue == nil then KarniCrapConfig.UseStackValue = true end
 	if KarniCrapConfig.Echo == nil then KarniCrapConfig.Echo = true end
-	
+
 	-- corpse settings
 	if KarniCrapConfig.Skinnable == nil then KarniCrapConfig.Skinnable = false end
 	if KarniCrapConfig.Gatherable == nil then KarniCrapConfig.Gatherable = false end
 	if KarniCrapConfig.Minable == nil then KarniCrapConfig.Minable = false end
 	if KarniCrapConfig.Engineerable == nil then KarniCrapConfig.Engineerable = false end
-	
+
 	-- tradeskill settings
 	if KarniCrapConfig.Cooking == nil then KarniCrapConfig.Cooking = false end
 	if KarniCrapConfig.Fishing == nil then KarniCrapConfig.Fishing = false end
@@ -1091,8 +1088,8 @@ end
 	if KarniCrapConfig.Scroll_Protection == nil then KarniCrapConfig.Scroll_Protection = false end
 	if KarniCrapConfig.Scroll_Spirit == nil then KarniCrapConfig.Scroll_Spirit = false end
 	if KarniCrapConfig.Scroll_Stamina == nil then KarniCrapConfig.Scroll_Stamina = false end
-	if KarniCrapConfig.Scroll_Strength == nil then KarniCrapConfig.Scroll_Strength = false end	
-	
+	if KarniCrapConfig.Scroll_Strength == nil then KarniCrapConfig.Scroll_Strength = false end
+
 	-- food settings
 	if KarniCrapConfig.NeverFood == nil then KarniCrapConfig.NeverFood = false end
 	if KarniCrapConfig.AlwaysFood == nil then KarniCrapConfig.AlwaysFood = false end
@@ -1137,13 +1134,13 @@ end
 	-- get the player's class and level
 	playerlevel = tonumber(UnitLevel(PLAYER))
 
- end
+end
 
 
 
 
 
---[[ Quests ]]--   
+--[[ Quests ]]--
 
 -- pulls items from quest log
 function KarniCrap_GetQuestItemInfo(index)
@@ -1184,10 +1181,10 @@ function KarniCrap_GetQuestItems()
 					if itemName and itemType == "item" then
 						-- If the quest isn't complete keep trying to loot the item
 						if (itemName == nil) or (itemName == "") or (itemName == " ") then KarniCrap_TimerFrame:Show() end
-						if not isComplete then 
+						if not isComplete then
 							table.insert(questlist_items,itemName)
 						-- For completed quests add items to a list so the inventory manager won't try to destroy them
-						else 
+						else
 							table.insert(KarniQuestlist_Pending, itemName)
 						end
 					end
@@ -1204,7 +1201,7 @@ end
 
 -- Check to see if any items are locked in inventory
 function KarniCrap_IsLocked()
-	for bag = 0, 4 do			
+	for bag = 0, 4 do
 		for slot = 0, GetContainerNumSlots(bag) do
 			local _, _, locked = GetContainerItemInfo(bag, slot);
 			if locked then return 1, "Locked" end
@@ -1275,7 +1272,7 @@ function KarniCrap_Enable()
 	KarniCrap_Scripts:RegisterEvent("PLAYER_LEVEL_UP")
 	KarniCrap_Scripts:RegisterEvent("QUEST_FINISHED")
 	KarniCrap_Scripts:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-	
+
 	KarniCrap_Tab1:SetAlpha(1)
 	KarniCrap_CategoryFrame:SetAlpha(1)
 	KarniCrap_OptionsFrame:SetAlpha(1)
