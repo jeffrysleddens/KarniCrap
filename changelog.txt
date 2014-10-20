@@ -1,0 +1,325 @@
+Karni's Crap Filter
+
+
+To do list
+-------------------------------------------------------------------------------
+- Disable the destroy all crap button if there is no crap
+- Help/tips screen or a help icon that triggers a tooltip. More tooltips!
+- Option to factor in Auctioneer/AH average buyout prices?
+- Do I need to do anything for Archaeology?
+- Add a way to whitelist/blacklist items from the inventory pane
+- Minimap icon
+- Make buttons and items non-interactive when mod is disabled
+- Organize the code a bit more logically
+- Try and localize the mod
+- Speed up the list update on the inventory tab (especially when selling items)
+- Sync Blacklist/Whitelist across characters (or all settings?)
+- Mob GUID function will have to be updated when Cataclysm hits.
+
+- Ideas: Some ideas for the issue of random stuff you have being crap because it's cheap (mining pick... blacksmithing mats...)
+- Ideas: whitelist tradeskill items? (add when looting)
+- Ideas: start with whitelist of commonly used tradeskill tools (mining pick, engineering tools, fishing poles, etc...)
+- Ideas: auto-whitelist items purchased from vendors?
+- Ideas: Built-in autosell for gray items?
+- What are some of the inconveniences or issues you're running in to as you play? (Aside from Known Issues)
+
+
+Current known issues
+-------------------------------------------------------------------------------
+- Item occasionally will be in red (doesn't exist on server) on the Blacklist/Whitelist even if item
+  is in inventory. Probably a timing issue.
+- Getting two identical items off a corpse that are crap with autodestroy on, will only destroy one item.
+- Taint sometimes when looting in combat
+- Possible taint error source: fix might be to disable looting if there is only coins
+- "It's a known issue and it's been around for a year at least I'm afraid. For some silly
+  Blizzard reason, LootSlot() taints in combat when there's only coin to be looted."
+- List for engineerable/salvagable mobs is incomplete.
+
+
+Changelog
+-------------------------------------------------------------------------------
+v3.2.1
+	- Fixed the "Never loot" settings for Frostweave and Netherweave
+	- Fixed the "Except when using tradeskills" and "Don't destroy while in a group" checkboxes from showing as not checked if they were previously checked.
+	- Destroy confirmation built in, and option to turn it off removed
+	- Minor styling adjustments
+	- Disable the "Destroy All Crap" button when there is no crap in user's bags
+	- Fixed issue where items in blacklist and whitelist might appear in red on initial login
+	- Cloth options updated for Cataclysm, [Embersilk Cloth] added (lib_Cloth.lua)
+	- Food/Water libraries updated for Cataclysm, some additions made to existing lists (lib_Food.lua, lib_Water.lua)
+	- Scrolls library updated for Cataclysm, but there are no new lootable scrolls (lib_Scrolls.lua)
+	-	Healing/Mana Potions updated for Cataclysm, seems only [Mythical Healing Potion] added, and that is a fished item. Did not include in list so that non-fishermen will continue to be able to loot "max" level potions without this triggering it to mark them as crap. (lib_Potions.lua)
+	- Tradeskill options updated for Cataclysm. Updated to use SpellID instead of the name when detecting tradeskill use, so non-english clients should also work.
+	- Minable mobs list updated for Cataclysm, extensive additions to previous expansions as well (lib_MobsMinable.lua)
+	- Gatherable mobs list updated for Cataclysm, extensive additions to previous expansions as well (lib_MobsGatherable.lua)
+	- Engineerable (Salvagable) mobs list is not updated and woefully incomplete, not sure how to compile a list of these- there is no option on wowhead.com for this
+	- Cooking library updated for Cataclysm
+
+	- Corpse options: Not yet updated (lib_MobsEngineerable.lua, lib_MobsSkinnable.lua)
+
+
+v3.2.0
+	- User can now selectively disable auto-destroy while using tradeskills. This is very useful when leveling new tradeskills. This setting is on by default for new users but may be off for users with existing SavedVariables file. Fishing is not currently included in this option.
+	- Added option to automatically open Crap Filter when talking to a merchant. Window should automatically move to the correct place.
+	- Revamped the look of the addon to be a little more like the standard blizzard UI frames.
+
+v3.11
+	- Fixed auto-destroy not working. I honestly have no idea how this got broken, but I must have just accidentally deleted a section of code. :)
+	- Styled the [Destroy] and [Destroy All Crap] to look nicer
+	- Fixed the issue with the tooltip for cloth filter headers appearing gray the first time you trigger it
+
+v3.10
+	- Corrected a variable misspelling in kc_inventory.lua
+	- Added destroy confirmation option to the inventory tab
+	- Added destroy confirmation functionality, still some minor styling improvements that could be implemented
+	- Revamped (and hopefully improved) the way cloth options are handled, there are now "always" and "never" loot checkboxes for each cloth type
+	- Disabled "Destroy all crap" button on inventory tab if there is no crap to destroy
+	- Moved pickpocketing option into the tradeskill category, removed the Pickpocketing category
+	- Fixed pickpocketing option being enabled for non-rogue classes
+	- Clarified the wording on many of the options
+	- Disabled [destroy] and [destroy all crap] buttons on inventory tab while a merchant window is open
+	- Added tooltips to cloth options (above the checkboxes)
+
+v3.03
+	- Updated the mod with Speedwaystar's (thanks!) suggestions so it will work with the latest client
+	- I have NOT done much testing on this, since I don't play anymore
+	- Updated TOC
+
+v3.02
+	- This is a maintenance release
+	- Updated TOC
+	- Fixed possible problem with autolooting when pickpocketing (needs testing)
+	- Not implemented yet: Added option to disable autodestroy when using tradeskills (handy when you're trying to level up a new skill but want to keep the autodestroy functionality)
+	- Pending: Still need to look into autodestroy bug 
+
+v3.01
+	- Fixed a bug where new install would set the "destroy if x number of slots free" option but would show it as unchecked.
+	- Cleaned up inventory tab money display function a bit.
+
+v3.0 (Release)
+	- Removed the "Details" option from the notification setting, replaced by the "debug" command which provides more info on why something was or wasn't looted.
+	- Added a combat check so it won't use CloseLoot() while in combat (which will currently cause taint errors because Blis didn't FIX IT) See KNOWN ISSUES
+
+v3.0 Beta 4
+	This version is mostly usability and Inventory tab stuff.
+	- Put the "enable/disable" checkbox next to the title, seems just as intuitive to me and moves it out of the way a bit
+	- Added headers to the inventory view, clicking on "Current Value" will cycle through "Stack Value" and "Item Value" displays
+	- Removed the separate Stack/Item value column, simplified the display
+	- When talking to a vendor, on the inventory tab the "Crap" column changes to a "Sell" column, with coin icons that let you sell items without digging through your bags
+	- In the Inventory tab, the text indicator for crap items has been replaced with a button that lets you one-click delete items
+
+v3.0 Beta 3
+	- I may clean up the display on the inventory tab, possibly just making a dropdown to select between "Current Value", "Stack Value", and "Item Value" since it seems a bit cluttered to me at the moment.
+	- I'm fairly happy with this version, the auto-destroy feature seems a lot more robust than I expected it to be considering the time gap between looting items and the items hitting the bag.
+	- I'm still contemplating combining the [poor] loot value settings with [uncommon], [rare], and [epic] and leaving the [common] items seperate. Right now there's no settings that will allow looting and autodestroying of green or higher items. At best you can just leave them on the corpse using the quality settings.
+
+	Known Issues: 
+	- None in this version that I know of (yet). Seems fairly solid. Well, other than Blizzard's fucking LootSlot() still throwing taint errors when used in combat. FIX IT.
+	http://www.nbc.com/Saturday_Night_Live/video/clips/update-thursday-part-2/742141/
+
+	Testing needed:
+	- How I detect pickpocketing has changed and I haven't gotten to test it at all (Thanks EVmaker! ;P)
+	- Currency items like badges and such need to be tested to see if they actually autoloot.
+	- General stress testing on the destroy feature.
+	- Need to know what happens when someone tries to disenchant with auto-destroy on. Should autodestroy be disabled in situations where the looting is profession related? I've had requests for destroying crap during Fishing, are there other professions where it would or wouldn't apply?
+
+	- Fixed auto-destroy returning an error when bags were full
+	- Fixed auto-destroy not obeying rules when the bag slot minimum was set
+
+v3.0 beta 2
+	- Wording changed on some items, hopefully clearer
+	- Trying to split up the functions into seperate files so the main lua isn't such a mess
+	- Combined "display when destroying items" with the "display when filtering item" option
+	- Destroy functionality added to "loot all" function (i.e. fishing, looting skinnable mobs the appropriate option checked, etc...)
+	- Added coin icons to amount display in the Inventory tab
+	- Destroy suboptions enabled: Disable when in group, disable when in raid, and only destroy when X or fewer bag slots free
+
+v3.0 beta 1
+	Known Issues: 
+	- None of the Auto-Destroy sub-options work yet, but auto-destroy should work okay. I haven't tried to mess it up too much yet, so what happens in peculiar circumstances (full bags, in raids, etc) isn't known yet. Proceed with caution.
+	- I'm going to clean up some language in the mod, seperating "ignoring items" from "marking things as crap" so it will be more clear. With the new quality settings and destroy settings people might assume that anything they mark to not loot would be destroyed.
+	- I may change the [common] item filter to include all other item qualities besides [poor], any opinions?
+
+	Things that need testing: 
+	- I don't know if the autolooting on currency items works (Badge of Justice, etc) but if a level 80 could run into somewhere and see that would be great.
+	- The quality settings are new and need testing.
+
+	/crap debug will turn on some debug messages, usually whatever I'm trying to fix at the time. It may help if something confusing is happening though.
+
+	- Getglobal()s changed to _G[], more efficient
+	- Quality filter implemented
+	- Changed VARIABLES_LOADED event to ADDON_LOADED
+	- Can now auto-destroy filtered items
+	- Removed price addon dependency, functionality now in-game UI
+	- Currency items now always looted (Badge of Justice, etc) 
+	- UI improvements: Drag and drop onto blacklist/whitelist
+	- UI improvements: Remembers last open tab during a session
+	- UI improvements: Price threshold fields set to zero when their values are deleted
+	- UI improvements: KarniCrap now closable using the escape key
+	- UI improvements: Warns on startup if autoloot is on in Blizzard options
+	- Fixed issue that nobody noticed where it wouldn't immediately recalculate poor/common thresholds after they were changed
+
+v2.0.10
+	- Fixed filtering that got broken sometime in the last couple patches. I'm not sure how I fixed it, but it seems to work now.
+	- Updated the TOC
+	- Extensive XML cleanup and prep for future versions
+	- There's a 3rd tab now for inventory that I would like to implement fairly soon. This will tie in with the much requested auto-destroy function. There's also two new categories added: "Auto-destroy" and "Group/Raid". I'm not sure what's going in the group raid tab yet but there have been several requests for special behavior when in a group. 
+
+v2.0.9
+	- Fixed scrolling problem in Blacklists/Whitelists with lots of items
+	- Fixed problem with links displaying incorrectly when adding items to the blacklist
+	- Localized some functions that were conflicting with some addons' global functions
+
+v2.0.8
+	- Woo typos! That's what I get for coding at 4am.
+	- Fixed a problem with wool cloth not remembering it's settings. Or "woo" cloth.
+	- Fixed a problem with the libdatabroker library not loading. Damn you hyphen.  (thanks raicuandi!)
+
+v2.0.7
+	- Added the new level VII scrolls to the scroll list
+	- Fixed the max level potion problem again (I think)
+
+v2.0.6
+	- Added the ability to enable and disable the mod (/crap on or /crap off, or through the UI)
+	- Added the (only somewhat tested) ability to only fully autoloot corpses that you have enough skill to actually skin/gather/etc. Check for the "Only if you have required skill level" option under the Corpse settings.
+	- Fixed problem where uppercase commands would not be recognized
+
+v2.0.5
+	- Fixed the issue with Informant not being detected as a price addon. Moved the check to the PLAYER_LOGIN event which happens after ALL other addons are loaded (Informant was always loading after KarniCrap, so it didn't know it was there)
+	- Fixed possible issue where quest items weren't being loaded at first, moved that to the PLAYER_LOGIN event as well.
+
+v2.0.4
+	Mostly background stuff for future features
+	- Some background stuff with this one, starting to add in ability for user to turn on debug text, so they know why things are getting looted if they're trying to figure something out (not ready yet)
+	- Cooking list has been updated with the levels of the cooking items
+	- Holding down ALT while looting will make it not autoloot, in case you just want to look at something. There's no way to change the key at the moment and if your blizzard autoloot key is set to ALT then their autoloot will take precedence. Just something for convenience and not a fully implemented feature.
+
+v2.0.3
+	- Fixes an error when loading the addon without a vendor price addon.
+
+v2.0.2
+	- This should work now on the live client as well as beta
+	- Updated TOC
+
+v2.0.1 (wotlk)
+	- Added WotLK skinnable mobs
+	- Added WotLK gatherable mobs
+	- Added WotLK minable mobs
+	- Added WotLK cooking materials
+	- Fixed TOC version number
+
+v2.0 (wotlk)
+	- Fully Wrath of the Lich King compatible (I think!)
+	- Max level scroll looting is level sensitive now
+	- Max level pots are level sensitive as well
+	- New max level of health/mana potions (maybe incomplete)
+	- Blacklist and Whitelist now correctly left-aligned
+	- Note: Skinnable mobs for WotLK haven't been added yet, so it won't autoloot those corpses. In fact all the corpse options are likely incomplete.
+	- Note: Cooking mats are incomplete
+	- Note: Foods and Waters should be in, but there may be more that Wowhead doesn't know about yet.
+	- Debug text when looting a max mana potion removed
+	- Known issues: TOC file still says 1.8 Oops!
+
+v1.8
+	- Tons of changes!
+	- Items that are in your blacklist or whitelist and aren't in your local cache will show up in red now instead of not showing up until the item was in cache. You can remove them from the list as well.
+	- Items in your bags that open (Lockboxes, Clams, Shattered Sun Supplies, etc) will now always be autolooted regardless of group loot threshold settings. Previously it wouldn't loot green items if you were in a group.
+	- Interface streamlined, back to two tabs :)
+	- Some changes to ease the transition to WotLK
+	- Milling and Prospecting looting added
+	- Now detects spellcasts in order to loot tradeskills, previously it was using long item lists that weren't very forward compatible.
+	- Engineerable Corpses functionality added for WotLK, incomplete though
+	- Fixed bug where mousing over another object (totem, monster, etc) when skinning would cause it not to loot the corpse automatically
+	- Pickpocketing option added, you can have it autoloot when picking pockets! Only available for rogues.
+	- Filter detail option added, so you know what filter caused you not to loot an item
+	- Max scroll option now changes according to your level.
+	- This should be the last main release before version 3.0/WotLK
+
+v1.7.1
+	- Fixed an issue where if one of the items in the default whitelist was not in your item cache it would crash the mod. Huge thanks to Sorian and Cralor!
+
+v1.7
+	- Lots of changes this version, so keep an eye out for bugs!
+	- Options interface redesigned
+	- Quest item looting should now work for all quest items
+	- Will (theoretically) loot food/water higher than you can currently use
+	- Blacklist takes priority over quest items (thanks Sentrosi!)
+	- Health pot/Mana pot overrides added
+	- Scroll options added, loot only specific scroll types, etc.
+	- Will autoloot all materials from disenchanting regardless of group loot settings (thanks Kithyara!)
+
+v1.6.2
+	- I'll say that the max food and water options are fixed again, but I'm not making any promises. It better work this time or I'm half tempted to just rip it out.
+
+v1.6.1
+	- Fixed the max food and max water checkboxes not working, max food/water relative to level should actually work now.
+	- Revamped the food list a bit, was missing several items that were findable in crates/chests (Damn you, Spotted Yellowtail). I may have to figure out a better way to separate items out that have low health/mana regen for their required level.
+
+v1.6
+	- Fixed an issue where items not matching any of the non-price filters would not be autolooted if the user did not have an item value addon
+	- Fixed various other issues that occurred if the user did not have an item value addon
+	- Fixed issue where sometimes it would not attempt to loot green or higher items while soloing
+	+ Now disables "use stack value" option when there is no item value addon present
+	+ Max food & water option is level sensitive now. if "best for level" option is checked it will only loot the highest available food or water relative to your current level. Alt friendly :) Keep in mind there is only one food that drops off mobs that is good for 65+ (Sporeggar Mushroom), the rest is purchasable. Also, new foods and waters become available every 10 levels starting at 5.
+
+v1.5.2
+	- Fixed pretty much all of the options not remembering settings after I added in defaults and went on vacation without testing :)
+
+v1.5.1
+	- Fixed a problem where if user was in a group and a whitelisted item was a higher quality than the loot threshold, it would not attempt to loot the item (i.e. Badge of Justice being epic didn't get autolooted). It now checks for quest and whitelisted items first before other checks are made.
+	- Added some reasonable default settings so new users can see immediate results. May add a reset to defaults button in the future, for now clear out the saved variables file if you want to start fresh.
+
+v1.5
+	- Redesigned the options interface, now prettier
+	- Some debug text removed that was added with the stack option
+	- Code now uglier
+
+v1.4
+	- Added a "use full stack value" option, so you can loot items that stack to something worthwile.
+	- Fixed small problem where it would politely not try looting stuff when loot method was set to Free-For-All
+
+v1.3
+	- Added a whitelist, use /notcrap [itemlink] to add items. If you are starting fresh it should default to having all the mote types on the whitelist.
+	- Should be smarter in groups now, won't attempt to loot items that are higher than the loot threshold (i.e stuff that would trigger rolls anyway).
+	- The fishing option has been improved to use IsFishingLoot() API, should be future-proof now.
+	- Options dialog now uglier.
+
+v1.2.1
+	- Fixed issue where if skinning option was checked, but you were looting something you usually get from skinning off a nonskinnable mob it would loot it incorrectly. If that makes sense.
+
+v1.2
+	- Woot, alphabetized blacklist!
+
+v1.1
+	- Added mine autolooting option
+	- Fixed bug where it would correctly loot all items off skinnable corpses but say they were crap in the chatbox.
+	- Fixed Skinning option to say "Skinning" instead of "Leatherworking". I can't believe the skinners missed that one.
+
+v1.0
+	- Woohoo, feature complete!
+	- Blacklist listbox and removing items added
+	- Possible fix for enchanting items not looting automatically
+	- Tradeskill options added (not just leatherworking!)
+
+v0.9.2
+	- renamed main folder and files to KarniCrap from KarniLoot for consistency 
+	- fixed bug where money filter settings weren't being recognized on first load
+	- added /crap command!
+
+v0.9.1
+	- fixed chests not autolooting due to new GUID stuff from last version
+	- should work in BG's theoretically
+
+v0.9
+	- fixed the fix for quest item filtering
+	- skinnable/gatherable/minable mob filter bypassing implemented
+	- blacklist added, kc [itemlink] to add items to it. Can't see it in ui yet though, and it may or may not work
+
+v0.8.1
+	- added placeholder for skinnable filter bypass option
+	- fixed quest items getting filtered
+	- removed some debug text on cloth looting
+
+v0.8
+	- goes beta (or alpha since it's not technically feature-complete yet)
+

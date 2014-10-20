@@ -1,0 +1,3127 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="KarniCrap.lua" />
+
+
+
+	<Frame name="KarniCrap_Scripts" hidden="true">
+		<Scripts>
+			<OnLoad> 
+				KarniCrap_OnLoad(self);
+			</OnLoad>
+			<OnEvent>
+				KarniCrap_OnEvent(self, event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+
+
+
+
+
+
+
+
+
+<!--
+*******************************************************************************
+    BasicFrameTemplate
+	This is an empty frame with a titlebar and a close button.
+*******************************************************************************
+-->
+	
+
+
+	<Frame name="KarniBasicFrameTemplateWithInset" inherits="KarniBasicFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND" textureSubLevel="1">
+				<Texture name="$parentInsetBg" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" parentKey="InsetBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="4" y="-24" />
+						<Anchor point="BOTTOMRIGHT" x="-6" y="4" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER" textureSubLevel="-1">
+				<Texture name="$parentInsetTopLeftCorner" inherits="UI-Frame-InnerTopLeft" parentKey="InsetBorderTopLeft">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentInsetBg"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentInsetTopRightCorner" inherits="UI-Frame-InnerTopRight" parentKey="InsetBorderTopRight">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentInsetBg"/>
+					</Anchors>
+				</Texture>
+				
+				<Texture name="$parentInsetBotLeftCorner" inherits="UI-Frame-InnerBotLeftCorner" parentKey="InsetBorderBottomLeft">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentInsetBg" y="-1"/>
+					</Anchors>
+				</Texture>
+				
+				<Texture name="$parentInsetBotRightCorner" inherits="UI-Frame-InnerBotRight" parentKey="InsetBorderBottomRight">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentInsetBg" y="-1"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentInsetTopBorder" inherits="_UI-Frame-InnerTopTile" parentKey="InsetBorderTop">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentInsetTopLeftCorner" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentInsetTopRightCorner" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentInsetBottomBorder" inherits="_UI-Frame-InnerBotTile" parentKey="InsetBorderBottom">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentInsetBotLeftCorner" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentInsetBotRightCorner" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentInsetLeftBorder" inherits="!UI-Frame-InnerLeftTile" parentKey="InsetBorderLeft">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentInsetTopLeftCorner" relativePoint="BOTTOMLEFT" x="0" y="0" />
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentInsetBotLeftCorner" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentInsetRightBorder" inherits="!UI-Frame-InnerRightTile" parentKey="InsetBorderRight">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentInsetTopRightCorner" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentInsetBotRightCorner" relativePoint="TOPRIGHT"/>
+					</Anchors>
+				</Texture>	
+			</Layer>
+		</Layers>
+	</Frame>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <GameTooltip name="KarniCrapTooltip" inherits="GameTooltipTemplate">
+   	<Scripts>
+    	<Onload>
+    	  self:SetOwner(WorldFrame, "ANCHOR_NONE");
+    	  self:SetScale(.75);
+				self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+				self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+     </Onload>
+   	</Scripts>
+ 	</GameTooltip>
+
+	
+
+
+
+
+
+
+	<!-- inventory crap button template -->
+	<Button name="KarniCrapButton" virtual="true">
+		<Size x="32" y="32"/>
+		<Scripts>
+			<OnClick>
+				KarniCrap_Set_InventorySelected(self:GetParent():GetID());
+				KarniCrap_SelectInventoryItem();
+				KarniCrap_ConfirmDestroySelected();
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+	</Button>	
+		
+	<!-- inventory sell button template -->
+	<Button name="KarniSellButton" virtual="true">
+		<Size x="32" y="32"/>
+		<Scripts>
+			<OnClick>
+				KarniCrap_SellItem(self:GetParent():GetID());
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-GroupLoot-Coin-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-GroupLoot-Coin-Down"/>
+		<HighlightTexture file="Interface\Buttons\UI-GroupLoot-Coin-Highlight" alphaMode="ADD"/>
+	</Button>	
+	
+	<!-- inventory column header template -->
+	<Button name="KarniColumnHeaderTemplate" virtual="true">
+		<Size x="10" y="20"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="5" y="20"/>
+					<Anchors>	<Anchor point="TOPLEFT"/>	</Anchors>
+					<TexCoords left="0" right="0.078125" top="0" bottom="0.65"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="53" y="20"/>
+					<Anchors>	<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>	</Anchors>
+					<TexCoords left="0.078125" right="0.90625" top="0" bottom="0.65"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="4" y="20"/>
+					<Anchors>	<Anchor point="LEFT" relativeTo="$parentMiddle" relativePoint="RIGHT"/>	</Anchors>
+					<TexCoords left="0.90625" right="0.96875" top="0" bottom="0.65"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnClick>
+				PlaySound("igMainMenuOptionCheckBoxOn");
+			</OnClick>
+		</Scripts>
+		<ButtonText>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset x="8" y="0"/>
+				</Anchor>
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontHighlightSmall"/>
+	</Button>
+
+	<!-- checkbutton template -->
+	<CheckButton name="MyCheckButton" inherits="UICheckButtonTemplate" virtual="true">
+		<Size x="24" y="24"/>
+		<Anchors>	<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" > <Offset x="0" y="5" />	</Anchor>	</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" />
+					</Anchors>
+				</FontString>
+			</Layer>	
+		</Layers>
+	</CheckButton>
+
+	<!-- template for categorylist scrollbox items -->
+	<Button name="CategoryBtnTemplate" virtual="true" parent="KarniCrap_Tab1">
+		<Size x="84" y="16" />
+		<Layers>
+			<Layer level="BORDER">
+				<FontString name="$parent_Name" inherits="GameFontNormalSmall" justifyH="LEFT" text="default text">
+					<Size x="84" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="4" y="0"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parent_Background" setAllPoints="true" />
+			</Layer> 
+	    </Layers> 
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonUp");
+			</OnLoad>
+			<OnClick>
+				KarniCrap_SelectCategory(self:GetID())
+				PlaySound("igMainMenuOptionCheckBoxOn");
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalSmallLeft" />
+	  <HighlightFont style="GameFontHighlightSmallLeft" />
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+			<Size x="106" y="15" />
+			<Anchors>
+				<Anchor point="LEFT" />
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+
+	<!-- template for blacklist scrollbox items -->
+	<Button name="BlacklistBtnTemplate" virtual="true" parent="KarniCrap_Tab2">
+		<Size x="145" y="16" />
+		<Layers>
+			<Layer level="BORDER">
+				<FontString name="$parent_Item" inherits="GameFontNormalSmall" justifyH="LEFT" text="default text">
+					<Size x="145" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonUp");
+			</OnLoad>
+			<OnClick>
+				KarniCrap_Set_BlacklistSelected(self:GetID());
+				KarniCrap_SelectBlacklistItem();
+				PlaySound("igMainMenuOptionCheckBoxOn");
+			</OnClick>
+		</Scripts>
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+			<Size x="145" y="15" />
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset x="0" y="-1"/>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+
+	<!-- template for whitelist scrollbox items -->
+	<Button name="WhitelistBtnTemplate" virtual="true" parent="KarniCrap_Tab2" >
+		<Size x="145" y="16" />
+		<Layers>
+			<Layer level="BORDER">
+				<FontString name="$parent_Item" inherits="GameFontNormalSmall" justifyH="LEFT" text="default text">
+					<Size x="145" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonUp");
+			</OnLoad>
+			<OnClick>
+			 	KarniCrap_Set_WhitelistSelected(self:GetID());
+				KarniCrap_SelectWhitelistItem();
+				PlaySound("igMainMenuOptionCheckBoxOn");
+			</OnClick>
+		</Scripts>
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+			<Size x="145" y="15" />
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset x="0" y="-1"/>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+		
+	<!-- template for inventory scrollbox items -->
+	<Button name="InvBtnTemplate" virtual="true" parent="KarniCrap_Tab3">
+		<Size x="310" y="16" />
+		<Layers>
+			<Layer level="BORDER">
+				<FontString name="$parent_Quantity" inherits="GameFontNormalSmall" justifyH="RIGHT" text="88x">
+					<Size x="25" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_Item" inherits="GameFontHighlightSmall" justifyH="LEFT" text="[Item Name Here]..................................">
+					<Size x="175" y="16"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parent_Quantity" relativePoint="RIGHT">
+							<Offset x="5" y="0"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_Value" inherits="GameFontHighlightSmall" justifyH="RIGHT">
+					<Size x="100" y="16"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parent_Item" relativePoint="RIGHT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_Crap" inherits="GameFontHighlightSmall" justifyH="RIGHT" >
+					<Size x="12" y="16"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parent_Value" relativePoint="RIGHT">
+							<Offset x="5" y="0"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Button name="$parent_BtnCrap" inherits="KarniCrapButton" hidden="true">
+				<Size x="24" y="24" />
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Crap">
+						<Offset x="-20" y="0" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		
+			<Button name="$parent_BtnSell" inherits="KarniSellButton" text="" hidden="true">
+				<Size x="20" y="18" />
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Crap">
+						<Offset x="-17" y="-2" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		
+			<Frame name="$parent_Gold" inherits="GoldCoinTemplate">
+				<Size x="11" y="11"/>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Value">
+						<Offset x="-72" y="0" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Amt" inherits="GameFontHighlightSmall" justifyH="LEFT" text="00">
+							<Anchors>
+								<Anchor point="RIGHT" relativePoint="LEFT"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Frame name="$parent_Silver" inherits="SilverCoinTemplate">
+				<Size x="11" y="11"/>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Value">
+						<Offset x="-43" y="0" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Amt" inherits="GameFontHighlightSmall" justifyH="LEFT" text="00">
+							<Anchors>
+								<Anchor point="RIGHT" relativePoint="LEFT"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			
+			<Frame name="$parent_Copper" inherits="CopperCoinTemplate">
+				<Size x="11" y="11"/>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Value">
+						<Offset x="-14" y="0" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Amt" inherits="GameFontHighlightSmall" justifyH="LEFT" text="00">
+							<Anchors>
+								<Anchor point="RIGHT" relativePoint="LEFT"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>	
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonUp");
+			</OnLoad>
+			<OnClick>
+				KarniCrap_Set_InventorySelected(self:GetID());
+				KarniCrap_SelectInventoryItem();
+				PlaySound("igMainMenuOptionCheckBoxOn");
+			</OnClick>
+		</Scripts>
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+			<Size x="330" y="15" />
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset x="0" y="-1"/>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+	
+	<!-- copper coin template -->
+	<Frame name="CopperCoinTemplate" virtual="true">
+		<Size x="14" y="14" />
+		<Anchors> <Anchor point="LEFT" /> </Anchors>
+		<Layers>
+			<Layer>
+				<Texture name="$parentTexture" setAllPoints="true" file="interface\moneyframe\ui-moneyicons">
+					<TexCoords left="0.5" right="0.75" top="0" bottom="1" />
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+  <!-- silver coin template -->
+	<Frame name="SilverCoinTemplate" virtual="true">
+		<Size x="14" y="14" />
+		<Anchors> <Anchor point="LEFT" /> </Anchors>
+		<Layers>
+			<Layer>
+				<Texture name="$parentTexture" setAllPoints="true" file="interface\moneyframe\ui-moneyicons">
+					<TexCoords left="0.25" right="0.5" top="0" bottom="1" />
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<!-- gold coin template -->
+	<Frame name="GoldCoinTemplate" virtual="true">
+		<Size x="14" y="14" /> 
+		<Anchors> <Anchor point="LEFT" /> </Anchors>
+		<Layers>
+			<Layer>
+				<Texture name="$parentTexture" setAllPoints="true" file="interface\moneyframe\ui-moneyicons">
+					<TexCoords left="0" right="0.25" top="0" bottom="1" />
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<!-- "disabled" input box template -->
+	<Frame name="DisabledInputBoxTemplate" virtual="true" alpha="0.3">
+		<Size x="37" y="30" />
+		<Anchors> <Anchor point="LEFT"/> </Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\Common\Common-Input-Border">
+					<Size x="8" y="20" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+					<TexCoords left="0" right="0.0625" top="0" bottom="0.625" />
+				</Texture>
+				<Texture name="$parentRight" file="Interface\Common\Common-Input-Border">
+					<Size x="8" y="20" />
+					<Anchors>
+						<Anchor point="RIGHT" />
+					</Anchors>
+					<TexCoords left="0.9375" right="1" top="0" bottom="0.625" />
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\Common\Common-Input-Border">
+					<Size x="10" y="20" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT" />
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT" />
+					</Anchors>
+					<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625" />
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--	 MAIN WINDOW    -->	
+<!--	 MAIN WINDOW    -->	
+<!--	 MAIN WINDOW    -->	
+	<Frame name="KarniCrap" hidden="true" parent="UIParent" movable="true" inherits="KarniBasicFrameTemplateWithInset">
+		<Size x="384" y="438" />
+		<Anchors> <Anchor point="TOPLEFT" x="0" y="-104"/>	</Anchors>
+		<Layers>
+
+
+			<Layer level="BACKGROUND">
+					<Texture name="$parentBg" file="Interface\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="2" y="-21"/>
+							<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentTitleBg" inherits="_UI-Frame-TitleTileBg">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="2" y="-3"/>
+							<Anchor point="TOPRIGHT" x="-25" y="-3"/>
+						</Anchors>
+					</Texture>
+				</Layer>
+
+				<Layer level="OVERLAY">
+					<Texture name="$parentTopLeftCorner" inherits="UI-Frame-TopLeftCorner">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="-6" y="1"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentTopRightCorner" inherits="UI-Frame-TopCornerRight">
+						<Anchors>
+							<Anchor point="TOPRIGHT" x="0" y="1"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentTopBorder" inherits="_UI-Frame-TitleTile">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentTopLeftCorner" relativePoint="TOPRIGHT"/>
+							<Anchor point="TOPRIGHT" relativeTo="$parentTopRightCorner" relativePoint="TOPLEFT"/>
+						</Anchors>
+					</Texture>
+					<FontString name="$parentTitleText" inherits="GameFontNormal" text="">
+						<Anchors>
+							<Anchor point="TOP" x="-6" y="-4" />
+						</Anchors>
+					</FontString>
+				</Layer>
+
+				<Layer level="BORDER">
+					<Texture name="$parentTopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="0" y="-21"/>
+							<Anchor point="TOPRIGHT" x="-2" y="-21"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentBotLeftCorner" inherits="UI-Frame-BotCornerLeft">
+						<Anchors>
+							<Anchor point="BOTTOMLEFT" x="-6" y="-5"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentBotRightCorner" inherits="UI-Frame-BotCornerRight">
+						<Anchors>
+							<Anchor point="BOTTOMRIGHT" x="0" y="-5"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentBottomBorder" inherits="_UI-Frame-Bot">
+						<Anchors>
+							<Anchor point="BOTTOMLEFT" relativeTo="$parentBotLeftCorner" relativePoint="BOTTOMRIGHT" y="0"/>
+							<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRightCorner" relativePoint="BOTTOMLEFT" y="0"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentLeftBorder" inherits="!UI-Frame-LeftTile">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentTopLeftCorner" relativePoint="BOTTOMLEFT"/>
+							<Anchor point="BOTTOMLEFT" relativeTo="$parentBotLeftCorner" relativePoint="TOPLEFT"/>
+						</Anchors>
+					</Texture>
+					<Texture name="$parentRightBorder" inherits="!UI-Frame-RightTile">
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativeTo="$parentTopRightCorner" relativePoint="BOTTOMRIGHT" x="1"/>
+							<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRightCorner" relativePoint="TOPRIGHT"/>
+						</Anchors>
+					</Texture>
+				</Layer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<!-- Title & Version -->
+			<Layer level="OVERLAY">
+				<FontString name="$parent_Title" inherits="GameFontHighlight" text="Karni's Crap Filter">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="TOP">
+							<Offset x="0" y="-5"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_Version" inherits="GameFontDarkGraySmall" text="Version">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset x="-15" y="12" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+	
+			<!-- Portrait frame -->
+			<Layer level="OVERLAY" textureSubLevel="2">
+				<Texture name="$parentPortraitFrame" inherits="UI-Frame-Portrait" parentKey="portraitFrame">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-14" y="11"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			
+			<!-- Portrait -->	
+			<Layer level="OVERLAY" textureSubLevel="1">
+				<!--<Texture name="$parentPortrait" file="Interface\MERCHANTFRAME\UI-BuyBack-Icon" parentKey="portrait">-->
+				<Texture name="$parentPortrait" parentKey="portrait">
+					<Size x="60" y="60"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="7" />
+					</Anchors>
+				</Texture>
+			</Layer>
+
+		</Layers>
+
+		<Frames>
+
+
+
+
+		<Button name="$parentCloseButton">
+			<Size>
+				<AbsDimension x="32" y="32"/>
+			</Size>
+			<Anchors>
+				<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+					<Offset x="4" y="5"/>
+				</Anchor>
+			</Anchors>
+			<Scripts>
+				<OnClick>
+					KarniCrap_BtnDestroyItem:Disable();
+					KarniCrap_BtnBlacklistRemove:Disable();
+					KarniCrap_BtnWhitelistRemove:Disable();
+					KarniCrap_InitializeBlacklist();
+					KarniCrap_InitializeWhitelist();
+					StaticPopup_Hide("KARNICRAP_CONFIRMDESTROYSELECTED")
+					StaticPopup_Hide("KARNICRAP_CONFIRMDESTROYALLCRAP")
+					KarniCrap_ToggleFrame();
+				</OnClick>
+			</Scripts>
+			<DisabledTexture urgency="5" file="Interface\Buttons\UI-Panel-MinimizeButton-Disabled"/>
+			<NormalTexture urgency="5" file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+			<PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+			<HighlightTexture urgency="5" file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+		</Button>
+
+		
+			<!-- ENABLE/DISABLE KARNICRAP -->
+			<CheckButton name="$parent_CBEnabled" inherits="UICheckButtonTemplate">
+				<Size x="24" y="24" />
+				<Anchors>
+					<Anchor point="TOPRIGHT" >
+						<Offset x="-23" y="0" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if self:GetChecked() then 
+							KarniCrap_Off:Hide()
+							KarniCrap_Enable();
+						else 
+							KarniCrap_Off:Show()
+							KarniCrap_Disable();
+						end
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			
+			<!-- disabled text -->
+			<Frame name="$parent_Off">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="70" y="-25" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<Texture name="$parent_Texture" setAllPoints="true" file="Interface\BUTTONS\UI-GroupLoot-Pass-Up">
+							<TexCoords left="0" right="1" top="0" bottom="1" />
+						</Texture>
+					</Layer>
+
+					<Layer>
+						<FontString name="$parent_Text" inherits="GameFontNormal" text="Currently disabled. Check here to enable ^">
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parent_Texture" relativePoint="RIGHT" >
+									<Offset x="2" y="0" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+
+				</Layers>
+			</Frame>
+
+
+			<Frame>
+				<Button name="$parentCloseButton">
+					<Size>
+						<AbsDimension x="32" y="32"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+							<Offset x="4" y="5"/>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							KarniCrap_BtnDestroyItem:Disable();
+							KarniCrap_BtnBlacklistRemove:Disable();
+							KarniCrap_BtnWhitelistRemove:Disable();
+							KarniCrap_InitializeBlacklist();
+							KarniCrap_InitializeWhitelist();
+							StaticPopup_Hide("KARNICRAP_CONFIRMDESTROYSELECTED")
+							StaticPopup_Hide("KARNICRAP_CONFIRMDESTROYALLCRAP")
+							KarniCrap_ToggleFrame();
+						</OnClick>
+					</Scripts>
+					<DisabledTexture urgency="5" file="Interface\Buttons\UI-Panel-MinimizeButton-Disabled"/>
+					<NormalTexture urgency="5" file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+					<PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+					<HighlightTexture urgency="5" file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+				</Button>
+			</Frame>
+
+
+
+
+			<!-- TAB 1 -->
+			<Frame name="KarniCrap_Tab1" hidden="false">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+			</Frame>   
+			<!-- TAB 2 -->
+			<Frame name="KarniCrap_Tab2" hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+			</Frame>  
+			<!-- TAB 3 -->
+			<Frame name="KarniCrap_Tab3" hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+			</Frame>  
+			
+			
+
+		
+
+			
+			
+			
+		<!-- TAB 1 -->	
+		<!-- TAB 1 -->	
+		<!-- TAB 1 -->
+		<Frame name="$parent_Tab1Title" parent="KarniCrap_Tab1">
+			<Size x="10" y="10" />
+			<Anchors>
+				<Anchor point="TOP"/>
+			</Anchors>
+			<Layers>
+				<Layer>
+					<FontString name="$parent_Header1" inherits="GameFontNormal" text="Price Options">
+						<Anchors>
+							<Anchor point="TOP">
+								<Offset x="0" y="-48" />
+							</Anchor>
+						</Anchors>
+					</FontString>	
+				</Layer>
+			</Layers>
+		</Frame>
+
+		<!-- [X] Filter poor items -->
+    <CheckButton name="KarniCrap_CBPoor" inherits="UICheckButtonTemplate" parent="KarniCrap_Tab1">
+			<Size x="24" y="24" />
+			<Anchors>
+				<Anchor point="TOPLEFT">
+					<Offset x="14" y="-65" />
+				</Anchor>
+			</Anchors>
+			<Scripts>
+				<OnClick>KarniCrap_CheckButtonPoor()</OnClick>
+  		</Scripts>
+		</CheckButton>
+    
+    <Frame name="KarniCrap_CBPoorDesc" parent="KarniCrap_Tab1">
+    	<Size x="330" y="20" />
+			<Anchors>
+				<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_CBPoor" />
+			</Anchors>
+	    <Layers>
+	    	<Layer level="ARTWORK">
+					<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="Filter |cff9d9d9d[poor]|r items worth less than">
+						<Anchors>
+							<Anchor point="LEFT" />
+						</Anchors>
+					</FontString>
+				</Layer>	
+			</Layers>
+			<Frames>
+				<!-- gold input box -->
+				<EditBox name="KarniCrap_Poor_GoldInputBox" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" hidden="false">
+					<Size x="32" y="26"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_CBPoorDesc_Text">
+							<Offset x="10" y="0" />
+						</Anchor>
+					</Anchors> 
+					<Scripts>
+						<OnTextChanged>
+							KarniCrapConfig.PoorThreshold_Gold = self:GetNumber();
+						</OnTextChanged>
+						<OnEditFocusLost>
+							self:SetNumber(KarniCrapConfig.PoorThreshold_Gold)
+							KarniCrap_CalcPoorThreshold();
+							KarniCrap_InventoryList();
+						</OnEditFocusLost>
+						<OnTabPressed>
+							KarniCrap_Poor_SilverInputBox:SetFocus();
+						</OnTabPressed>
+						<OnEnterPressed>
+							self:ClearFocus();
+						</OnEnterPressed>
+					</Scripts>  
+				</EditBox>
+				<!-- gold input box disabled -->
+				<Frame name="KarniCrap_Poor_GoldInputBoxDisabled" inherits="DisabledInputBoxTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_CBPoorDesc_Text">
+		 					<Offset x="5" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+				<!-- gold coin -->
+				<Frame name="KarniCrap_Poor_GoldTexture" inherits="GoldCoinTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_GoldInputBox">
+							<Offset x="-14" y="0" />
+						</Anchor>
+					</Anchors>
+				</Frame>
+				<!-- silver input box -->
+				<EditBox name="KarniCrap_Poor_SilverInputBox" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" hidden="true">
+					<Size x="32" y="26"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_GoldTexture">
+							<Offset x="10" y="0" />
+						</Anchor>
+					</Anchors>     
+					<Scripts>
+						<OnTextChanged>
+							KarniCrapConfig.PoorThreshold_Silver = self:GetNumber();
+						</OnTextChanged>
+						<OnEditFocusLost>
+							self:SetNumber(KarniCrapConfig.PoorThreshold_Silver)
+							KarniCrap_CalcPoorThreshold();
+							KarniCrap_InventoryList();
+						</OnEditFocusLost>
+						<OnTabPressed>
+							KarniCrap_Poor_CopperInputBox:SetFocus();
+						</OnTabPressed>
+						<OnEnterPressed>
+							self:ClearFocus();
+						</OnEnterPressed>
+					</Scripts>  
+				</EditBox>
+				<!-- silver input box disabled -->
+				<Frame name="KarniCrap_Poor_SilverInputBoxDisabled" inherits="DisabledInputBoxTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_GoldTexture">
+		 					<Offset x="5" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+				<!-- silver coin -->
+				<Frame name="KarniCrap_Poor_SilverTexture" inherits="SilverCoinTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_SilverInputBox">
+							<Offset x="-14" y="0" />
+						</Anchor>
+					</Anchors>
+				</Frame>
+				<!-- copper input box -->
+				<EditBox name="KarniCrap_Poor_CopperInputBox" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" hidden="true">
+					<Size x="32" y="26"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_SilverTexture">
+							<Offset x="10" y="0" />
+						</Anchor>
+					</Anchors>  
+					<Scripts>
+						<OnTextChanged>
+							KarniCrapConfig.PoorThreshold_Copper = self:GetNumber();
+						</OnTextChanged>
+						<OnEditFocusLost>
+							self:SetNumber(KarniCrapConfig.PoorThreshold_Copper)
+							KarniCrap_CalcPoorThreshold();
+							KarniCrap_InventoryList();
+						</OnEditFocusLost>
+						<OnTabPressed>
+							self:ClearFocus();
+						</OnTabPressed>
+						<OnEnterPressed>
+							self:ClearFocus();
+						</OnEnterPressed>
+					</Scripts>           
+				</EditBox>
+				<!-- copper input box disabled -->
+				<Frame name="KarniCrap_Poor_CopperInputBoxDisabled" inherits="DisabledInputBoxTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_SilverTexture">
+		 					<Offset x="5" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+				<!-- copper coin -->
+				<Frame name="KarniCrap_Poor_CopperTexture" inherits="CopperCoinTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Poor_CopperInputBox" >
+		 					<Offset x="-14" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+		    </Frames>
+  		</Frame>
+         
+		<!-- [X] Filter common items -->
+    <CheckButton name="$parent_CBCommon" inherits="UICheckButtonTemplate" parent="KarniCrap_Tab1">
+			<Size x="24" y="24" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_CBPoor" />
+			</Anchors>
+			<Scripts>
+				<OnClick>KarniCrap_CheckButtonCommon()</OnClick>
+  		</Scripts>
+		</CheckButton>
+		<!-- COMMON filter description and values -->
+    <Frame name="$parent_CBCommonDesc" parent="KarniCrap_Tab1">
+    	<Size x="330" y="20" />
+			<Anchors>
+				<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_CBCommon" />
+			</Anchors>
+    	<Layers>
+    		<Layer level="ARTWORK">
+					<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="Filter |cffffffff[common]|r items worth less than">
+						<Anchors>
+							<Anchor point="LEFT" />
+						</Anchors>
+					</FontString>
+				</Layer>	
+			</Layers> 
+			<Frames>
+				<!-- gold input box -->
+				<EditBox name="$parent_GoldInputBox" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" >
+					<Size x="32" y="26"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Text">
+							<Offset x="10" y="0" />
+						</Anchor>
+					</Anchors> 
+					<Scripts>
+						<OnTextChanged>
+							KarniCrapConfig.CommonThreshold_Gold = self:GetNumber();
+						</OnTextChanged>
+						<OnEditFocusLost>
+							self:SetNumber(KarniCrapConfig.CommonThreshold_Gold)
+							KarniCrap_CalcCommonThreshold();
+							KarniCrap_InventoryList();
+						</OnEditFocusLost>
+						<OnTabPressed>
+							KarniCrap_Tab1_CBCommonDesc_SilverInputBox:SetFocus();
+						</OnTabPressed>
+						<OnEnterPressed>
+							self:ClearFocus();
+						</OnEnterPressed>
+					</Scripts>            
+				</EditBox>
+				<!-- gold input box disabled -->
+				<Frame name="$parent_GoldInputBoxDisabled" inherits="DisabledInputBoxTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_Text">
+		 					<Offset x="5" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+				<!-- gold coin -->
+				<Frame name="$parent_GoldTexture" inherits="GoldCoinTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_GoldInputBox">
+							<Offset x="-14" y="0" />
+						</Anchor>
+					</Anchors>
+				</Frame>
+				<!-- silver input box -->
+				<EditBox name="$parent_SilverInputBox" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" >
+					<Size x="32" y="26"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_GoldTexture">
+							<Offset x="10" y="0" />
+						</Anchor>
+					</Anchors> 
+					<Scripts>
+						<OnTextChanged>					
+							KarniCrapConfig.CommonThreshold_Silver = self:GetNumber();
+						</OnTextChanged>
+						<OnEditFocusLost>
+							self:SetNumber(KarniCrapConfig.CommonThreshold_Silver)
+							KarniCrap_CalcCommonThreshold();
+							KarniCrap_InventoryList();
+						</OnEditFocusLost>
+						<OnTabPressed>
+							KarniCrap_Tab1_CBCommonDesc_CopperInputBox:SetFocus();
+						</OnTabPressed>
+						<OnEnterPressed>
+							self:ClearFocus();
+						</OnEnterPressed>
+					</Scripts>            
+				</EditBox>
+				<!-- silver input box disabled -->
+				<Frame name="$parent_SilverInputBoxDisabled" inherits="DisabledInputBoxTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_GoldTexture">
+		 					<Offset x="5" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+				<!-- silver coin -->
+				<Frame name="$parent_SilverTexture" inherits="SilverCoinTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_SilverInputBox">
+		 					<Offset x="-14" y="0" />
+						</Anchor>
+					</Anchors>
+				</Frame>
+				<!-- copper input box -->
+				<EditBox name="$parent_CopperInputBox" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" >
+					<Size x="32" y="26"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_SilverTexture">
+							<Offset x="10" y="0" />
+						</Anchor>
+					</Anchors>   
+					<Scripts>
+						<OnTextChanged>
+							KarniCrapConfig.CommonThreshold_Copper = self:GetNumber();
+						</OnTextChanged>
+						<OnEditFocusLost>
+							self:SetNumber(KarniCrapConfig.CommonThreshold_Copper);
+							KarniCrap_CalcCommonThreshold();
+							KarniCrap_InventoryList();
+						</OnEditFocusLost>
+						<OnTabPressed>
+							self:ClearFocus();
+						</OnTabPressed>
+						<OnEnterPressed>
+							self:ClearFocus();
+						</OnEnterPressed>
+					</Scripts>        
+				</EditBox>
+				<!-- copper input box disabled -->
+				<Frame name="$parent_CopperInputBoxDisabled" inherits="DisabledInputBoxTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_SilverTexture">
+		 					<Offset x="5" y="0" />
+						</Anchor>        
+					</Anchors>
+				</Frame>
+				<!-- copper coin -->
+				<Frame name="$parent_CopperTexture" inherits="CopperCoinTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_CopperInputBox" >
+		 					<Offset x="-14" y="0" />
+						</Anchor>        
+					</Anchors>
+		     	</Frame>
+		    </Frames>
+		</Frame> 
+	 
+		<!-- Use the price of a full stack -->
+    	<CheckButton name="$parent_CBUseStackValue" inherits="UICheckButtonTemplate" parent="KarniCrap_Tab1">
+			<Size x="24" y="24" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBCommon" />
+			</Anchors>
+			<Scripts>
+				<OnClick>
+					if (self:GetChecked()) then 
+						KarniCrapConfig.UseStackValue = true;
+					else 
+						KarniCrapConfig.UseStackValue = false;
+					end
+				</OnClick>
+			</Scripts>
+			<Layers>
+	    		<Layer level="ARTWORK">
+					<FontString name="$parent_Text1" inherits="GameFontNormalSmall" text="Use the price of a full stack of the item when filtering">
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="RIGHT"/>
+						</Anchors>
+					</FontString>
+				</Layer>	
+			</Layers>  
+		</CheckButton>
+			
+		<!-- Display when an item is filtered -->
+    	<CheckButton name="$parent_CBEcho" inherits="UICheckButtonTemplate" parent="KarniCrap_Tab1">
+			<Size x="24" y="24" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBUseStackValue" />
+			</Anchors>
+			<Scripts>
+				<OnClick>
+					if (self:GetChecked()) then 
+						KarniCrapConfig.Echo = true;
+					else 
+						KarniCrapConfig.Echo = false;
+					end
+				</OnClick>
+			</Scripts>
+			<Layers>
+	    		<Layer level="ARTWORK">
+					<FontString name="$parent_Text1" inherits="GameFontNormalSmall" text="Display when an item is filtered or destroyed">
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="RIGHT"/>
+						</Anchors>
+					</FontString>
+				</Layer>	
+			</Layers> 
+		</CheckButton>
+   
+   
+
+		<!-- OPTION CATEGORIES -->
+		<!-- OPTION CATEGORIES -->
+		<!-- OPTION CATEGORIES -->
+   	<MessageFrame name="$parent_CategoryFrame">
+			<Size x="115" y="200" />
+			<Anchors>
+				<Anchor point="TOPLEFT">
+					<Offset x="14" y="-190" />
+				</Anchor>
+			</Anchors>
+			<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+				<BackgroundInsets left="3" right="3" top="6" bottom="6" />
+				<TileSize val="8" />
+				<EdgeSize val="8" />
+			</Backdrop>
+			<Layers>
+				<Layer>
+					<FontString name="$parent_Header" inherits="GameFontNormal" text="More Options">
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="TOP" />
+						</Anchors>
+					</FontString>	
+				</Layer>
+			</Layers>
+		</MessageFrame>
+		
+		<ScrollFrame name="$parent_CategoryScrollBar" inherits="FauxScrollFrameTemplate">
+			<Size x="84" y="230" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent_CategoryFrame">
+					<Offset x="5" y="-8" />
+				</Anchor>
+			</Anchors>
+			<Scripts>
+				<OnVerticalScroll>
+					FauxScrollFrame_OnVerticalScroll(self, offset, 16, KarniCrap_CategoryScrollBarUpdate); 
+				</OnVerticalScroll>
+				<OnShow>
+					KarniCrap_CategoryScrollBarUpdate()
+				</OnShow>
+			</Scripts>	
+		</ScrollFrame>
+		
+		<Button name="CategoryItem1" inherits="CategoryBtnTemplate" id="1"><Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_CategoryScrollBar"/></Anchors></Button>
+		<Button name="CategoryItem2" inherits="CategoryBtnTemplate" id="2"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem1" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem3" inherits="CategoryBtnTemplate" id="3"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem2" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem4" inherits="CategoryBtnTemplate" id="4"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem3" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem5" inherits="CategoryBtnTemplate" id="5"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem4" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem6" inherits="CategoryBtnTemplate" id="6"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem5" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem7" inherits="CategoryBtnTemplate" id="7"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem6" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem8" inherits="CategoryBtnTemplate" id="8"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem7" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+		<Button name="CategoryItem9" inherits="CategoryBtnTemplate" id="9"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem8" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+ 		<Button name="CategoryItem10" inherits="CategoryBtnTemplate" id="10"><Anchors><Anchor point="TOPLEFT" relativeTo="CategoryItem9" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+
+		
+		<!-- OPTIONS TARGET frame -->     
+		<MessageFrame name="KarniCrap_OptionsFrame">
+			<Size x="231" y="200" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CategoryFrame">
+					<Offset x="8" y="0" />
+				</Anchor>
+			</Anchors>
+			<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+				<BackgroundInsets left="3" right="3" top="6" bottom="6" />
+				<TileSize val="8" />
+				<EdgeSize val="8" />
+			</Backdrop>
+			<Layers>
+				<Layer>
+					<FontString name="$parent_Header" inherits="GameFontNormal" text="Empty option">
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="TOP" />
+						</Anchors>
+					</FontString>	
+				</Layer>
+			</Layers>
+		</MessageFrame>
+
+
+
+
+
+
+
+
+		<!-- Category: AUTO-DESTROY -->
+		<Frame name="KarniCrap_Destroy" parent="KarniCrap_OptionsFrame">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Layers>
+				<Layer>
+					<FontString  name="$parent_Header" inherits="GameFontNormalSmall" text="|cffff0000WARNING:|r If AUTO-DESTROY is active|n then all crap items will be looted and destroyed. |cffffffffPlease use with caution!|r">
+						<Size x="220" y="140"/>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM"> 
+								<Offset x="0" y="-40"/>
+							</Anchor>
+						</Anchors>
+					</FontString>
+				</Layer>	
+			</Layers>
+			
+			<Frames>
+				<CheckButton name="KarniCrap_CBDestroy" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="6" y="-10" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>
+							_G[self:GetName().."_Text"]:SetText("Automatically loot and destroy crap"); 
+						</OnLoad>
+						<OnClick>
+							KarniCrap_DestroyUI();
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+
+				
+				<CheckButton name="KarniCrap_CBDestroySlots" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_CBDestroy">
+							<Offset x="16" y="5" />
+						</Anchor>
+					</Anchors>	
+					<Layers>
+						<Layer>
+							<FontString  name="$parent_Text1" inherits="GameFontNormalSmall" text=" or fewer free bag slots" >
+								<Anchors>
+									<Anchor point="LEFT" relativePoint="RIGHT"> 
+										<Offset x="48" y="0"/>
+									</Anchor>
+								</Anchors>
+							</FontString>
+						</Layer>					
+					</Layers>
+					<Frames>
+						<!-- slots left box -->
+						<EditBox name="KarniCrap_EBDestroySlotsNum" inherits="InputBoxTemplate" numeric="true" autoFocus="false" letters="2" hidden="false">
+							<Size x="32" y="26"/>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_CBDestroySlots_Text">
+									<Offset x="5" y="0" />
+								</Anchor>
+							</Anchors> 
+							<Scripts>
+								<OnTextChanged>
+									KarniCrapConfig.DestroySlotsNum = self:GetNumber();
+								</OnTextChanged>
+								<OnEditFocusLost>
+									KarniCrapConfig_SetDestroySlotsNum();
+								</OnEditFocusLost>
+								<OnEnterPressed>
+									self:ClearFocus();
+								</OnEnterPressed>
+							</Scripts>  
+						</EditBox>
+						<!-- autodestroynum disabled -->
+						<Frame name="KarniCrap_EBDestroyNumDisabled" inherits="DisabledInputBoxTemplate">
+							<Size x="37" y="26"/>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_CBDestroySlots_Text">
+									<Offset x="0" y="0" />
+								</Anchor>        
+							</Anchors>
+						</Frame>
+					</Frames>
+					<Scripts>
+						<OnLoad>
+							_G[self:GetName().."_Text"]:SetText("If ");
+						</OnLoad>
+						<OnClick> 
+							if self:GetChecked() then
+								KarniCrapConfig.DestroySlots = true;
+								KarniCrap_EBDestroySlotsNum:Show();
+								KarniCrap_EBDestroyNumDisabled:Hide();
+							else
+								KarniCrapConfig.DestroySlots = false;
+								KarniCrap_EBDestroySlotsNum:Hide();
+								KarniCrap_EBDestroyNumDisabled:Show();
+								<!-- validate the number in here -->
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>			
+				
+				<!-- Destroy during tradeskills -->
+				<CheckButton name="KarniCrap_CBNoDestroyTradeskill" inherits="MyCheckButton" >
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_CBDestroySlots">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>_G[self:GetName().."_Text"]:SetText("Except when using tradeskills")</OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.NoDestroyTradeskill = true;
+							else KarniCrapConfig.NoDestroyTradeskill = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>	
+				<!-- Don't destroy while in Group -->
+				<CheckButton name="KarniCrap_CBDestroyGroup" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_CBNoDestroyTradeskill">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>_G[self:GetName().."_Text"]:SetText("Don't destroy while in a group")</OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.DestroyGroup = true;
+							else KarniCrapConfig.DestroyGroup = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Don't destroy while in Raid -->
+				<CheckButton name="KarniCrap_CBDestroyRaid" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_CBDestroyGroup">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>_G[self:GetName().."_Text"]:SetText("Don't destroy while in a raid")</OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.DestroyRaid = true;
+							else KarniCrapConfig.DestroyRaid = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>	
+
+			</Frames>
+		</Frame>
+	
+		
+	
+		<!-- Category: CORPSES -->
+		<!-- Category: CORPSES -->			  
+		<!-- Category: CORPSES -->
+		<Frame name="KarniCrap_Corpses" parent="KarniCrap_OptionsFrame">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Frames>
+				<!-- Skinnable corpses -->
+				<CheckButton name="$parent_CBSkinnable" inherits="MyCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-25" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Header2" inherits="GameFontNormalSmall" text="Always loot everything from...">
+							<Anchors>
+								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+							</Anchors>
+						</FontString>
+					</Layer>	
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName().."_Text"]:SetText("|cFFFFFFFFSkinnable|r corpses");
+					</OnLoad>
+					<OnClick>
+						if (self:GetChecked()) then	KarniCrapConfig.Skinnable = true;
+						else KarniCrapConfig.Skinnable = false; end
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+				<!-- Gatherable corpses -->
+				<CheckButton name="$parent_CBGatherable" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_Corpses_CBSkinnable">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>
+							_G[self:GetName().."_Text"]:SetText("|cFFFFFFFFGatherable|r corpses");
+						</OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Gatherable = true;
+							else KarniCrapConfig.Gatherable = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Minable corpses -->
+				<CheckButton name="$parent_CBMinable" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBGatherable">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>
+							_G[self:GetName().."_Text"]:SetText("|cFFFFFFFFMinable|r corpses");
+						</OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Minable = true;
+							else KarniCrapConfig.Minable = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Engineerable corpses -->
+				<CheckButton name="$parent_CBEngineerable" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBMinable">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>
+							_G[self:GetName().."_Text"]:SetText("|cFFFFFFFFEngineerable|r corpses");
+						</OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Engineerable = true;
+							else KarniCrapConfig.Engineerable = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Only autoloot corpses you have sufficient skill to use -->
+				<CheckButton name="$parent_CBSkilledEnough" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBEngineerable">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Only if you have required skill level"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.SkilledEnough = true;
+							else KarniCrapConfig.SkilledEnough = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+			</Frames>
+		</Frame>
+
+
+
+		<!-- Category: TRADESKILLS -->
+		<!-- Category: TRADESKILLS -->		
+		<!-- Category: TRADESKILLS -->
+		<Frame name="KarniCrap_Tradeskills" parent="KarniCrap_OptionsFrame">
+			<Size x="100" y="100" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Frames>
+				<!-- Always loot cooking materials -->
+				<CheckButton name="$parent_CBCooking" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+							<Offset x="6" y="-10" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Loot all cooking materials"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Cooking = true
+							else KarniCrapConfig.Cooking = false end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Always loot when fishing -->
+				<CheckButton name="$parent_CBFishing" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBCooking">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Loot everything when fishing"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then KarniCrapConfig.Fishing = true
+							else KarniCrapConfig.Fishing = false end
+						</OnClick>
+					</Scripts>
+				</CheckButton> 
+				<!-- Always loot when pickpocketing -->
+				<CheckButton name="$parent_CBPickpocketing" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBFishing">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Loot everything when pickpocketing"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then KarniCrapConfig.Pickpocketing = true
+							else KarniCrapConfig.Pickpocketing = false end
+						</OnClick>
+					</Scripts>
+				</CheckButton> 
+				<!-- Header -->
+				<Frame name="$parent_MessageFrame5">
+					<Size x="200" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBPickpocketing">
+							<Offset x="0" y="-15" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text1" inherits="GameFontNormalSmall"  justifyH="LEFT" text="|cFFFFFFFFNote:|r Karni's Crap Filter always autoloots" >
+								<Size x="220" y="20" />
+							</FontString>		
+						</Layer>
+					</Layers>
+				</Frame>
+				<!-- Skill list -->
+				<CheckButton name="$parent_CBEnchanting" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_MessageFrame5">
+							<Offset x="15" y="0" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad>
+							_G[self:GetName().."_Text"]:SetText("Enchanting");
+							self:SetChecked(); 
+							self:Disable(); 
+						</OnLoad>
+					</Scripts>
+				</CheckButton>
+				<CheckButton name="$parent_CBGathering" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBEnchanting">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> 
+							_G[self:GetName().."_Text"]:SetText("Gathering");
+							self:SetChecked(); 
+							self:Disable(); 
+						</OnLoad>
+					</Scripts>
+				</CheckButton>
+				<CheckButton name="$parent_CBMilling" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBGathering">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> 
+							_G[self:GetName().."_Text"]:SetText("Milling");
+							self:SetChecked(); 
+							self:Disable(); 
+						</OnLoad>
+					</Scripts>
+				</CheckButton>
+				<CheckButton name="$parent_CBMining" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_MessageFrame5">
+							<Offset x="115" y="0" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> 
+							_G[self:GetName().."_Text"]:SetText("Mining");
+							self:SetChecked(); 
+							self:Disable(); 
+						</OnLoad>
+					</Scripts>
+				</CheckButton>	
+				<CheckButton name="$parent_CBProspecting" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBMining">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> 
+							_G[self:GetName().."_Text"]:SetText("Prospecting");
+							self:SetChecked(); 
+							self:Disable(); 
+						</OnLoad>
+					</Scripts>
+				</CheckButton>
+				<CheckButton name="$parent_CBSkinning" inherits="MyCheckButton">
+					<Size x="24" y="24" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBProspecting">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> 
+							_G[self:GetName().."_Text"]:SetText("Skinning");
+							self:SetChecked(); 
+							self:Disable(); 
+						</OnLoad>
+					</Scripts>
+				</CheckButton>				
+			</Frames>
+		</Frame>
+
+
+
+		<!-- Category: CLOTH -->
+		<!-- Category: CLOTH -->
+		<!-- Category: CLOTH -->
+		<Frame name="KarniCrap_Cloth" parent="KarniCrap_OptionsFrame">
+			<Size x="100" y="100" />
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Layers>
+				<Layer>
+					<FontString name="$parent_Header2" inherits="GameFontNormalSmall" text="Loot the following...?">
+						<Anchors> <Anchor point="TOPLEFT" relativePoint="TOPLEFT"> <Offset x="6" y="-15" /> </Anchor> </Anchors>
+					</FontString>
+				</Layer>
+			</Layers>
+			<Frames>
+				<!-- Always column header -->
+				<Frame name="KarniCrap_Cloth_YesColumn">
+					<Size x="28" y="28" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_Cloth" >
+							<Offset x="176" y="-7" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer level="BACKGROUND">
+							<Texture name="$parent_yes" file="Interface\BUTTONS\UI-CheckBox-Check-Disabled">
+								<Size x="22" y="22" />
+								<Anchors>	<Anchor point="TOPLEFT" /> </Anchors>
+							</Texture>
+						</Layer>
+					</Layers>
+					<Scripts>
+						<OnEnter>
+							KarniCrapTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
+							KarniCrapTooltip:SetText("|cffffffffAlways loot|r");
+							KarniCrapTooltip:AddLine("Check this to loot cloth regardless|nof |cffffffff[common]|r item filter settings");
+							KarniCrapTooltip:Show();
+						</OnEnter>
+						<OnLeave>
+							KarniCrapTooltip:Hide();
+						</OnLeave>
+					</Scripts>	
+				</Frame>
+				<!-- Never column header-->
+				<Frame name="KarniCrap_Cloth_NoColumn">
+					<Size x="28" y="28" />
+					<Anchors>	<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_Cloth_YesColumn" > <Offset x="-7" y="0"/> </Anchor> </Anchors>
+					<Layers>
+						<Layer level="BACKGROUND">
+							<Texture name="$parent_yes" file="Interface\BUTTONS\UI-Panel-MinimizeButton-Disabled">
+								<Size x="28" y="28" />
+								<Anchors>	<Anchor point="TOPLEFT" > <Offset x="0" y="4"/> </Anchor> </Anchors>
+							</Texture>
+						</Layer>
+					</Layers>
+					<Scripts>
+						<OnEnter>
+							KarniCrapTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
+							KarniCrapTooltip:SetText("|cffffffffNever loot|r");
+							KarniCrapTooltip:AddLine("Check this to filter or destroy cloth|nregardless of |cffffffff[common]|r item filter settings");
+							KarniCrapTooltip:Show();
+						</OnEnter>
+						<OnLeave>
+							KarniCrapTooltip:Hide();
+						</OnLeave>
+					</Scripts>	
+				</Frame>
+				<!-- Linen cloth -->
+		    <CheckButton name="$parent_CBLinen" inherits="MyCheckButton">
+					<Anchors> <Anchor point="TOPLEFT" > <Offset x="175" y="-25" /> </Anchor> </Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Linen Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Linen = true;							
+								KarniCrapConfig.Cloth_Linen_Never = false;
+								_G["KarniCrap_Cloth_CBLinen_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Linen = false;	
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Linen cloth never -->
+		    <CheckButton name="$parent_CBLinen_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBLinen"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Linen_Never = true;
+								KarniCrapConfig.Cloth_Linen = false;
+								_G["KarniCrap_Cloth_CBLinen"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Linen_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
+				<!-- Wool cloth -->
+				<CheckButton name="$parent_CBWool" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBLinen">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Wool Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Wool = true;
+								KarniCrapConfig.Cloth_Wool_Never = false;
+								_G["KarniCrap_Cloth_CBWool_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Wool = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Wool cloth never -->
+		    <CheckButton name="$parent_CBWool_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBWool"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Wool_Never = true;
+								KarniCrapConfig.Cloth_Wool = false;
+								_G["KarniCrap_Cloth_CBWool"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Wool_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>				
+				<!-- Silk cloth -->
+				<CheckButton name="$parent_CBSilk" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBWool">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Silk Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Silk = true;
+								KarniCrapConfig.Cloth_Silk_Never = false;
+								_G["KarniCrap_Cloth_CBSilk_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Silk = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Silk cloth never -->
+		    <CheckButton name="$parent_CBSilk_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBSilk"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Silk_Never = true;
+								KarniCrapConfig.Cloth_Silk = false;
+								_G["KarniCrap_Cloth_CBSilk"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Silk_Never = false;
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>			
+				<!-- Mageweave cloth -->
+				<CheckButton name="$parent_CBMageweave" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBSilk">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Mageweave Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Mageweave = true;
+								KarniCrapConfig.Cloth_Mageweave_Never = false;
+								_G["KarniCrap_Cloth_CBMageweave_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Mageweave = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Mageweave cloth never -->
+		    <CheckButton name="$parent_CBMageweave_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBMageweave"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Mageweave_Never = true;
+								KarniCrapConfig.Cloth_Mageweave = false;
+								_G["KarniCrap_Cloth_CBMageweave"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Mageweave_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
+				<!-- Runecloth cloth -->
+				<CheckButton name="$parent_CBRunecloth" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBMageweave">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Runecloth Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Runecloth = true;
+								KarniCrapConfig.Cloth_Runecloth_Never = false;
+								_G["KarniCrap_Cloth_CBRunecloth_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Runecloth = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Runecloth cloth never -->
+		    <CheckButton name="$parent_CBRunecloth_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBRunecloth"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Runecloth_Never = true;
+								KarniCrapConfig.Cloth_Runecloth = false;
+								_G["KarniCrap_Cloth_CBRunecloth"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Runecloth_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
+				<!-- Netherweave cloth -->
+				<CheckButton name="$parent_CBNetherweave" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBRunecloth">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Netherweave Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Netherweave = true;
+								KarniCrapConfig.Cloth_Netherweave_Never = false;
+								_G["KarniCrap_Cloth_CBNetherweave_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Netherweave = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Netherweave cloth never -->
+		    <CheckButton name="$parent_CBNetherweave_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBNetherweave"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Netherweave_Never = true;
+								KarniCrapConfig.Cloth_Netherweave = false;
+								_G["KarniCrap_Cloth_CBNetherweave"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Netherweave_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>			
+				<!-- Frostweave cloth -->
+				<CheckButton name="$parent_CBFrostweave" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBNetherweave">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Frostweave Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Frostweave = true;
+								KarniCrapConfig.Cloth_Frostweave_Never = false;
+								_G["KarniCrap_Cloth_CBFrostweave_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Frostweave = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Frostweave cloth never -->
+		    <CheckButton name="$parent_CBFrostweave_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBFrostweave"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Frostweave_Never = true;
+								KarniCrapConfig.Cloth_Frostweave = false;
+								_G["KarniCrap_Cloth_CBFrostweave"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Frostweave_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
+
+
+
+				<!-- Embersilk cloth -->
+				<CheckButton name="$parent_CBEmbersilk" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBFrostweave">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Embersilk Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Embersilk = true;
+								KarniCrapConfig.Cloth_Embersilk_Never = false;
+								_G["KarniCrap_Cloth_CBEmbersilk_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Embersilk = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Embersilk cloth never -->
+		    <CheckButton name="$parent_CBEmbersilk_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBEmbersilk"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Embersilk_Never = true;
+								KarniCrapConfig.Cloth_Embersilk = false;
+								_G["KarniCrap_Cloth_CBEmbersilk"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Embersilk_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
+
+
+
+			</Frames>
+		</Frame>
+	
+		
+
+		<!-- Category: SCROLLS -->
+		<!-- Category: SCROLLS -->
+		<!-- Category: SCROLLS -->
+		<Frame name="KarniCrap_Scrolls" parent="KarniCrap_OptionsFrame">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Frames>
+				<!-- Only max level scrolls -->
+				<CheckButton name="$parent_CBMaxScrolls" inherits="MyCheckButton" >
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="6" y="-10" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Only max level"); </OnLoad>
+						<OnClick> KarniCrap_CBMaxScrolls(); </OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Scroll of Agility -->
+				<CheckButton name="$parent_CBScrollAgility" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBMaxScrolls">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Scroll_Agility = true;
+							else KarniCrapConfig.Scroll_Agility = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Scroll of Intellect -->
+				<CheckButton name="$parent_CBScrollIntellect" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBScrollAgility">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Scroll_Intellect = true;
+							else KarniCrapConfig.Scroll_Intellect = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Scroll of Protection -->
+				<CheckButton name="$parent_CBScrollProtection" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBScrollIntellect">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Scroll_Protection = true;
+							else KarniCrapConfig.Scroll_Protection = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Scroll of Spirit -->
+				<CheckButton name="$parent_CBScrollSpirit" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBScrollProtection">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Scroll_Spirit = true;
+							else KarniCrapConfig.Scroll_Spirit = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Scroll of Stamina -->
+				<CheckButton name="$parent_CBScrollStamina" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBScrollSpirit">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Scroll_Stamina = true;
+							else KarniCrapConfig.Scroll_Stamina = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Scroll of Strength -->
+				<CheckButton name="$parent_CBScrollStrength" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBScrollStamina">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Scroll_Strength = true;
+							else KarniCrapConfig.Scroll_Strength = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+			</Frames>
+		</Frame>
+	
+
+
+		<!-- Category: FOOD & WATER -->
+		<!-- Category: FOOD & WATER -->	
+		<!-- Category: FOOD & WATER -->
+		<Frame name="KarniCrap_Consumables" parent="KarniCrap_OptionsFrame">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Frames>
+				<!-- No Food -->
+				<CheckButton name="$parent_RBFood1" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+						 	<Offset x="6" y="-25" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Header2" inherits="GameFontNormal" text="|cffffffffFood|r">
+								<Anchors>	<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>	
+							KarniCrap_Consumables_RBFood2:SetChecked(nil)
+							KarniCrap_RBFood()	
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- All Food -->
+				<CheckButton name="$parent_RBFood2" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBFood1">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							KarniCrap_Consumables_RBFood1:SetChecked(nil)
+							KarniCrap_RBFood()
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+	            <!-- Max level food -->
+				<CheckButton name="$parent_CBFoodMax" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBFood2">
+						 	<Offset x="16" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Only max level"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.FoodMax = true;
+							else KarniCrapConfig.FoodMax = false end
+						</OnClick>
+					</Scripts>	
+				</CheckButton>
+				<!-- No water -->		
+				<CheckButton name="$parent_RBWater1" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBFood2">
+						 	<Offset x="0" y="-40" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Header2" inherits="GameFontNormal" text="|cffffffffWater|r">
+								<Anchors>	<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							KarniCrap_Consumables_RBWater2:SetChecked(nil)
+							KarniCrap_RBWater()
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- All water -->
+				<CheckButton name="$parent_RBWater2" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBWater1">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							KarniCrap_Consumables_RBWater1:SetChecked(nil)
+							KarniCrap_RBWater()	
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Max water  -->
+				<CheckButton name="$parent_CBWaterMax" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBWater2">
+						 	<Offset x="16" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Only max level"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.WaterMax = true;
+							else KarniCrapConfig.WaterMax = false end
+						 </OnClick>
+					</Scripts>	
+				</CheckButton>
+			</Frames>
+		</Frame>
+	
+
+
+		<!-- Category: POTIONS -->
+		<!-- Category: POTIONS -->		
+		<!-- Category: POTIONS -->
+		<Frame name="KarniCrap_Potions" parent="KarniCrap_OptionsFrame">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Frames>
+				<!-- No health potions -->
+				<CheckButton name="KarniCrap_Potions_RBHealth1" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="6" y="-25" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Header" inherits="GameFontNormal" text="|cffffffffHealth Potions|r">
+								<Anchors>
+									<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/> 
+								</Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>	
+							KarniCrap_Potions_RBHealth2:SetChecked(nil)
+							KarniCrap_RBHealth()	
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- All health potions -->
+				<CheckButton name="$parent_RBHealth2" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBHealth1">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							KarniCrap_Potions_RBHealth1:SetChecked(nil)
+							KarniCrap_RBHealth()
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Max health potions -->
+				<CheckButton name="$parent_CBHealthMax" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBHealth2">
+							<Offset x="16" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Only max level"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.HealthMax = true;
+							else KarniCrapConfig.HealthMax = false end
+						</OnClick>
+					</Scripts>	
+				</CheckButton>
+				<!-- No mana potions -->
+				<CheckButton name="$parent_RBMana1" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBHealth2">
+							<Offset x="0" y="-40" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Header" inherits="GameFontNormal" text="|cffffffffMana Potions|r">
+								<Anchors><Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/></Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							KarniCrap_Potions_RBMana2:SetChecked(nil)
+							KarniCrap_RBMana()
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- All mana -->
+				<CheckButton name="$parent_RBMana2" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBMana1">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							KarniCrap_Potions_RBMana1:SetChecked(nil)
+							KarniCrap_RBMana()	
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Max mana -->
+				<CheckButton name="$parent_CBManaMax" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_RBMana2">
+							<Offset x="16" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text1" inherits="GameFontNormalSmall" text="Only max level">
+								<Anchors>
+									<Anchor point="LEFT" relativePoint="RIGHT"/>
+								</Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("Only max level"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.ManaMax = true;
+							else KarniCrapConfig.ManaMax = false end
+						</OnClick>
+					</Scripts>	
+				</CheckButton>
+			</Frames>
+		</Frame>
+
+
+
+		<!-- Category: QUALITY -->
+		<!-- Category: QUALITY -->
+		<!-- Category: QUALITY -->
+		<Frame name="KarniCrap_Quality" parent="KarniCrap_OptionsFrame">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_OptionsFrame" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="KarniCrap_OptionsFrame" />
+			</Anchors>
+			<Frames>
+				<!-- Quality: POOR -->
+		    	<CheckButton name="$parent_CBQualityPoor" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="6" y="-25" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Header1" inherits="GameFontNormalSmall" text="Never autoloot (or destroy)...">
+								<Anchors>
+									<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT"/>
+								</Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("|cff9d9d9d[Poor]|r items"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Quality_Poor = true;
+							else KarniCrapConfig.Quality_Poor = false;	end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Quality: COMMON -->
+				<CheckButton name="$parent_CBQualityCommon" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBQualityPoor">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("|cffffffff[Common]|r items"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Quality_Common = true;
+							else KarniCrapConfig.Quality_Common = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Quality: UNCOMMON -->
+				<CheckButton name="$parent_CBQualityUncommon" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBQualityCommon">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("|cff1eff00[Uncommon]|r items"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Quality_Uncommon = true;
+							else KarniCrapConfig.Quality_Uncommon = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>			
+				<!-- Quality: RARE -->
+				<CheckButton name="$parent_CBQualityRare" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBQualityUncommon">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("|cff0070dd[Rare]|r items"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Quality_Rare = true;
+							else KarniCrapConfig.Quality_Rare = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>			
+				<!-- Quality: EPIC -->
+				<CheckButton name="$parent_CBQualityEpic" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBQualityRare">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("|cffa335ee[Epic]|r items"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Quality_Epic = true;
+							else KarniCrapConfig.Quality_Epic = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>					
+				<!-- Quality: Only in Group -->
+				<CheckButton name="$parent_CBQualityGrouped" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBQualityEpic">
+							<Offset x="0" y="-25" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="Only apply quality rules...">
+								<Anchors>
+									<Anchor point="BOTTOMLEFT">
+										<Offset x="0" y="25"/>
+									</Anchor>
+								</Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnLoad> _G[self:GetName().."_Text"]:SetText("When in a group or raid"); </OnLoad>
+						<OnClick>
+							if (self:GetChecked()) then	KarniCrapConfig.Quality_Grouped = true;
+							else KarniCrapConfig.Quality_Grouped = false; end
+						</OnClick>
+					</Scripts>
+				</CheckButton>					
+
+			</Frames>
+		</Frame>
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+		<!-- TAB 2 -->	
+		<!-- TAB 2 -->	
+		<!-- TAB 2 -->	
+
+			<!-- Blacklist -->
+			<MessageFrame name="KarniCrap_Blacklist" parent="KarniCrap_Tab2"  >
+				<Size x="173" y="295" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="14" y="-85" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+					<BackgroundInsets left="3" right="3" top="6" bottom="6" />
+					<TileSize val="8" />
+					<EdgeSize val="8" />
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Text1" inherits="GameFontNormal" text="Never Loot List">
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP">
+									<Offset x="0" y="15" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+						<FontString name="$parent_Text2" inherits="GameFontNormalSmall" text="/crap |cffffffff[itemlink]|r to add item*">
+							<Anchors>
+								<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_Text1">
+									<Offset x="0" y="-3" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+						<FontString name="$parent_Text3" inherits="GameFontNormalSmall" text="* Also add items by dragging them from your inventory onto a list">
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT">
+									<Offset x="7" y="-5" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+					</Layer>
+				</Layers>
+				<Frames>
+					<!-- Blacklist scrollframe -->
+					<ScrollFrame name="KarniCrapScrollBar" inherits="FauxScrollFrameTemplate" >
+						<Size x="138" y="240" />
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_Blacklist">
+								<Offset x="8" y="-10" />
+							</Anchor>
+						</Anchors> 
+						<Scripts>
+							<OnVerticalScroll>
+								FauxScrollFrame_OnVerticalScroll(self, offset, 16, KarniCrap_BlacklistScrollBar_Update); 
+							</OnVerticalScroll>
+							<OnShow>
+								KarniCrap_BlacklistScrollBar_Update()
+							</OnShow>
+						</Scripts>
+					</ScrollFrame>
+				</Frames>
+				<Scripts>
+					<OnReceiveDrag>
+						KarniCrap_DragOntoBlacklist();
+					</OnReceiveDrag>
+				</Scripts>		
+			</MessageFrame>
+			
+			<!-- Blacklist remove item button -->
+			<Button name="KarniCrap_BtnBlacklistRemove" inherits="OptionsButtonTemplate" text="Remove Item" parent="KarniCrap_Tab2">
+				<Size x="100" y="22" />
+				<Anchors>
+					<Anchor point="BOTTOM" relativePoint="BOTTOM" relativeTo="KarniCrap_Blacklist">
+						<Offset x="0" y="10" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick> 
+						KarniCrap_RemoveFromBlacklist(KarniCrap_Get_BlacklistSelected()); 
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+
+			
+			<Button name="KarniCrapEntry1" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrapScrollBar"/></Anchors></Button>
+			<Button name="KarniCrapEntry2" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry1" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry3" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry2" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry4" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry3" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry5" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry4" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry6" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry5" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry7" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry6" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry8" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry7" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry9" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry8" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry10" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry9" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry11" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry10" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry12" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry11" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry13" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry12" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry14" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry13" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniCrapEntry15" inherits="BlacklistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniCrapEntry14" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+
+
+			<!-- Whitelist -->
+			<MessageFrame name="KarniCrap_Whitelist" parent="KarniCrap_Tab2" >
+				<Size x="173" y="295" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="KarniCrap_Blacklist">
+						<Offset x="8" y="0" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+					<BackgroundInsets left="3" right="3" top="6" bottom="6" />
+					<TileSize val="8" />
+					<EdgeSize val="8" />
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Label1Text" inherits="GameFontNormal" text="Always Loot List">
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP">
+									<Offset x="0" y="15" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+						<FontString name="$parent_Label2Text" inherits="GameFontNormalSmall" text="/notcrap |cffffffff[itemlink]|r to add item*">
+							<Anchors>
+								<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_Label1Text">
+									<Offset x="0" y="-3" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+					</Layer>
+				</Layers>
+				<Frames>
+					<!-- Whitelist scrollframe -->
+					<ScrollFrame name="KarniNotCrapScrollBar" inherits="FauxScrollFrameTemplate" >
+						<Size x="138" y="240" />
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_Whitelist">
+								<Offset x="8" y="-10" />
+							</Anchor>
+						</Anchors> 
+						<Scripts>
+							<OnVerticalScroll>
+								FauxScrollFrame_OnVerticalScroll(self, offset, 16, KarniCrap_WhitelistScrollBar_Update); 
+							</OnVerticalScroll>
+							<OnShow>
+								KarniCrap_WhitelistScrollBar_Update()
+							</OnShow>
+						</Scripts>
+					</ScrollFrame>
+				</Frames>
+				<Scripts>
+					<OnReceiveDrag>
+						KarniCrap_DragOntoWhitelist();
+					</OnReceiveDrag>
+				</Scripts>
+			</MessageFrame>
+			
+			<!-- Whitelist remove item button -->
+			<Button name="KarniCrap_BtnWhitelistRemove" inherits="OptionsButtonTemplate" text="Remove Item" parent="KarniCrap_Tab2">
+				<Size x="100" y="22" />
+				<Anchors>
+					<Anchor point="BOTTOM" relativePoint="BOTTOM" relativeTo="KarniCrap_Whitelist">
+						<Offset x="0" y="10" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						KarniCrap_RemoveFromWhitelist(KarniCrap_Get_WhitelistSelected());
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+
+			
+			<Button name="KarniNotCrapEntry1" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniNotCrapScrollBar"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry2" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry1" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry3" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry2" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry4" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry3" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry5" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry4" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry6" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry5" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry7" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry6" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry8" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry7" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry9" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry8" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry10" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry9" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry11" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry10" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry12" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry11" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry13" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry12" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry14" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry13" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniNotCrapEntry15" inherits="WhitelistBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniNotCrapEntry14" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+
+			
+			
+					
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			<!-- TAB 3 -->	
+			<!-- TAB 3 -->	
+			<!-- TAB 3 -->
+
+			
+			<!-- Inventory -->
+			<MessageFrame name="KarniCrap_Inventory" parent="KarniCrap_Tab3">
+				<Size x="354" y="295" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="14" y="-85" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+					<BackgroundInsets left="3" right="3" top="6" bottom="6" />
+					<TileSize val="8" />
+					<EdgeSize val="8" />
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<FontString name="$parent_Confirmation" inherits="GameFontNormal" text="Inventory">
+							<Anchors>
+								<Anchor point="TOP" >
+									<Offset x="0" y="38" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+						<FontString name="$parent_Confirmation" inherits="GameFontDarkGraySmall" text="Note: Crap Filter will ask for confirmation before destroying items">
+							<Anchors>
+								<Anchor point="TOP" relativePoint="BOTTOM">
+									<Offset x="0" y="-21" />
+								</Anchor>
+							</Anchors>
+						</FontString>	
+					</Layer>		
+				</Layers>
+				
+				<Frames>
+					<Button name="KarniCrap_InvHeader1" inherits="KarniColumnHeaderTemplate" text="    #">
+						<Anchors>
+							<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+								<Offset x="0" y="-4"/>
+							</Anchor>
+						</Anchors>
+						<NormalFont style="GameFontNormalSmall"/>
+						<Scripts>
+							<OnLoad>
+								width = 35;
+								self:SetWidth(width);
+								_G[self:GetName().."Middle"]:SetWidth(width - 9);
+							</OnLoad>
+						</Scripts>
+					</Button>
+
+					<Button name="KarniCrap_InvHeader2" inherits="KarniColumnHeaderTemplate" text="Item Name">
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_InvHeader1">
+								<Offset x="-2" y="0"/>
+							</Anchor>
+						</Anchors>
+						<NormalFont style="GameFontNormalSmall"/>
+						<Scripts>
+							<OnLoad>
+								width = 180;
+								self:SetWidth(width);
+								_G[self:GetName().."Middle"]:SetWidth(width - 9);
+							</OnLoad>
+						</Scripts>
+					</Button>				
+										
+					<Button name="KarniCrap_ValueHeader" inherits="KarniColumnHeaderTemplate" text="Current Value">
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_InvHeader2">
+								<Offset x="-2" y="0"/>
+							</Anchor>
+						</Anchors>
+						<HighlightTexture name="$parentHighlightTexture" file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parentLeft">
+									<Offset x="-2" y="5"/>
+								</Anchor>
+								<Anchor point="BOTTOMRIGHT" relativeTo="$parentRight">
+									<Offset x="2" y="-7"/>
+								</Anchor>
+							</Anchors>
+						</HighlightTexture>
+		
+						<Scripts>
+							<OnLoad>
+								width = 102;
+								self:SetWidth(width);
+								_G[self:GetName().."Middle"]:SetWidth(width - 9);
+							</OnLoad>
+							<OnClick>
+								if KarniCrapConfig.InvSort == "Current Value" then
+									self:SetText("Stack Value");
+									KarniCrapConfig.InvSort = "Stack Value";
+									KarniCrap_InventoryScrollbarUpdate();
+								elseif KarniCrapConfig.InvSort == "Stack Value" then
+									self:SetText("Item Value");
+									KarniCrapConfig.InvSort = "Item Value";
+									KarniCrap_InventoryScrollbarUpdate();
+								else
+									self:SetText("Current Value");
+									KarniCrapConfig.InvSort = "Current Value";
+									KarniCrap_InventoryScrollbarUpdate();
+								end
+							</OnClick>
+						</Scripts>
+					</Button>
+				
+					<Button name="KarniCrap_InvHeader4" inherits="KarniColumnHeaderTemplate" text="Crap">
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_ValueHeader">
+								<Offset x="-2" y="0"/>
+							</Anchor>
+						</Anchors>
+						<NormalFont style="GameFontNormalSmall"/>
+						<Scripts>
+							<OnLoad>
+								width = 43;
+								self:SetWidth(width);
+								_G[self:GetName().."Middle"]:SetWidth(width - 9);
+							</OnLoad>
+						</Scripts>
+					</Button>	
+				</Frames>
+			</MessageFrame>
+			
+			<!-- Inventory Scrollbar -->
+			<ScrollFrame name="KarniCrap_Inventory_ScrollBar" inherits="FauxScrollFrameTemplate" parent="KarniCrap_Tab3">
+				<Size x="320" y="240" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrap_Inventory">
+						<Offset x="8" y="-10" />
+					</Anchor>
+				</Anchors> 
+				<Scripts>
+					<OnVerticalScroll>
+						FauxScrollFrame_OnVerticalScroll(self, offset, 16, KarniCrap_InventoryScrollbarUpdate); 
+						KarniCrap_SelectInventoryItem(inventory_selected);
+					</OnVerticalScroll>
+				</Scripts>
+			</ScrollFrame>
+			
+			<Button name="KarniInvEntry1" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="KarniCrapScrollBar"/></Anchors></Button>
+			<Button name="KarniInvEntry2" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry1" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry3" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry2" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry4" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry3" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry5" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry4" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry6" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry5" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry7" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry6" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry8" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry7" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry9" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry8" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry10" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry9" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry11" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry10" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry12" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry11" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry13" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry12" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry14" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry13" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+			<Button name="KarniInvEntry15" inherits="InvBtnTemplate"><Anchors><Anchor point="TOPLEFT" relativeTo="KarniInvEntry14" relativePoint="BOTTOMLEFT"/></Anchors></Button>
+
+			
+			<!-- Destroy item button -->
+			<Button name="KarniCrap_BtnDestroyItem" inherits="OptionsButtonTemplate" text="Destroy" parent="KarniCrap_Tab3">
+				<Size x="100" y="22" />
+				<Anchors>
+					<Anchor point="BOTTOM" relativePoint="BOTTOM" relativeTo="KarniCrap_Inventory">
+						<Offset x="-60" y="10" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						KarniCrap_ConfirmDestroySelected();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<!-- Destroy all crap items -->
+			<Button name="KarniCrap_BtnDestroyAllCrap" inherits="OptionsButtonTemplate" text="Destroy All Crap" parent="KarniCrap_Tab3">
+				<Size x="130" y="22" />
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="KarniCrap_BtnDestroyItem" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						KarniCrap_ConfirmDestroyAllCrap();
+					</OnClick>
+				</Scripts>
+			</Button>	
+			
+			<!-- Hide unsellable items -->
+			<CheckButton name="KarniCrap_Inventory_CBHideQuestItems" inherits="MyCheckButton" parent="KarniCrap_Tab3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="KarniCrap_Inventory">
+						<Offset x="0" y="2" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> _G[self:GetName().."_Text"]:SetText("Hide unsellable items"); </OnLoad>
+					<OnClick>
+						if (self:GetChecked()) then KarniCrapConfig.HideQuestItems = true;
+						else KarniCrapConfig.HideQuestItems = false;
+						end
+						KarniCrap_InventoryList();
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+			<!-- Display at Merchant -->
+			<CheckButton name="KarniCrap_CBOpenAtMerchant" inherits="MyCheckButton" parent="KarniCrap_Tab3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="KarniCrap_Inventory_CBHideQuestItems">
+						<Offset x="137" y="0" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad> _G[self:GetName().."_Text"]:SetText("Open when talking to merchants"); </OnLoad>
+					<OnClick>
+						if (self:GetChecked()) then KarniCrapConfig.OpenAtMerchant = true;
+						else KarniCrapConfig.OpenAtMerchant = false;
+						end
+					</OnClick>
+				</Scripts>
+			</CheckButton>			
+
+
+
+			<!-- TABS -->			
+			<!-- TABS -->			
+			<!-- TABS -->
+			<Button name="$parentTab1" inherits="CharacterFrameTabButtonTemplate" id="1" text="Loot Options">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="BOTTOMLEFT">
+						<Offset x="80" y="-10"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick> KarniCrap_ShowTab1();	</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentTab2" inherits="CharacterFrameTabButtonTemplate" id="2" text="Blacklist/Whitelist" >
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT">
+						<Offset x="-16" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick> KarniCrap_ShowTab2();	</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentTab3" inherits="CharacterFrameTabButtonTemplate" id="3" text="Inventory">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT">
+						<Offset x="-16" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick> KarniCrap_ShowTab3();	</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.elapsed = 0;
+				PanelTemplates_SetNumTabs(KarniCrap, 3);
+				PanelTemplates_SetTab(KarniCrap, 1);
+				tinsert(UISpecialFrames,"KarniCrap");
+			</OnLoad>
+			<OnShow>
+				PlaySound("UChatScrollButton");
+			</OnShow>
+			<OnHide>
+				PlaySound("UChatScrollButton");
+			</OnHide>
+			<OnMouseDown>
+				self:StartMoving();
+			</OnMouseDown>
+			<OnMouseUp>
+				self:StopMovingOrSizing();
+			</OnMouseUp>
+			<OnEnter> 
+				if _G["KarniCrap_Tab2"]:IsVisible() then
+					if CursorHasItem() then 
+						_G["KarniCrap_Blacklist"]:EnableMouse("true"); 
+						_G["KarniCrap_Whitelist"]:EnableMouse("true"); 
+					else
+						_G["KarniCrap_Blacklist"]:EnableMouse("false"); 
+						_G["KarniCrap_Whitelist"]:EnableMouse("false");
+					end
+				end
+			</OnEnter>
+		</Scripts>
+	</Frame>
+	
+
+
+
+  <!-- Frame for quest timer -->
+  <!-- Stolen from Looter (http://www.wowinterface.com/downloads/info9284-Looter.html#info) -->
+  <!-- can likely be improved...is this always going?-->
+	<Frame name="KarniCrap_TimerFrame" hidden="true">
+		<Scripts>     
+			<OnLoad>
+				self.TimeSinceLastUpdate = 0;
+			</OnLoad>
+			<OnUpdate>
+				KarniCrap_Timer(self,elapsed);
+			</OnUpdate>
+		</Scripts>
+	</Frame> 
+	
+	
+</Ui>

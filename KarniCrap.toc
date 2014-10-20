@@ -1,0 +1,31 @@
+## Interface: 40000
+## Author: Karnifex	
+## Title: Karni's Crap Filter
+## Notes: A snazzy autolooter with value filtering, item white/blacklisting, and more!
+## Version : 3.2.1
+## SavedVariablesPerCharacter: KarniCrapConfig, KarniBlacklist, KarniWhitelist
+
+libs\lib_Food.lua
+libs\lib_Water.lua
+libs\lib_Potions.lua
+libs\lib_Scrolls.lua
+libs\lib_Cloth.lua
+libs\lib_Cooking.lua
+libs\lib_MobsMinable.lua
+libs\lib_MobsGatherable.lua
+libs\lib_MobsSkinnable.lua
+libs\lib_MobsEngineerable.lua
+libs\lib_Tradeskills.lua
+
+kc_utils.lua
+kc_blacklist.lua
+kc_whitelist.lua
+kc_destroy.lua
+
+kc_category.lua
+
+embeds.xml
+KarniCrap.xml
+
+kc_inventory.lua 
+initialize.lua
