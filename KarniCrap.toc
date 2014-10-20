@@ -1,8 +1,8 @@
-## Interface: 40000
-## Author: Karnifex	
+## Interface: 60000
+## Author: Karnifex, Khymar
 ## Title: Karni's Crap Filter
 ## Notes: A snazzy autolooter with value filtering, item white/blacklisting, and more!
-## Version : 3.2.1
+## Version : 6.0.2.1
 ## SavedVariablesPerCharacter: KarniCrapConfig, KarniBlacklist, KarniWhitelist
 
 libs\lib_Food.lua

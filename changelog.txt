@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v6.0.2.1
+	- Several fixes to deal with API changes and make the addon compatible with the current version of WoW again
+
 v3.2.1
 	- Fixed the "Never loot" settings for Frostweave and Netherweave
 	- Fixed the "Except when using tradeskills" and "Don't destroy while in a group" checkboxes from showing as not checked if they were previously checked.
@@ -48,7 +51,7 @@ v3.2.1
 	- Cloth options updated for Cataclysm, [Embersilk Cloth] added (lib_Cloth.lua)
 	- Food/Water libraries updated for Cataclysm, some additions made to existing lists (lib_Food.lua, lib_Water.lua)
 	- Scrolls library updated for Cataclysm, but there are no new lootable scrolls (lib_Scrolls.lua)
-	-	Healing/Mana Potions updated for Cataclysm, seems only [Mythical Healing Potion] added, and that is a fished item. Did not include in list so that non-fishermen will continue to be able to loot "max" level potions without this triggering it to mark them as crap. (lib_Potions.lua)
+	- Healing/Mana Potions updated for Cataclysm, seems only [Mythical Healing Potion] added, and that is a fished item. Did not include in list so that non-fishermen will continue to be able to loot "max" level potions without this triggering it to mark them as crap. (lib_Potions.lua)
 	- Tradeskill options updated for Cataclysm. Updated to use SpellID instead of the name when detecting tradeskill use, so non-english clients should also work.
 	- Minable mobs list updated for Cataclysm, extensive additions to previous expansions as well (lib_MobsMinable.lua)
 	- Gatherable mobs list updated for Cataclysm, extensive additions to previous expansions as well (lib_MobsGatherable.lua)
