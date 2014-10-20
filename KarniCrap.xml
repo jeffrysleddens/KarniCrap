@@ -1218,7 +1218,7 @@
 		<!-- OPTION CATEGORIES -->
 		<!-- OPTION CATEGORIES -->
    	<MessageFrame name="$parent_CategoryFrame">
-			<Size x="115" y="200" />
+			<Size x="115" y="225" />
 			<Anchors>
 				<Anchor point="TOPLEFT">
 					<Offset x="14" y="-190" />
@@ -1271,7 +1271,7 @@
 		
 		<!-- OPTIONS TARGET frame -->     
 		<MessageFrame name="KarniCrap_OptionsFrame">
-			<Size x="231" y="200" />
+			<Size x="231" y="225" />
 			<Anchors>
 				<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CategoryFrame">
 					<Offset x="8" y="0" />
@@ -2073,9 +2073,6 @@
 						</OnClick> 
 					</Scripts>
 				</CheckButton>
-
-
-
 				<!-- Embersilk cloth -->
 				<CheckButton name="$parent_CBEmbersilk" inherits="MyCheckButton">
 					<Anchors>
@@ -2117,9 +2114,47 @@
 						</OnClick> 
 					</Scripts>
 				</CheckButton>
-
-
-
+				<!-- Windwool cloth -->
+				<CheckButton name="$parent_CBWindwool" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBEmbersilk">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Windwool Cloth]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Windwool = true;
+								KarniCrapConfig.Cloth_Windwool_Never = false;
+								_G["KarniCrap_Cloth_CBWindwool_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Windwool = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Windwool cloth never -->
+		    <CheckButton name="$parent_CBWindwool_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBWindwool"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_Windwool_Never = true;
+								KarniCrapConfig.Cloth_Windwool = false;
+								_G["KarniCrap_Cloth_CBWindwool"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_Windwool_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
 			</Frames>
 		</Frame>
 	

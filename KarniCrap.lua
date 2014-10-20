@@ -3,7 +3,7 @@
 
 
 	--[[ Local Variables ]]--
-	local KARNICRAP_VERSION = "6.0.2.1";
+	local KARNICRAP_VERSION = "6.0.2.2";
 
 	local debug = nil			-- debug mode default setting (nil or 1)
 
@@ -41,6 +41,7 @@
 
 function KarniCrap_OnLoad(self)
 	self:RegisterEvent("ADDON_LOADED")
+	self:RegisterEvent("VARIABLES_LOADED")
 	self:RegisterEvent("LOOT_OPENED")
 	self:RegisterEvent("LOOT_CLOSED")
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED")
@@ -303,12 +304,14 @@ function KarniCrap_OnEvent(self, event, ...)
 		if addon ~= "KarniCrap" then return end
 		self:UnregisterEvent("ADDON_LOADED")
 		echo("Karni's Crap Filter v"..KARNICRAP_VERSION.." loaded (/crap for options)");
-		-- Show warning if Blizzard autoloot is enabled
-		local autolooting = GetCVar("autoLootDefault")
-		if autolooting == "1" then
-			echo(error_hex.."KarniCrap: Autolooting set to ON in Interface Settings, KarniCrap will not function");
-		end
 		KarniCrap_Loaded()
+	
+	elseif event == "VARIABLES_LOADED" then
+		-- Show warning if Blizzard autoloot is enabled
+		local autolooting = GetCVar("autoLootDefault");
+		if GetCVar("autoLootDefault") == "1" then
+			echo(error_hex.."KarniCrap: Autolooting set to ON in Interface Settings, KarniCrap will not function!");
+		end
 
 	elseif event == "BAG_UPDATE" then
 		KarniCrap_Scripts:UnregisterEvent("BAG_UPDATE")
@@ -560,6 +563,9 @@ function CheckLoot(itemID)
 	elseif itemID == "53010" then
 		if KarniCrapConfig.Cloth_Embersilk then return 1, "Embersilk"
 		elseif KarniCrapConfig.Cloth_Embersilk_Never then return nil, "Embersilk" end
+	elseif itemID == "72988" then
+		if KarniCrapConfig.Cloth_Windwool then return 1, "Windwool"
+		elseif KarniCrapConfig.Cloth_Windwool_Never then return nil, "Windwool" end
 	end
 
 	--[[ Scrolls ]]--
@@ -1070,6 +1076,7 @@ function KarniCrap_Loaded()
 	if KarniCrapConfig.Cloth_Netherweave == nil then KarniCrapConfig.Cloth_Netherweave = false end
 	if KarniCrapConfig.Cloth_Frostweave == nil then KarniCrapConfig.Cloth_Frostweave = false end
 	if KarniCrapConfig.Cloth_Embersilk == nil then KarniCrapConfig.Cloth_Embersilk = false end
+	if KarniCrapConfig.Cloth_Windwool == nil then KarniCrapConfig.Cloth_Windwool = false end
 
 	-- cloth never
 	if KarniCrapConfig.Cloth_Linen_Never == nil then KarniCrapConfig.Cloth_Linen_Never = false end
@@ -1080,8 +1087,9 @@ function KarniCrap_Loaded()
 	if KarniCrapConfig.Cloth_Netherweave_Never == nil then KarniCrapConfig.Cloth_Netherweave_Never = false end
 	if KarniCrapConfig.Cloth_Frostweave_Never == nil then KarniCrapConfig.Cloth_Frostweave_Never = false end
 	if KarniCrapConfig.Cloth_Embersilk_Never == nil then KarniCrapConfig.Cloth_Embersilk_Never = false end
+	if KarniCrapConfig.Cloth_Windwool_Never == nil then KarniCrapConfig.Cloth_Windwool_Never = false end
 
-		-- scroll settings
+	-- scroll settings
 	if KarniCrapConfig.ScrollMax == nil then KarniCrapConfig.ScrollMax = true end
 	if KarniCrapConfig.Scroll_Agility == nil then KarniCrapConfig.Scroll_Agility = false end
 	if KarniCrapConfig.Scroll_Intellect == nil then KarniCrapConfig.Scroll_Intellect = false end
@@ -1272,6 +1280,7 @@ function KarniCrap_Enable()
 	KarniCrap_Scripts:RegisterEvent("PLAYER_LEVEL_UP")
 	KarniCrap_Scripts:RegisterEvent("QUEST_FINISHED")
 	KarniCrap_Scripts:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+	KarniCrap_Scripts:RegisterEvent("PLAYER_LOGIN")
 
 	KarniCrap_Tab1:SetAlpha(1)
 	KarniCrap_CategoryFrame:SetAlpha(1)

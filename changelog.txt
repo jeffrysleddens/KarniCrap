@@ -38,6 +38,10 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v6.0.2.2
+	- Added Windwool cloth to the cloth options
+	- Fixed detection of Autoloot interface setting and show a warning if it is set
+
 v6.0.2.1
 	- Several fixes to deal with API changes and make the addon compatible with the current version of WoW again
 
