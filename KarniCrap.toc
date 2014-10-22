@@ -6,8 +6,11 @@
 ## X-Curse-Packaged-Version: 6.0.2.4
 ## X-Curse-Project-Name: Karni's Crap Filter
 ## X-Curse-Project-ID: karnicrap
+## X-WoWI-ID: 9441
+## X-GitHub-Repository: https://github.com/jeffrysleddens/KarniCrap
 ## X-License: GPLv3
 ## X-Credits: Karnifex, Brusk, Khymar
+## X-Credits-Maintainer: Brusk, Khymar
 ## SavedVariablesPerCharacter: KarniCrapConfig, KarniBlacklist, KarniWhitelist
 
 libs\lib_Food.lua
