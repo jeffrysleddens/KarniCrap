@@ -167,5 +167,23 @@ cookingList = {
 	["62779"]	= 'Monstrous Claw',
 	["62778"]	= 'Toughened Flesh',
 	["60838"]	= 'Mysterious Fortune Card',
-	["58265"]	= 'Highland Pomegranate'
+	["58265"]	= 'Highland Pomegranate',
+	-- Mists of Pandaria --
+	["85506"]	= 'Viseclaw Meat',
+	["74833"]	= 'Raw Tiger Steak',
+	["74834"]	= 'Mushan Ribs',
+	["74837"]	= 'Raw Turtle Meat',
+	["74838"]	= 'Raw Crab Meat',
+	["74839"]	= 'Wildfowl Breast',
+	["74840"]	= 'Green Cabbage',
+	["74841"]	= 'Juicycrunch Carrot',
+	["74842"]	= 'Mogu Pumpkin',
+	["74843"]	= 'Scallions',
+	["74844"]	= 'Red Blossom Leek',
+	["74846"]	= 'Witchberries',
+	["74847"]	= 'Jade Squash',
+	["74848"]	= 'Striped Melon',
+	["74849"]	= 'Pink Turnip',
+	["74850"]	= 'White Turnip',
+	["75014"]	= 'Raw Crocolisk Belly'
 }
