@@ -3,7 +3,7 @@
 
 
 	--[[ Local Variables ]]--
-	local KARNICRAP_VERSION = "6.0.2.2";
+	local KARNICRAP_VERSION = "6.0.2.3";
 
 	local debug = nil			-- debug mode default setting (nil or 1)
 
@@ -446,8 +446,8 @@ function KarniCrap_OnEvent(self, event, ...)
 				local destroy = KarniCrap_CheckDestroyConditions()
 
 				for i = 1, GetNumLootItems() do
-					--[[ Money ]]--
-					if GetLootSlotType(i) == LOOT_SLOT_MONEY then
+					--[[ Money or Currency ]]--
+					if (GetLootSlotType(i) == LOOT_SLOT_MONEY) or (GetLootSlotType(i) == LOOT_SLOT_CURRENCY) then
 						LootSlot(i)
 
 -- TO DO --
