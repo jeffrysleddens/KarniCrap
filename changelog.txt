@@ -38,9 +38,11 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v6.0.2.5
+	- TOC file updated
+
 v6.0.2.4
 	- Added license headers
-	- TOC file updated
 
 v6.0.2.3
 	- Updated all lists in the libs subdirectory
