@@ -9,13 +9,13 @@ local category_items = {}
 	category_items[1] = { 	["frame"] = "KarniCrap_Destroy", 		["display"] = "Auto-Destroy" }
 	category_items[2] = { 	["frame"] = "KarniCrap_Cloth", 			["display"] = "Cloth" }
 	category_items[3] = { 	["frame"] = "KarniCrap_Corpses", 		["display"] = "Corpses" }
-	category_items[4] = { 	["frame"] = "KarniCrap_Consumables",["display"] = "Food & Water" }
+	category_items[4] = { 	["frame"] = "KarniCrap_Consumables",		["display"] = "Food & Water" }
 	category_items[5] = { 	["frame"] = "KarniCrap_Potions", 		["display"] = "Potions" }
 	category_items[6] = { 	["frame"] = "KarniCrap_Quality", 		["display"] = "Quality" }
 	category_items[7] = { 	["frame"] = "KarniCrap_Scrolls", 		["display"] = "Scrolls" }
-	category_items[8] = { 	["frame"] = "KarniCrap_Tradeskills",["display"] = "Tradeskills" }
-	--category_items[5] = { 	["frame"] = "KarniCrap_Pickpocketing", 	["display"] = "Pickpocketing" }
-	--category_items[2] = { 	["frame"] = "KarniCrap_BOP", 			["display"] = "BOP Warnings" }
+	category_items[8] = { 	["frame"] = "KarniCrap_Tradeskills",		["display"] = "Tradeskills" }
+	--category_items[5] = {	["frame"] = "KarniCrap_Pickpocketing", 		["display"] = "Pickpocketing" }
+	--category_items[2] = {	["frame"] = "KarniCrap_BOP", 			["display"] = "BOP Warnings" }
 
 
 
