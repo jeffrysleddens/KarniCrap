@@ -179,9 +179,8 @@ function KarniCrap_GetUnitID()
 	local id = nil
 	local unitType = nil
 
-	if debug then echo("UnitGUID="..unitString) end
-
 	if unitString then -- not a chest/object
+		if debug then echo("UnitGUID="..unitString) end
 		unitType, _, _, _, _, id, _ = strsplit("-", unitString);
 
 		if unitType == "Creature" then  -- npc
