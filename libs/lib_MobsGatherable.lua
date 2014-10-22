@@ -82,5 +82,12 @@ mobsGatherableList = {
 	["44569"]	= "Sand Lasher",
 	["44487"]	= "Thrashing Pumpkin",
 	["36062"]	= "Uprooted Lasher",
-	["40066"]	= "Wailing Weed"
+	["40066"]	= "Wailing Weed",
+	-- Mists of Pandaria --
+	["61183"]	= "Belligerent Blossom",
+	["61414"]	= "Doom Bloom",
+	["63467"]	= "Enraged Treant",
+	["59766"]	= "Hollow Bloom",
+	["66602"]	= "Petulant Pumpkin",
+	["55640"]	= "Thornbranch Scamp"
 }
