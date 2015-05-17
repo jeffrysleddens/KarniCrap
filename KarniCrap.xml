@@ -2155,6 +2155,47 @@
 						</OnClick> 
 					</Scripts>
 				</CheckButton>
+				<!-- Sumptuous Fur -->
+				<CheckButton name="$parent_CBSumptuousFur" inherits="MyCheckButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBEmbersilk">
+							<Offset x="0" y="5" />
+						</Anchor>
+					</Anchors>
+					<Layers>
+						<Layer>
+							<FontString name="$parent_Text" inherits="GameFontNormalSmall" text="|cFFFFFFFF[Sumptuous Fur]">
+								<Anchors>	<Anchor point="LEFT">	<Offset x="-165" y="1" /> </Anchor> </Anchors>
+							</FontString>
+						</Layer>	
+					</Layers>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_SumptuousFur = true;
+								KarniCrapConfig.Cloth_SumptuousFur_Never = false;
+								_G["KarniCrap_Cloth_CBSumptuousFur_Never"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_SumptuousFur = false; 
+							end
+						</OnClick>
+					</Scripts>
+				</CheckButton>
+				<!-- Sumptuous Fur never -->
+		    <CheckButton name="$parent_CBSumptuousFur_Never" inherits="MyCheckButton">
+					<Anchors>	<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_CBSumptuousFur"> <Offset x="0" y="0" /> </Anchor> </Anchors>
+					<Scripts>
+						<OnClick>
+							if (self:GetChecked()) then	
+								KarniCrapConfig.Cloth_SumptuousFur_Never = true;
+								KarniCrapConfig.Cloth_SumptuousFur = false;
+								_G["KarniCrap_Cloth_CBSumptuousFur"]:SetChecked(false);
+							else 
+								KarniCrapConfig.Cloth_SumptuousFur_Never = false;
+							end
+						</OnClick> 
+					</Scripts>
+				</CheckButton>
 			</Frames>
 		</Frame>
 	

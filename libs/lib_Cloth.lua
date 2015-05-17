@@ -32,5 +32,6 @@ clothList = {
 	["21877"]	= "Netherweave Cloth",
 	["33470"]	= "Frostweave Cloth",
 	["53010"]	= "Embersilk",
-	["72988"]	= "Windwool Cloth"
+	["72988"]	= "Windwool Cloth",
+	["111557"]	= "Sumptuous Fur"
 }

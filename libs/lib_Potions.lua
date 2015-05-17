@@ -33,7 +33,8 @@ HealingPotionList = {
 	["32905"]	= 55,	-- Bottled Nethergon Vapor
 	["22829"]	= 55,	-- Super Healing Potion
 	["33447"]	= 70,	-- Runic Healing Potion
-	--["57191"]	= 80	-- Mythical Healing Potion (Leave this out? only seems to be from fished container)
+	--["57191"]	= 80,	-- Mythical Healing Potion (Leave this out? only seems to be from fished container)
+	["109223"]	= 91,	-- Healing Tonic
 }
 
 ManaPotionList	= {
@@ -45,5 +46,6 @@ ManaPotionList	= {
 	["13444"]	= 49,	-- Major Mana Potion
 	["32902"]	= 55,	-- Bottled Nethergon Energy
 	["22832"]	= 55,	-- Super Mana Potion
-	["33448"]	= 70	-- Runic Mana Potion
+	["33448"]	= 70,	-- Runic Mana Potion
+	["109222"]	= 90,	-- Draenic Mana Potion
 }

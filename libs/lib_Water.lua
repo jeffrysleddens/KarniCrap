@@ -52,5 +52,8 @@ waterList = {
 	["58256"]	= 80,		-- Sparkling Oasis Water
 	-- Mists of Pandaria --
 	["89683"]	= 85,		-- Hozen Cuervo
-	["81415"]	= 90		-- Plum Wine
+	["81415"]	= 90,		-- Plum Wine
+	-- Warlords of Draenor --
+	["117452"]	= 90,		-- Gorgrond Mineral Water
+	["117475"]	= 90,		-- Clefthoof Milk
 }

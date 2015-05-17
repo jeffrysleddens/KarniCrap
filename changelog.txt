@@ -38,6 +38,11 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v6.1.2.1
+	- Updated lists in the libs subdirectory for Warlords of Draenor
+	- Added Sumptuous Fur to the cloth options
+	- TOC file updated
+
 v6.0.2.5
 	- TOC file updated
 

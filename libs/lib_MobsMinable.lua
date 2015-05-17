@@ -147,5 +147,21 @@ mobsMinableList	= {
 	["63155"]	= "Stone Guardian",
 	["63605"]	= "Stonebound Watcher",
 	["60573"]	= "Terracotta Defender",
-	["63510"]	= "Wulon"
+	["63510"]	= "Wulon",
+	-- Warlords of Draenor --
+	["74475"]	= "Magmolatus",
+	["75209"]	= "Molten Earth Elemental",
+	["77504"]	= "Slag Behemoth",
+	["78327"]	= "Crystal Rager",
+	["78372"]	= "An'dure the Awakened",
+	["79924"]	= "Living Apexis Shard",
+	["79926"]	= "Glowing Draenite Crystal",
+	["80072"]	= "Iridium Geode",
+	["80144"]	= "Raging Crusher",
+	["80374"]	= "Unstable Earth Guardian",
+	["80382"]	= "Unstable Earth Spirit",
+	["86071"]	= "Rokkaa",
+	["86072"]	= "Oro",
+	["86073"]	= "Lokk",
+	["86439"]	= "Earthen Fury"
 }

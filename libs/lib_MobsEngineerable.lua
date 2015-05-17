@@ -23,7 +23,7 @@
 --
 -------------------------------------------------------------------------------
 
--- Further additions can be made using the following link http://www.wowhead.com/npcs?filter=cr=39:44;crs=2:1;crv=0:0
+-- Further additions can be made using the following link http://www.wowhead.com/npcs?filter=cr=39:44;crs=6:1;crv=0:0
 mobsEngineerableList = {
 	["14224"]	= true, -- 7:XT
 	["573"]		= true, -- Foe Reaper 4000
@@ -75,4 +75,11 @@ mobsEngineerableList = {
 	["64479"]	= true, -- Gatecrusher
 	["67285"]	= true, -- Jungle Shredder
 	["67371"]	= true, -- Shredmaster Packle
+	-- Warlords of Draenor --
+	["75815"]	= true, -- Iron Shredder
+	["76087"]	= true, -- Defense Construct
+	["76145"]	= true, -- Grand Defense Construct
+	["76314"]	= true, -- Sentry Cannon
+	["77559"]	= true, -- Solar Magnifier
+	["80576"]	= true, -- Dreadpiston
 }
