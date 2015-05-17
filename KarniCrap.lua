@@ -26,7 +26,7 @@
 
 
 	--[[ Local Variables ]]--
-	local KARNICRAP_VERSION = "6.0.2.5";
+	local KARNICRAP_VERSION = GetAddOnMetadata( "KarniCrap", "Version" );
 
 	local debug = nil			-- debug mode default setting (nil or 1)
 
