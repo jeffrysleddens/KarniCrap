@@ -2158,7 +2158,7 @@
 				<!-- Sumptuous Fur -->
 				<CheckButton name="$parent_CBSumptuousFur" inherits="MyCheckButton">
 					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBEmbersilk">
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CBWindwool">
 							<Offset x="0" y="5" />
 						</Anchor>
 					</Anchors>

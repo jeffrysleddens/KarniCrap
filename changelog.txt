@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v6.1.2.3
+	- Fixed placement of Sumptious Fur on Cloth tab
+
 v6.1.2.2
 	- Bugfixes
 
