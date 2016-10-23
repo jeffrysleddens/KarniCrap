@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.0.0.1
+	- Added Legion cloth (Shal'dorei Silk)
+
 v7.0.0.0
 	- TOC file updated
 	- Added Legion skinnable mobs (credits: gruubar@curse)
