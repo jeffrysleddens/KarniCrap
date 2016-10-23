@@ -190,6 +190,7 @@ function KarniCrap_InitializeUI()
 	KarniCrap_Cloth_CBEmbersilk:SetChecked(KarniCrapConfig.Cloth_Embersilk)
 	KarniCrap_Cloth_CBWindwool:SetChecked(KarniCrapConfig.Cloth_Windwool)
 	KarniCrap_Cloth_CBSumptuousFur:SetChecked(KarniCrapConfig.Cloth_SumptuousFur)
+	KarniCrap_Cloth_CBShaldoreiSilk:SetChecked(KarniCrapConfig.Cloth_ShaldoreiSilk)
 	-- cloth never
 	KarniCrap_Cloth_CBLinen_Never:SetChecked(KarniCrapConfig.Cloth_Linen_Never)
 	KarniCrap_Cloth_CBWool_Never:SetChecked(KarniCrapConfig.Cloth_Wool_Never)
@@ -201,6 +202,7 @@ function KarniCrap_InitializeUI()
 	KarniCrap_Cloth_CBEmbersilk_Never:SetChecked(KarniCrapConfig.Cloth_Embersilk_Never)
 	KarniCrap_Cloth_CBWindwool_Never:SetChecked(KarniCrapConfig.Cloth_Windwool_Never)
 	KarniCrap_Cloth_CBSumptuousFur_Never:SetChecked(KarniCrapConfig.Cloth_SumptuousFur_Never)
+	KarniCrap_Cloth_CBShaldoreiSilk_Never:SetChecked(KarniCrapConfig.Cloth_ShaldoreiSilk_Never)
 
 	-- scrolls
 	KarniCrap_Scrolls_CBMaxScrolls:SetChecked(KarniCrapConfig.ScrollMax)

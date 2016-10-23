@@ -591,6 +591,9 @@ function CheckLoot(itemID)
 	elseif itemID == "111557" then
 		if KarniCrapConfig.Cloth_SumptuousFur then return 1, "Sumptuous Fur"
 		elseif KarniCrapConfig.Cloth_SumptuousFur_Never then return nil, "Sumptuous Fur" end
+	elseif itemID == "124437" then
+		if KarniCrapConfig.Cloth_ShaldoreiSilk then return 1, "Shal'dorei Silk"
+		elseif KarniCrapConfig.Cloth_ShaldoreiSilk_Never then return nil, "Shal'dorei Silk" end
 	end
 
 	--[[ Scrolls ]]--
@@ -1103,6 +1106,7 @@ function KarniCrap_Loaded()
 	if KarniCrapConfig.Cloth_Embersilk == nil then KarniCrapConfig.Cloth_Embersilk = false end
 	if KarniCrapConfig.Cloth_Windwool == nil then KarniCrapConfig.Cloth_Windwool = false end
 	if KarniCrapConfig.Cloth_SumptuousFur == nil then KarniCrapConfig.Cloth_SumptuousFur = false end
+	if KarniCrapConfig.Cloth_ShaldoreiSilk == nil then KarniCrapConfig.Cloth_ShaldoreiSilk = false end
 
 	-- cloth never
 	if KarniCrapConfig.Cloth_Linen_Never == nil then KarniCrapConfig.Cloth_Linen_Never = false end
@@ -1115,6 +1119,7 @@ function KarniCrap_Loaded()
 	if KarniCrapConfig.Cloth_Embersilk_Never == nil then KarniCrapConfig.Cloth_Embersilk_Never = false end
 	if KarniCrapConfig.Cloth_Windwool_Never == nil then KarniCrapConfig.Cloth_Windwool_Never = false end
 	if KarniCrapConfig.Cloth_SumptuousFur_Never == nil then KarniCrapConfig.Cloth_SumptuousFur_Never = false end
+	if KarniCrapConfig.Cloth_ShaldoreiSilk_Never == nil then KarniCrapConfig.Cloth_ShaldoreiSilk_Never = false end
 
 	-- scroll settings
 	if KarniCrapConfig.ScrollMax == nil then KarniCrapConfig.ScrollMax = true end
