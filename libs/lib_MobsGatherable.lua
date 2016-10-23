@@ -42,6 +42,7 @@ mobsGatherableList = {
 	["3919"]	= "Withered Ancient",
 	["4382"]	= "Withervine Creeper",
 	["4385"]	= "Withervine Rager",
+
 	-- Burning Crusade --
 	["17770"]	= "Hungarfen",
 	["17977"]	= "Warp Splinter",
@@ -65,6 +66,7 @@ mobsGatherableList = {
 	["17871"]	= "Underbog Shambler",
 	["19402"]	= "Withered Bog Lord",
 	["18124"]	= "Withered Giant",
+
 	-- Wrath of the Lich King --
 	["30258"]	= "Amanitar",
 	["31229"]	= "Ancient Watcher",
@@ -91,6 +93,7 @@ mobsGatherableList = {
 	["23874"]	= "Thornvine Creeper",
 	["30861"]	= "Unbound Ancient",
 	["26421"]	= "Woodlands Walker",
+
 	-- Cataclysm --
 	["44489"]	= "Corn Stalker",
 	["43732"]	= "Corpseweed",
@@ -108,6 +111,7 @@ mobsGatherableList = {
 	["44487"]	= "Thrashing Pumpkin",
 	["36062"]	= "Uprooted Lasher",
 	["40066"]	= "Wailing Weed",
+
 	-- Mists of Pandaria --
 	["61183"]	= "Belligerent Blossom",
 	["61414"]	= "Doom Bloom",
@@ -115,6 +119,7 @@ mobsGatherableList = {
 	["59766"]	= "Hollow Bloom",
 	["66602"]	= "Petulant Pumpkin",
 	["55640"]	= "Thornbranch Scamp",
+
 	-- Warlords of Draenor --
 	["72785"]	= "Twisted Ancient",
 	["74175"]	= "Gloomshade Fungi",
@@ -144,5 +149,19 @@ mobsGatherableList = {
 	["85760"]	= "Blooming Mandragora",
 	["86260"]	= "Wild Mandragora",
 	["88521"]	= "Bloodroot Ancient",
-	["88678"]	= "Gnarlwood Ancient"
+	["88678"]	= "Gnarlwood Ancient",
+
+	-- Legion - http://www.wowhead.com/npcs?filter=39:15;7:1;0:0 --
+	["110896"]	= "Ancient Annihilator",
+	["113646"]	= "Defiled Grovewalker",
+	["93157"]	= "Defiled Grovewalker",
+	["93159"]	= "Desecrated Ancient",
+	["92332"]	= "Hulking Gnarlvine",
+	["93030"]	= "Ironbranch",
+	["92321"]	= "Mature Deathblossom",
+	["92383"]	= "Rotwood Creeper",
+	["92326"]	= "Shimmering Oleander",
+	["92328"]	= "Tainted Vine",
+	["112052"]	= "Vilepetal Rooter",
+	["99360"]	= "Vilethorn Blossom",
 }

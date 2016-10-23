@@ -76,6 +76,7 @@ foodList	= {
 	["11415"]	= 45,	-- Mixed Berries
 	["8952"]	= 45,	-- Roasted Quail
 	["18255"]	= 45,	-- Runn Tum Tuber
+
 	-- Burning Crusade --
 	["20857"]	= 0,	-- Honey Bread
 	["27857"]	= 55,	-- Garadar Sharp
@@ -89,6 +90,7 @@ foodList	= {
 	["29448"]	= 65,	-- Mag'har Mild Cheese (Pickpocketed)
 	["29453"]	= 65,	-- Sporeggar Mushroom
 	["29450"]	= 65,	-- Telaaari Grapes (Pickpocketed)
+
 	-- Wrath of the Lich King --
 	["33449"]	= 65,	-- Crusty Flatbread
 	["37452"]	= 65,	-- Fatty Bluefin (Pickpocketed)
@@ -103,6 +105,7 @@ foodList	= {
 	["35948"]	= 75,	-- Savory Snowplum
 	["40202"]	= 75,	-- Sizzling Grizzly Flank
 	["35947"]	= 75,	-- Sparkling Frostcap
+
 	-- Cataclysm --
 	["58260"]	= 80,	-- Pine Nut Bread
 	["58268"]	= 80,	-- Roasted Beef
@@ -111,6 +114,7 @@ foodList	= {
 	["58266"]	= 80,	-- Violet Morel
 	["58261"]	= 85,	-- Buttery Wheat Roll
 	["58259"]	= 85,	-- Highland Sheep Cheese
+
 	-- Mists of Pandaria --
 	["81400"]	= 85,	-- Pounded Rice Cake
 	["81401"]	= 85,	-- Yak Cheese Curds
@@ -125,5 +129,62 @@ foodList	= {
 	["81411"]	= 90,	-- Peach Pie
 	["81412"]	= 90,	-- Blanched Needle Mushrooms
 	["81413"]	= 90,	-- Skewered Peanut Chicken
-	["81414"]	= 90	-- Pearl Milk Tea
+	["81414"]	= 90,	-- Pearl Milk Tea
+
+	-- Warlords of Draenor - http://www.wowhead.com/items?filter=166:86;6:3;0:0 --
+	["111431"]	= 91,	-- Hearty Elekk Steak
+	["111433"]	= 91,	-- Blackrock Ham
+	["111434"]	= 91,	-- Pan-Seared Talbuk
+	["111436"]	= 91,	-- Braised Riverbeast
+	["111437"]	= 91,	-- Rylak Crepes
+	["111438"]	= 91,	-- Clefthoof Sausages
+	["111439"]	= 91,	-- Steamed Scorpion
+	["111441"]	= 91,	-- Grilled Gulper
+	["111442"]	= 91,	-- Sturgeon Stew
+	["111444"]	= 91,	-- Fat Sleeper Cakes
+	["111445"]	= 91,	-- Fiery Calamari
+	["111446"]	= 91,	-- Skulker Chowder
+	["111447"]	= 91,	-- Talador Surf and Turf
+	["111449"]	= 91,	-- Blackrock Barbecue
+	["111450"]	= 91,	-- Frosty Stew
+	["111452"]	= 91,	-- Sleeper Surprise
+	["111453"]	= 91,	-- Calamari Crepes
+	["111454"]	= 91,	-- Gorgrond Chowder
+	["111455"]	= 90,	-- Saberfish Broth
+	["111456"]	= 90,	-- Grilled Saberfish
+	["111457"]	= 91,	-- Feast of Blood
+	["111458"]	= 91,	-- Feast of the Waters
+	["122343"]	= 91,	-- Sleeper Sushi
+	["122344"]	= 91,	-- Salty Squid Roll
+	["122345"]	= 91,	-- Pickled Eel
+	["122346"]	= 91,	-- Jumbo Sea Dog
+	["122347"]	= 91,	-- Whiptail Fillet
+	["122348"]	= 91,	-- Buttered Sturgeon
+	["128498"]	= 90,	-- Fel Eggs and Ham
+	["126934"]	= 1,	-- Lemon Herb Filet
+	["126935"]	= 1,	-- Fancy Darkmoon Feast
+	["126936"]	= 1,	-- Sugar-Crusted Fish Feast
+
+	-- Legion - http://www.wowhead.com/items?filter=166:86;7:3;0:0 --
+	["133565"]	= 101,	-- Leybeque Ribs
+	["133566"]	= 101,	-- Suramar Surf and Turf
+	["133567"]	= 101,	-- Barracuda Mrglgagh
+	["133568"]	= 101,	-- Koi-Scented Stormray
+	["133569"]	= 101,	-- Drogbar-Style Salmon
+	["133570"]	= 101,	-- The Hungry Magister
+	["133571"]	= 101,	-- Azshari Salad
+	["133572"]	= 101,	-- Nightborne Delicacy Platter
+	["133573"]	= 101,	-- Seed-Battered Fish Plate
+	["133574"]	= 101,	-- Fishbrul Special
+	["133575"]	= 101,	-- Dried Mackerel Strips
+	["133576"]	= 101,	-- Bear Tartare
+	["133577"]	= 101,	-- Fighter Chow
+	["133578"]	= 101,	-- Hearty Feast
+	["133579"]	= 101,	-- Lavish Suramar Feast
+	["133681"]	= 101,	-- Crispy Bacon
+	["133557"]	= 101,	-- Salt & Pepper Shank
+	["133561"]	= 101,	-- Deep-Fried Mossgill
+	["133562"]	= 101,	-- Pickled Stormray
+	["133563"]	= 101,	-- Faronaar Fizz
+	["133564"]	= 101,	-- Spiced Rib Roast
 }

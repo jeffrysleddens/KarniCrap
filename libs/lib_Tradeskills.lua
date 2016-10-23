@@ -74,7 +74,7 @@ tradeskillList	= {
 -- Milling
 	[51005]		= "Milling", 		-- No levels
 -- Prospecting
-	[31252]		= "Prospecting"		-- No levels
+	[31252]		= "Prospecting",	-- No levels
 -- Fishing (Should this one count as a tradeskill?)
 --	[7620] 		= "Fishing", 		-- Apprentice
 --	[7731] 		= "Fishing", 		-- Journeyman

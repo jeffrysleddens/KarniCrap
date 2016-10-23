@@ -1689,7 +1689,7 @@ mobsSkinnableList	= {
 	["88957"]	= "Young Razorclaw",
 	["89216"]	= "Clearwater Sandcrawler",
 	
-	-- Legion - http://www.wowhead.com/npcs?filter=10:13;1:2;0:70003 --
+	-- Legion - http://www.wowhead.com/npcs?filter=10:39;1:7;0:0 --
 	["90903"]	= "Adolescent Storm Drake",
 	["110667"]	= "Adolescent Storm Drake",
 	["99223"]	= "Adult Squallhunter",
@@ -1963,6 +1963,5 @@ mobsSkinnableList	= {
 	["102093"]	= "Winged Swampserpent",
 	["97504"]	= "Wraithtalon",
 	["97013"]	= "Xist",
-	["109797"]	= "Yellowfin Queenfish"
-
+	["109797"]	= "Yellowfin Queenfish",
 }

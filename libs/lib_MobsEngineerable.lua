@@ -31,6 +31,7 @@ mobsEngineerableList = {
 	["115"]		= true, -- Harvest Reaper
 	["114"]		= true, -- Harvest Watcher
 	["4260"]	= true, -- Venture Co. Shredder
+
 	-- Wrath of the Lich King --
 	["33113"]	= true, -- Flame Leviathan
 	["33293"]	= true, -- XT-002 Deconstructor
@@ -58,6 +59,7 @@ mobsEngineerableList = {
 	["34273"]	= true, -- XB-488 Disposalbot
 	["34271"]	= true, -- XD-175 Compactobot
 	["34269"]	= true, -- XR-949 Salvagebot
+
 	-- Cataclysm --
 	["43778"]	= true, -- Foe Reaper 5000
 	["42226"]	= true, -- Crushcog Battle Suit
@@ -69,17 +71,21 @@ mobsEngineerableList = {
 	["45399"]	= true, -- Optimo
 	["44576"]	= true, -- Proto-Strider
 	["39354"]	= true, -- Steamwheedle Shark
+
 	-- Mists of Pandaria --
 	["58787"]	= true, -- Big Bessa
 	["66327"]	= true, -- Garrosh'ar Shredder
 	["64479"]	= true, -- Gatecrusher
 	["67285"]	= true, -- Jungle Shredder
 	["67371"]	= true, -- Shredmaster Packle
-	-- Warlords of Draenor --
+
+	-- Warlords of Draenor - http://www.wowhead.com/npcs?filter=39:44;6:1;0:0 --
 	["75815"]	= true, -- Iron Shredder
 	["76087"]	= true, -- Defense Construct
 	["76145"]	= true, -- Grand Defense Construct
 	["76314"]	= true, -- Sentry Cannon
 	["77559"]	= true, -- Solar Magnifier
 	["80576"]	= true, -- Dreadpiston
+
+	-- Legion - http://www.wowhead.com/npcs?filter=39:44;7:1;0:0 --
 }

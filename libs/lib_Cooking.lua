@@ -111,6 +111,7 @@ cookingList = {
 	["13889"]	= "Raw Whitescale Salmon",
 	["13888"]	= "Darkclaw Lobster",
 	["21024"]	= "Chimaerok Tenderloin",
+
 	-- Burning Crusade --
 	["23676"]	= "Moongraze Stag Tenderloin",
 	["30817"]	= "Simple Flour",
@@ -142,6 +143,7 @@ cookingList = {
 	["33823"]	= "Bloodfin Catfish",
 	["24477"]	= "Jaggal Clam Meat",
 	["22577"]	= "Mote of Shadow",
+
 	-- Wrath of the Lich King --
 	["44853"]	= "Honey",
 	["44834"]	= "Wild Turkey",
@@ -175,6 +177,7 @@ cookingList = {
 	["35949"]	= "Tundra Berries",
 	["43007"]	= "Northern Spices",
 	["35948"]	= "Savory Snowplum",
+
 	-- Cataclysm --
 	["67229"]	= "Stag Flank",
 	["58278"]	= "Tropical Sunfruit",
@@ -193,6 +196,7 @@ cookingList = {
 	["62778"]	= "Toughened Flesh",
 	["60838"]	= "Mysterious Fortune Card",
 	["58265"]	= "Highland Pomegranate",
+
 	-- Mists of Pandaria --
 	["85506"]	= "Viseclaw Meat",
 	["74833"]	= "Raw Tiger Steak",
@@ -211,6 +215,7 @@ cookingList = {
 	["74849"]	= "Pink Turnip",
 	["74850"]	= "White Turnip",
 	["75014"]	= "Raw Crocolisk Belly",
+
 	-- Warlords of Draenor --
 	["109131"]	= "Raw Clefthoof Meat",
 	["109132"]	= "Raw Talbuk Meat",
@@ -226,5 +231,33 @@ cookingList = {
 	["109142"]	= "Sea Scorpion Segment",
 	["109143"]	= "Abyssal Gulper Eel Flesh",
 	["109144"]	= "Blackwater Whiptail Flesh",
-	["111436"]	= "Braised Riverbeast"
+	["111436"]	= "Braised Riverbeast",
+
+	-- Legion - http://www.wowhead.com/trade-goods?filter=166:87;7:3;0:0 --
+	["124101"]	= "Aethril",
+	["124102"]	= "Dreamleaf",
+	["124103"]	= "Foxflower",
+	["124104"]	= "Fjarnskaggl",
+	["124105"]	= "Starlight Rose",
+	["124107"]	= "Cursed Queenfish",
+	["124108"]	= "Mossgill Perch",
+	["124109"]	= "Highmountain Salmon",
+	["124110"]	= "Stormray",
+	["124111"]	= "Runescale Koi",
+	["124112"]	= "Black Barracuda",
+	["124117"]	= "Lean Shank",
+	["124118"]	= "Fatty Bearsteak",
+	["124119"]	= "Big Gamy Ribs",
+	["124120"]	= "Leyblood",
+	["124121"]	= "Wildfowl Egg",
+	["128304"]	= "Yseralline Seed",
+	["133607"]	= "Silver Mackerel",
+	["133680"]	= "Slice of Bacon",
+	["133588"]	= "Flaked Sea Salt",
+	["133589"]	= "Dalapeño Pepper",
+	["133590"]	= "Muskenbutter",
+	["133591"]	= "River Onion",
+	["133592"]	= "Stonedark Snail",
+	["133593"]	= "Royal Olive",
+	["129100"]	= "Gem Chip",
 }

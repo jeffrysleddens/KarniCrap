@@ -42,6 +42,7 @@ mobsMinableList	= {
 	["2763"]	= "Thenan",
 	["11783"]	= "Theradrim Shardling",
 	["7039"]	= "War Reaver",
+
 	-- Burning Crusade --
 	["18343"]	= "Tavarok",
 	["19940"]	= "Apex",
@@ -66,6 +67,7 @@ mobsMinableList	= {
 	["20498"]	= "Sundered Shard",
 	["18882"]	= "Sundered Thunderer",
 	["17156"]	= "Tortured Earth Spirit",
+
 	-- Wrath of the Lich King --
 	["29307"]	= "Drakkari Colossus",
 	["27977"]	= "Krystallus",
@@ -107,6 +109,7 @@ mobsMinableList	= {
 	["34134"]	= "Winter Revenant",
 	["34135"]	= "Winter Rumbler",
 	["32447"]	= "Zul'drak Sentinel",
+
 	-- Cataclysm --
 	["36845"]	= "Agitated Earth Spirit",
 	["35759"]	= "Balboa",
@@ -124,6 +127,7 @@ mobsMinableList	= {
 	["41993"]	= "Raging Earth Elemental",
 	["38916"]	= "Sandstone Earthen",
 	["38914"]	= "Sandstone Golem",
+
 	-- Mists of Pandaria --
 	["65450"]	= "Ancient Guardian",
 	["61174"]	= "Cursed Jade",
@@ -148,6 +152,7 @@ mobsMinableList	= {
 	["63605"]	= "Stonebound Watcher",
 	["60573"]	= "Terracotta Defender",
 	["63510"]	= "Wulon",
+
 	-- Warlords of Draenor --
 	["74475"]	= "Magmolatus",
 	["75209"]	= "Molten Earth Elemental",
@@ -163,5 +168,35 @@ mobsMinableList	= {
 	["86071"]	= "Rokkaa",
 	["86072"]	= "Oro",
 	["86073"]	= "Lokk",
-	["86439"]	= "Earthen Fury"
+	["86439"]	= "Earthen Fury",
+
+	-- Legion - http://www.wowhead.com/npcs?filter=39:16;7:1;0:0 --
+	["108856"]	= "Agitated Stonewarden",
+	["106630"]	= "Burrowing Leyworm",
+	["98957"]	= "Coldscale Deatheye",
+	["94507"]	= "Enraged Ambershard",
+	["102468"]	= "Enraged Umbralshard",
+	["101868"]	= "Felfire Basilisk",
+	["114113"]	= "Felslate Basilisk",
+	["104895"]	= "Felslate Basilisk",
+	["99764"]	= "Felsoul Crusher",
+	["93619"]	= "Infernal Brutalizer",
+	["90803"]	= "Infernal Lord",
+	["91128"]	= "Lagoon Basilisk",
+	["99793"]	= "Leyscale Manalisk",
+	["103514"]	= "Leystone Basilisk",
+	["104877"]	= "Leystone Basilisk",
+	["98653"]	= "Manaspine Basilisk",
+	["107328"]	= "Netherflame Infernal",
+	["93344"]	= "Runebound Stonewarden",
+	["109338"]	= "Sorcerite",
+	["101581"]	= "Tanzanite Borer",
+	["101577"]	= "Tanzanite Shatterer",
+	["106665"]	= "Ualair",
+	["93110"]	= "Vault Keeper",
+	["101438"]	= "Vileshard Chunk",
+	["91000"]	= "Vileshard Hulk",
+	["95916"]	= "Violent Crageater",
+	["97266"]	= "Wrath of Dargrul",
+	["94509"]	= "Wrathshard",
 }
