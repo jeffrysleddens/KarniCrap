@@ -36,6 +36,7 @@ tradeskillList	= {
 	[82774]		= "Engineering", 	-- Illustrious
 	[110403]	= "Engineering",	-- Zen Master
 	[158739]	= "Engineering",	-- Draenor Master
+	[195112]	= "Engineering",	-- Legion Master
 	[49383]		= "Engineering", 	-- Corpses
 -- Herb Gathering
 	[2366]		= "Herb Gathering",	-- Apprentice
@@ -47,6 +48,7 @@ tradeskillList	= {
 	[74519]		= "Herb Gathering",	-- Illustrious
 	[110413]	= "Herb Gathering",	-- Zen Master
 	[158745]	= "Herb Gathering",	-- Draenor Master
+	[195114]	= "Herb Gathering",	-- Legion Herbalism
 -- Mining
 	[2575] 		= "Mining", 		-- Apprentice
 	[2576] 		= "Mining", 		-- Journeyman
@@ -57,6 +59,7 @@ tradeskillList	= {
 	[74517]		= "Mining", 		-- Illustrious
 	[102161]	= "Mining",		-- Zen Master
 	[158754]	= "Mining",		-- Draenor Master
+	[195122]	= "Mining",		-- Legion Master
 -- Skinning
 	[8613]		= "Skinning", 		-- Apprentice
 	[8617]		= "Skinning", 		-- Journeyman
@@ -67,6 +70,7 @@ tradeskillList	= {
 	[74522]		= "Skinning", 		-- Illustrious
 	[102216]	= "Skinning",		-- Zen Master
 	[158756]	= "Skinning",		-- Draenor Master
+	[195125]	= "Skinning",		-- Legion Skinning
 -- Milling
 	[51005]		= "Milling", 		-- No levels
 -- Prospecting
@@ -101,6 +105,7 @@ tradeskillList	= {
 --	[80731]		= "Alchemy", 		-- Illustrious
 --	[105206]	= "Alchemy",		-- Zen Master
 --	[156606]	= "Alchemy",		-- Draenor Master
+--	[195095]	= "Alchemy",		-- Legion Master
 -- Blacksmithing (No loot window)
 --	[2018]		= "Blacksmithing", 	-- Apprentice
 --	[3100]		= "Blacksmithing", 	-- Journeyman
@@ -111,6 +116,7 @@ tradeskillList	= {
 --	[76666]		= "Blacksmithing", 	-- Illustrious
 --	[110396]	= "Blacksmithing",	-- Zen Master
 --	[158737]	= "Blacksmithing",	-- Draenor Master
+--	[195057]	= "Blacksmithing",	-- Legion Blacksmithing
 -- Enchanting (No loot window)
 --	[7411]		= "Enchanting", 	-- Apprentice
 --	[7412]		= "Enchanting", 	-- Journeyman
@@ -121,6 +127,7 @@ tradeskillList	= {
 --	[74258]		= "Enchanting", 	-- Illustrious
 --	[110400]	= "Enchanting",		-- Zen Master
 --	[158716]	= "Enchanting",		-- Draenor Master
+--	[195096]	= "Enchanting",		-- Legion Enchanting
 -- Inscription (Not sure if this triggers a loot window)
 --	[45357]		= "Inscription", 	-- Apprentice
 --	[45358]		= "Inscription", 	-- Journeyman
@@ -131,6 +138,7 @@ tradeskillList	= {
 --	[86008]		= "Inscription", 	-- Illustrious
 --	[110417]	= "Inscription",	-- Zen Master
 --	[158748]	= "Inscription",	-- Draenor Master
+--	[195115]	= "Inscription",	-- Legion Master
 -- Jewelcrafting (Not sure if this triggers a loot window)
 --	[25229]		= "Jewelcrafting", 	-- Apprentice
 --	[25230]		= "Jewelcrafting", 	-- Journeyman
@@ -141,6 +149,7 @@ tradeskillList	= {
 --	[73318]		= "Jewelcrafting", 	-- Illustrious
 --	[110420]	= "Jewelcrafting",	-- Zen Master
 --	[158750]	= "Jewelcrafting",	-- Draenor Master
+--	[195116]	= "Jewelcrafting",	-- Legion Master
 -- Leatherworking (No loot window)
 --	[2108]		= "Leatherworking",	-- Apprentice
 --	[3104]		= "Leatherworking",	-- Journeyman
@@ -151,6 +160,7 @@ tradeskillList	= {
 --	[81199]		= "Leatherworking",	-- Illustrious
 --	[110423]	= "Leatherworking",	-- Zen Master
 --	[158752]	= "Leatherworking",	-- Draenor Master
+--	[195119]	= "Leatherworking",	-- Legion Master
 -- Tailoring (No loot window)
 --	[3908] 		= "Tailoring", 		-- Apprentice
 --	[3909] 		= "Tailoring", 		-- Journeyman
@@ -161,6 +171,7 @@ tradeskillList	= {
 --	[75156]		= "Tailoring", 		-- Illustrious
 --	[110426]	= "Tailoring",		-- Zen Master
 --	[158758]	= "Tailoring",		-- Draenor Master
+--	[195126]	= "Tailoring",		-- Legion Master
 -- Smelting (No loot window)
 --	[2656] 		= "Smelting", 		-- No levels
 }
