@@ -38,6 +38,11 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.0.0.0
+	- TOC file updated
+	- Added Legion skinnable mobs (credits: gruubar@curse)
+	- Added Legion tradeskill levels (credits: gruubar@curse)
+
 v6.1.2.3
 	- Fixed placement of Sumptious Fur on Cloth tab
 
