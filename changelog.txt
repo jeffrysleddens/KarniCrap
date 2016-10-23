@@ -41,9 +41,9 @@ Changelog
 v7.0.3.1
 	- Use correct verioning scheme
 	- Added Legion cloth (Shal'dorei Silk)
-	- Added Legion salvagable mobs
+	- Added Legion salvageable mobs
 	- Added Legion gatherable mobs
-	- Added Legion minable mobs
+	- Added Legion mineable mobs
 	- Added Legion food
 	- Added Legion cooking reagents
 	- Added Legion potions
