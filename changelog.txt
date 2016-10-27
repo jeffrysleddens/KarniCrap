@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.1.0.1
+	- TOC file updated for patch 7.1
+
 v7.0.3.1
 	- Use correct verioning scheme
 	- Added Legion cloth (Shal'dorei Silk)
