@@ -1532,7 +1532,6 @@
 							<OnLoad>
 								_G[self:GetName().."_Text"]:SetText("Enchanting");
 								self:SetChecked();
-								self:Disable();
 							</OnLoad>
 						</Scripts>
 					</CheckButton>
@@ -1546,7 +1545,6 @@
 							<OnLoad>
 								_G[self:GetName().."_Text"]:SetText("Gathering");
 								self:SetChecked();
-								self:Disable();
 							</OnLoad>
 						</Scripts>
 					</CheckButton>
@@ -1560,7 +1558,6 @@
 							<OnLoad>
 								_G[self:GetName().."_Text"]:SetText("Milling");
 								self:SetChecked();
-								self:Disable();
 							</OnLoad>
 						</Scripts>
 					</CheckButton>
@@ -1574,7 +1571,6 @@
 							<OnLoad>
 								_G[self:GetName().."_Text"]:SetText("Mining");
 								self:SetChecked();
-								self:Disable();
 							</OnLoad>
 						</Scripts>
 					</CheckButton>
@@ -1588,7 +1584,6 @@
 							<OnLoad>
 								_G[self:GetName().."_Text"]:SetText("Prospecting");
 								self:SetChecked();
-								self:Disable();
 							</OnLoad>
 						</Scripts>
 					</CheckButton>
@@ -1603,7 +1598,6 @@
 							<OnLoad>
 								_G[self:GetName().."_Text"]:SetText("Skinning");
 								self:SetChecked();
-								self:Disable();
 							</OnLoad>
 						</Scripts>
 					</CheckButton>
