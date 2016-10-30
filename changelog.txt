@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.1.0.2
+	- Tradeskill checkboxes are now enabled
+
 v7.1.0.1
 	- TOC file updated for patch 7.1
 
