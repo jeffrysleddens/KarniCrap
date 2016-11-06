@@ -227,6 +227,7 @@ end
 --[[ Get info of item in loot window slot ]]--
 
 function KarniCrap_GetLootSlotInfo(i)
+	if GetLootSlotType(i) == LOOT_SLOT_CURRENCY then return nil end
 	local link = GetLootSlotLink(i)
 	local _, _, quantity = GetLootSlotInfo(i)
 
@@ -276,11 +277,15 @@ end
 
 function KarniCrap_GetSkillLevel(skill)
 	local skill_level = nil
-	for i = 1, GetNumSkillLines() do
-		skillName, _, _, skillRank, numTempPoints, skillModifier = GetSkillLineInfo(i)
-		if skillName == skill then
-			skill_level = skillRank + skillModifier
-			return skill_level
+	for i = 1, 6 do
+		profession = GetProfessions()[i]+
+		print("profession",profession or "nil")
+		if profession then
+			skillName, _, skillRank, maxRank, numSpells, spelloffset, skillLine, skillModifier, specializationIndex, specializationOffset = GetProfessionsInfo(profession)
+			if skillName == skill then
+				skill_level = skillRank + skillModifier
+				return skill_level
+			end
 		end
 	end
 	return skill_level
@@ -292,7 +297,7 @@ end
 function KarniCrap_HasEnoughSkill(skill)
 	skill_level = KarniCrap_GetSkillLevel(skill)
 	if not skill_level then skill_level = 0 end
-	--if debug then echo("skill_level for "..skill.." is "..skill_level) end
+	if debug then echo("skill_level for "..skill.." is "..skill_level) end
 
 	if skill_level > 0 then
 		if skill_level < 100 then
@@ -469,6 +474,7 @@ function KarniCrap_OnEvent(self, event, ...)
 
 				for i = 1, GetNumLootItems() do
 					--[[ Money or Currency ]]--
+					if debug then echo("Loot slot "..i.." type = "..GetLootSlotType(i)) end
 					if (GetLootSlotType(i) == LOOT_SLOT_MONEY) or (GetLootSlotType(i) == LOOT_SLOT_CURRENCY) then
 						LootSlot(i)
 

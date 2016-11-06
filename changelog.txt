@@ -38,6 +38,15 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.1.0.3
+	- Fix for: GetNumSkillLines() and GetSkillLineInfo() were removed from
+	  the API in the last expansion (Draenor), causing all calls to
+	  KarniCrap_GetSkillLevel() to fail. (credits: Speedwaystar@curseforge)
+	- Fix for: KarniCrap_GetLootSlotInfo() expects an "item:(%d+)" link as
+	  argument, and fails when it is passed a "currency:(%d+)" link (which
+	  occurs, for instance, when skinning or mining loot which includes
+	  Ancient Mana). (credits: Speedwaystar@curseforge)
+
 v7.1.0.2
 	- Tradeskill checkboxes are now enabled
 
