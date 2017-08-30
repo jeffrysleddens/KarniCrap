@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.3.0.1
+	- TOC file updated for patch 7.3
+
 v7.1.0.3
 	- Fix for: GetNumSkillLines() and GetSkillLineInfo() were removed from
 	  the API in the last expansion (Draenor), causing all calls to
