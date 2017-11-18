@@ -38,6 +38,9 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v7.3.0.2
+	- Fox for: CheckLoot making sure itemID is not nil
+
 v7.3.0.1
 	- TOC file updated for patch 7.3
 
