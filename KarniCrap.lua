@@ -533,6 +533,7 @@ end
 -- Ignore item = -1 (not marked as crap so auto-destroy won't catch it)
 
 function CheckLoot(itemID)
+	if itemID == nil then return nil, "Blacklist" end
 	local lootName, lootLink, lootRarity, lootLevel, _, lootType, lootSubType, lootStackCount, _, _, lootValue = GetItemInfo(itemID)
 	local temp
 
