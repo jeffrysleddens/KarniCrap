@@ -18,7 +18,8 @@
 	This is an empty frame with a titlebar and a close button.
 	*******************************************************************************
 	-->
-	<Frame name="KarniBasicFrameTemplateWithInset" inherits="KarniBasicFrameTemplate" virtual="true">
+	<!--<Frame name="KarniBasicFrameTemplateWithInset" inherits="KarniBasicFrameTemplate" virtual="true">-->
+	<Frame name="KarniBasicFrameTemplateWithInset" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND" textureSubLevel="1">
 				<Texture name="$parentInsetBg" file="Interface\FrameGeneral\UI-Background-Marble" horizTile="true" vertTile="true" parentKey="InsetBg">
@@ -140,7 +141,7 @@
 		</Layers>
 		<Scripts>
 			<OnClick>
-				PlaySound("igMainMenuOptionCheckBoxOn");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 			</OnClick>
 		</Scripts>
 		<ButtonText>
@@ -194,7 +195,7 @@
 			</OnLoad>
 			<OnClick>
 				KarniCrap_SelectCategory(self:GetID())
-				PlaySound("igMainMenuOptionCheckBoxOn");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 			</OnClick>
 		</Scripts>
 		<NormalFont style="GameFontNormalSmallLeft" />
@@ -227,7 +228,7 @@
 			<OnClick>
 				KarniCrap_Set_BlacklistSelected(self:GetID());
 				KarniCrap_SelectBlacklistItem();
-				PlaySound("igMainMenuOptionCheckBoxOn");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 			</OnClick>
 		</Scripts>
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
@@ -260,7 +261,7 @@
 			<OnClick>
 				KarniCrap_Set_WhitelistSelected(self:GetID());
 				KarniCrap_SelectWhitelistItem();
-				PlaySound("igMainMenuOptionCheckBoxOn");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 			</OnClick>
 		</Scripts>
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
@@ -390,7 +391,7 @@
 			<OnClick>
 				KarniCrap_Set_InventorySelected(self:GetID());
 				KarniCrap_SelectInventoryItem();
-				PlaySound("igMainMenuOptionCheckBoxOn");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 			</OnClick>
 		</Scripts>
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
@@ -3083,10 +3084,10 @@
 				tinsert(UISpecialFrames,"KarniCrap");
 			</OnLoad>
 			<OnShow>
-				PlaySound("UChatScrollButton");
+				PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 			</OnShow>
 			<OnHide>
-				PlaySound("UChatScrollButton");
+				PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 			</OnHide>
 			<OnMouseDown>
 				self:StartMoving();
