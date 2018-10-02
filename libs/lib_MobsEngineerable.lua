@@ -88,4 +88,26 @@ mobsEngineerableList = {
 	["80576"]	= true, -- Dreadpiston
 
 	-- Legion - http://www.wowhead.com/npcs?filter=39:44;7:1;0:0 --
+
+	-- Battle for Azeroth - https://www.wowhead.com/npcs?filter=39:44;8:1;0:0 --
+        ["139150"]      = true, -- 7th Legion Warstrider
+        ["140530"]      = true, -- Abrasive Reconfigulator 8000
+        ["136643"]      = true, -- Azerite Extractor
+        ["140543"]      = true, -- Bilgewater Fracker
+        ["138581"]      = true, -- Chief Engineer Grizz
+        ["129214"]      = true, -- Coin-Operated Crowd Pummeler
+        ["137915"]      = true, -- Goblin Shredder
+        ["131709"]      = true, -- Mechanical Farmhand
+        ["130485"]      = true, -- Mechanized Peacekeeper
+        ["136139"]      = true, -- Mechanized Peacekeeper
+        ["137649"]      = true, -- Pest Remover Mk. II
+        ["132047"]      = true, -- Reinforced Hullbreaker
+        ["137153"]      = true, -- Rewired Harvester
+        ["130131"]      = true, -- Rewired Harvester
+        ["129972"]      = true, -- Shoalbreach Lance
+        ["139571"]      = true, -- Stormfused Strikesmith
+        ["142729"]      = true, -- Syndicate Harvest Reaper
+        ["143433"]      = true, -- Syndicate Harvest Shredder
+        ["137743"]      = true, -- V-300 SENTRY
+        ["133463"]      = true, -- Venture Co. War Machine
 }
