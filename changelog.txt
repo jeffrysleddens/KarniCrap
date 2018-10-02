@@ -38,6 +38,13 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v8.0.1.1
+	- TOC file updated for patch 8.0
+	- PlaySound calls fixed
+	- PARTY_MEMBERS_CHANGED is now GROUP_ROSTER_UPDATE
+	- Fix for BattlePet items, make sure itemID is set before doing anything
+	- Old code fixes so booleans are handled properly
+
 v7.3.0.2
 	- Fix for: CheckLoot making sure itemID is not nil
 
