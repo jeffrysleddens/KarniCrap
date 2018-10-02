@@ -67,7 +67,7 @@ function KarniCrap_OnLoad(self)
 	self:RegisterEvent("VARIABLES_LOADED")
 	self:RegisterEvent("LOOT_OPENED")
 	self:RegisterEvent("LOOT_CLOSED")
-	self:RegisterEvent("PARTY_MEMBERS_CHANGED")
+	self:RegisterEvent("GROUP_ROSTER_UPDATE")
 	self:RegisterEvent("RAID_ROSTER_UPDATE")
 	self:RegisterEvent("PLAYER_LEVEL_UP")
 	self:RegisterEvent("QUEST_FINISHED")
@@ -269,7 +269,7 @@ function KarniCrap_LootEverything(why)
 	end
 	if debug then echo("Looting everything ("..why..")") end
 	loot_all = nil
-	return 1, why
+	return true, why
 end
 
 
@@ -307,7 +307,7 @@ function KarniCrap_HasEnoughSkill(skill)
 		end
 
 		--if debug then echo("max unit "..skill.." level is "..max_unit_level) end
-		if max_unit_level >= unit_level then return 1 end
+		if max_unit_level >= unit_level then return true end
 	end
 	return nil
 end
@@ -353,7 +353,7 @@ function KarniCrap_OnEvent(self, event, ...)
 	elseif event == "PLAYER_LEVEL_UP" then
 		playerlevel = tonumber(arg1)
 
-	elseif event == "PARTY_MEMBERS_CHANGED" then
+	elseif event == "GROUP_ROSTER_UPDATE" then
 		KarniCrapConfig.NumberInParty = GetNumPartyMembers()
 		KarniCrap_GetLootThreshold()
 
@@ -381,7 +381,7 @@ function KarniCrap_OnEvent(self, event, ...)
 		using_tradeskill = nil
 	if tradeskillList[arg5] then -- check if the spell cast is a tradeskill
 			using_tradeskill = true
-			loot_all = 1
+			loot_all = true
 		else
 			loot_all = nil -- not in tradeskill list, don't loot everything
 		end
@@ -404,11 +404,11 @@ function KarniCrap_OnEvent(self, event, ...)
 		--[[ Just Looking (ALT modifier) ]]--
 		if IsAltKeyDown() then justlooking = true else justlooking = nil end
 
-		if arg1 == 0 and KarniCrapConfig.Enabled and not justlooking then
+		if arg1 == false and KarniCrapConfig.Enabled and not justlooking then
 			if loot_all then
-				looted = KarniCrap_LootEverything(arg2)
+				looted = KarniCrap_LootEverything("Unknown")
 			else
-				if KarniCrap_IsLocked()then looted = KarniCrap_LootEverything("Container") end
+				if KarniCrap_IsLocked() then looted = KarniCrap_LootEverything("Container") end
 				if IsStealthed() and KarniCrapConfig.Pickpocketing == true then looted = KarniCrap_LootEverything("Pick Pocket") end
 			end
 
@@ -488,7 +488,7 @@ function KarniCrap_OnEvent(self, event, ...)
 					else
 						local passed, id, link, quantity, details = KarniCrap_GetLootSlotInfo(i)
 
-						if passed == 1 then LootSlot(i)
+						if passed then LootSlot(i)
 							if debug then echo("Looting "..link.."("..details..")") end
 						elseif not passed then
 							if destroy then
@@ -542,13 +542,13 @@ function CheckLoot(itemID)
 
 	--[[ Whitelist, Currency & Quest type items ]]--
 	if KarniWhitelist[itemID] or lootType == "Quest" or lootType == "Currency" then
-		return 1, "Whitelist, Currency or Quest item"
+		return true, "Whitelist, Currency or Quest item"
 	end
 
 	--[[ Quest Items ]]--
 	if ( lootRarity > 0 ) then
 		for key, value in pairs(questlist_items) do
-			if value == lootName then return 1, "Quest Item" end
+			if value == lootName then return true, "Quest Item" end
 		end
 	end
 
@@ -565,41 +565,41 @@ function CheckLoot(itemID)
 	if ( lootRarity >= loot_threshold ) then return -1, "Ignoring: Over group loot threshold" end
 
 	--[[ Cooking ]]--
-	if ( KarniCrapConfig.Cooking and cookingList[itemID] ) then	return 1, "Cooking" end
+	if ( KarniCrapConfig.Cooking and cookingList[itemID] ) then	return true, "Cooking" end
 
 	--[[ Cloth ]]--
 	if itemID == "2589" then
-		if KarniCrapConfig.Cloth_Linen then return 1, "Linen"
+		if KarniCrapConfig.Cloth_Linen then return true, "Linen"
 		elseif KarniCrapConfig.Cloth_Linen_Never then return nil, "Linen"	end
 	elseif itemID == "2592" then
-		if KarniCrapConfig.Cloth_Wool then return 1, "Wool"
+		if KarniCrapConfig.Cloth_Wool then return true, "Wool"
 		elseif KarniCrapConfig.Cloth_Wool_Never then return nil, "Wool"	end
 	elseif itemID == "4306" then
-		if KarniCrapConfig.Cloth_Silk then return 1, "Silk"
+		if KarniCrapConfig.Cloth_Silk then return true, "Silk"
 		elseif KarniCrapConfig.Cloth_Silk_Never then return nil, "Silk" end
 	elseif itemID == "4338" then
-		if KarniCrapConfig.Cloth_Mageweave then return 1, "Mageweave"
+		if KarniCrapConfig.Cloth_Mageweave then return true, "Mageweave"
 		elseif KarniCrapConfig.Cloth_Mageweave_Never then return nil, "Mageweave" end
 	elseif itemID == "14047" then
-		if KarniCrapConfig.Cloth_Runecloth then return 1, "Runecloth"
+		if KarniCrapConfig.Cloth_Runecloth then return true, "Runecloth"
 		elseif KarniCrapConfig.Cloth_Runecloth_Never then return nil, "Runecloth" end
 	elseif itemID == "21877" then
-		if KarniCrapConfig.Cloth_Netherweave then return 1, "Netherweave"
+		if KarniCrapConfig.Cloth_Netherweave then return true, "Netherweave"
 		elseif KarniCrapConfig.Cloth_Netherweave_Never then return nil, "Netherweave" end
 	elseif itemID == "33470" then
-		if KarniCrapConfig.Cloth_Frostweave then return 1, "Frostweave"
+		if KarniCrapConfig.Cloth_Frostweave then return true, "Frostweave"
 		elseif KarniCrapConfig.Cloth_Frostweave_Never then return nil, "Frostweave" end
 	elseif itemID == "53010" then
-		if KarniCrapConfig.Cloth_Embersilk then return 1, "Embersilk"
+		if KarniCrapConfig.Cloth_Embersilk then return true, "Embersilk"
 		elseif KarniCrapConfig.Cloth_Embersilk_Never then return nil, "Embersilk" end
 	elseif itemID == "72988" then
-		if KarniCrapConfig.Cloth_Windwool then return 1, "Windwool"
+		if KarniCrapConfig.Cloth_Windwool then return true, "Windwool"
 		elseif KarniCrapConfig.Cloth_Windwool_Never then return nil, "Windwool" end
 	elseif itemID == "111557" then
-		if KarniCrapConfig.Cloth_SumptuousFur then return 1, "Sumptuous Fur"
+		if KarniCrapConfig.Cloth_SumptuousFur then return true, "Sumptuous Fur"
 		elseif KarniCrapConfig.Cloth_SumptuousFur_Never then return nil, "Sumptuous Fur" end
 	elseif itemID == "124437" then
-		if KarniCrapConfig.Cloth_ShaldoreiSilk then return 1, "Shal'dorei Silk"
+		if KarniCrapConfig.Cloth_ShaldoreiSilk then return true, "Shal'dorei Silk"
 		elseif KarniCrapConfig.Cloth_ShaldoreiSilk_Never then return nil, "Shal'dorei Silk" end
 	end
 
@@ -608,34 +608,34 @@ function CheckLoot(itemID)
 	if lootSubType == "Scroll" then
 		if KarniCrapConfig.Scroll_Agility and ScrollList_Agility[itemID] then
 			if KarniCrapConfig.ScrollMax then
-				if KarniCrap_CheckScroll(itemID, ScrollList_Agility) then return 1
+				if KarniCrap_CheckScroll(itemID, ScrollList_Agility) then return true
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end
+			else return true, "Scroll type" end
 		elseif KarniCrapConfig.Scroll_Intellect and ScrollList_Intellect[itemID] then
 			if KarniCrapConfig.ScrollMax then
-				if KarniCrap_CheckScroll(itemID, ScrollList_Intellect) then return 1
+				if KarniCrap_CheckScroll(itemID, ScrollList_Intellect) then return true
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end
+			else return true, "Scroll type" end
 		elseif KarniCrapConfig.Scroll_Protection and ScrollList_Protection[itemID] then
 			if KarniCrapConfig.ScrollMax then
-				if KarniCrap_CheckScroll(itemID, ScrollList_Protection) then return 1
+				if KarniCrap_CheckScroll(itemID, ScrollList_Protection) then return true
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end
+			else return true, "Scroll type" end
 		elseif KarniCrapConfig.Scroll_Spirit and ScrollList_Spirit[itemID] then
 			if KarniCrapConfig.ScrollMax then
-				if KarniCrap_CheckScroll(itemID, ScrollList_Spirit) then return 1
+				if KarniCrap_CheckScroll(itemID, ScrollList_Spirit) then return true
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end
+			else return true, "Scroll type" end
 		elseif KarniCrapConfig.Scroll_Stamina and ScrollList_Stamina[itemID] then
 			if KarniCrapConfig.ScrollMax then
-				if KarniCrap_CheckScroll(itemID, ScrollList_Stamina) then return 1
+				if KarniCrap_CheckScroll(itemID, ScrollList_Stamina) then return true
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end
+			else return true, "Scroll type" end
 		elseif KarniCrapConfig.Scroll_Strength and ScrollList_Strength[itemID] then
 			if KarniCrapConfig.ScrollMax then
-				if KarniCrap_CheckScroll(itemID, ScrollList_Strength) then return 1
+				if KarniCrap_CheckScroll(itemID, ScrollList_Strength) then return true
 				else return nil, "Scroll level too low" end
-			else return 1, "Scroll type" end
+			else return true, "Scroll type" end
 		end
 	end
 
@@ -646,10 +646,10 @@ function CheckLoot(itemID)
 				return nil, "Food"
 			elseif KarniCrapConfig.AlwaysFood then
 				if KarniCrapConfig.FoodMax then
-					if foodList[itemID] > playerlevel - 10 then return 1, "Food"
+					if foodList[itemID] > playerlevel - 10 then return true, "Food"
 					else return nil, "Food level too low"	end
 				else
-					return 1, "Food"
+					return true, "Food"
 				end
 			end
 		end
@@ -662,10 +662,10 @@ function CheckLoot(itemID)
 				return nil, "Water"
 			elseif KarniCrapConfig.AlwaysWater then
 				if KarniCrapConfig.WaterMax then
-					if waterList[itemID] > playerlevel - 10 then return 1, "Water"
+					if waterList[itemID] > playerlevel - 10 then return true, "Water"
 					else return nil, "Water level too low" end
 				else
-					return 1, "Water"
+					return true, "Water"
 				end
 			end
 		end
@@ -677,10 +677,10 @@ function CheckLoot(itemID)
 		 	details = "Health Potion" return nil
 		elseif KarniCrapConfig.AlwaysHealth then
 			if KarniCrapConfig.HealthMax then
-				if KarniCrap_CheckMaxPotion(itemID, HealingPotionList) then return 1
+				if KarniCrap_CheckMaxPotion(itemID, HealingPotionList) then return true
 				else return nil, "Health Potion too low" end
 			else
-				return 1, "Health Potion"
+				return true, "Health Potion"
 			end
 		end
 	end
@@ -691,36 +691,36 @@ function CheckLoot(itemID)
 			return nil, "Mana Potion"
 		elseif KarniCrapConfig.AlwaysMana then
 			if KarniCrapConfig.ManaMax then
-				if KarniCrap_CheckMaxPotion(itemID, ManaPotionList) then return 1
+				if KarniCrap_CheckMaxPotion(itemID, ManaPotionList) then return true
 				else return nil, "Mana Potion too low" end
 			else
-				return 1, "Mana Potion"
+				return true, "Mana Potion"
 			end
 		end
 	end
 
 	--[[ Price ]]--
 	if lootValue then
-		if lootValue == 0 then return 1, "Unvendorable item" end
+		if lootValue == 0 then return true, "Unvendorable item" end
 		if KarniCrapConfig.UseStackValue then lootValue = lootValue * lootStackCount end
 		--[[ Poor Items ]]--
 		if lootRarity == 0 and KarniCrapConfig.Poor and amount_poor > 0 then
 			if lootValue then
-				if lootValue >= amount_poor then return 1, "Price above threshold"
+				if lootValue >= amount_poor then return true, "Price above threshold"
 				else return nil, "Price below threshold" end
 			end
 		--[[ Common Items ]]--
 		elseif ( lootRarity == 1 and KarniCrapConfig.Common and amount_common > 0 ) then
 			if lootValue then
 				--if debug then echo("Common price filter, item value "..lootValue.." vs threshold "..amount_common) end
-				if lootValue >= amount_common then return 1, "Price above threshold"
+				if lootValue >= amount_common then return true, "Price above threshold"
 				else return nil, "Price below threshold" end
 			end
 		end
 	end
 
 	-- passed or didn't qualify for filters
-	return 1, "Looting: No filters apply"
+	return true, "Looting: No filters apply"
 
 end -- CheckLoot()
 
@@ -1251,7 +1251,7 @@ function KarniCrap_IsLocked()
 	for bag = 0, 4 do
 		for slot = 0, GetContainerNumSlots(bag) do
 			local _, _, locked = GetContainerItemInfo(bag, slot);
-			if locked then return 1, "Locked" end
+			if locked then return true, "Locked" end
 		end
 	end
 	return nil
@@ -1315,7 +1315,7 @@ function KarniCrap_Enable()
 	KarniCrapConfig.Enabled = true
 	KarniCrap_Scripts:RegisterEvent("LOOT_OPENED")
 	KarniCrap_Scripts:RegisterEvent("LOOT_CLOSED")
-	KarniCrap_Scripts:RegisterEvent("PARTY_MEMBERS_CHANGED")
+	KarniCrap_Scripts:RegisterEvent("GROUP_ROSTER_UPDATE")
 	KarniCrap_Scripts:RegisterEvent("PLAYER_LEVEL_UP")
 	KarniCrap_Scripts:RegisterEvent("QUEST_FINISHED")
 	KarniCrap_Scripts:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
@@ -1335,7 +1335,7 @@ function KarniCrap_Disable()
 	KarniCrapConfig.Enabled = false
 	KarniCrap_Scripts:UnregisterEvent("LOOT_OPENED")
 	KarniCrap_Scripts:UnregisterEvent("LOOT_CLOSED")
-	KarniCrap_Scripts:UnregisterEvent("PARTY_MEMBERS_CHANGED")
+	KarniCrap_Scripts:UnregisterEvent("GROUP_ROSTER_UPDATE")
 	KarniCrap_Scripts:UnregisterEvent("PLAYER_LEVEL_UP")
 	KarniCrap_Scripts:UnregisterEvent("QUEST_FINISHED")
 	KarniCrap_Scripts:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
