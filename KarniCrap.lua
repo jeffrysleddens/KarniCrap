@@ -354,11 +354,11 @@ function KarniCrap_OnEvent(self, event, ...)
 		playerlevel = tonumber(arg1)
 
 	elseif event == "GROUP_ROSTER_UPDATE" then
-		KarniCrapConfig.NumberInParty = GetNumPartyMembers()
+		KarniCrapConfig.NumberInParty = GetNumGroupMembers()
 		KarniCrap_GetLootThreshold()
 
 	elseif event == "RAID_ROSTER_UPDATE" then
-		KarniCrapConfig.NumberInRaid = GetNumRaidMembers()
+		KarniCrapConfig.NumberInRaid = GetNumGroupMembers()
 		KarniCrap_GetLootThreshold()
 
 	elseif event == "QUEST_FINISHED" then
