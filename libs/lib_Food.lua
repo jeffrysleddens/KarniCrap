@@ -187,4 +187,19 @@ foodList	= {
 	["133562"]	= 101,	-- Pickled Stormray
 	["133563"]	= 101,	-- Faronaar Fizz
 	["133564"]	= 101,	-- Spiced Rib Roast
+
+        -- Battle for Azeroth - https://www.wowhead.com/items?filter=166:86;8:3;0:0 --
+        ["154882"]      = 110,  -- Honey-Glazed Haunches
+        ["154884"]      = 110,  -- Swamp Fish 'n Chips
+        ["154886"]      = 110,  -- Spiced Snapper
+        ["154888"]      = 110,  -- Sailor's Pie
+        ["154891"]      = 110,  -- Seasoned Loins
+        ["156526"]      = 110,  -- Bountiful Captain's Feast
+        ["154881"]      = 110,  -- Kul Tiramisu
+        ["154883"]      = 110,  -- Ravenberry Tarts
+        ["154885"]      = 110,  -- Mon'Dazi
+        ["154887"]      = 110,  -- Loa Loaf
+        ["154889"]      = 110,  -- Grilled Catfish
+        ["156525"]      = 110,  -- Galley Banquet
+        ["163781"]      = 110,  -- Heartsbane Hexwurst
 }
