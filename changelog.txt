@@ -38,6 +38,10 @@ Current known issues
 
 Changelog
 -------------------------------------------------------------------------------
+v8.0.1.2
+	- Changed GetNumPartyMembers and GetNumRaidMembers calls to
+	  GetNumGroupMembers (credits: sebid2003@curseforge)
+
 v8.0.1.1
 	- TOC file updated for patch 8.0
 	- PlaySound calls fixed
