@@ -52,52 +52,54 @@ function KarniCrap_InventoryList()
 		for slot=1,GetContainerNumSlots(bag) do
 			local itemLink = GetContainerItemLink(bag,slot)
 			if itemLink then
-			
 				local _, itemCount = GetContainerItemInfo(bag,slot)
 				local itemName, _, itemQuality, _, _, itemType, _, itemStackCount, _, _, itemValue = GetItemInfo(itemLink)
 				local _, _, itemID = string.find(itemLink, "item:(%d+):")
-				containerItem = {}
-				
-				-- if itemValue is 0 and checkbox is set, skip entering info into table
-				containerItem.name = itemName
-				containerItem.link = itemLink
-				containerItem.id = itemID
-								
-				-- do the crap check in here
-				containerItem.crap = 0
-				
-				local tempcheck, tempreason = CheckLoot(itemID)
-				if debug then echo(itemLink.."-"..tempreason) end
-				if not tempcheck then 
-					containerItem.crap = 1 
-					crap_count = 1
-				end 
-				
-				-- check for quest items pending turn-in 
-				if itemQuality > 0 then
-					for k, v in pairs(KarniQuestlist_Pending) do
-						if ( v == itemName ) then 
-							containerItem.crap = 0
-							break
+
+				if itemID then
+					containerItem = {}
+										
+					-- if itemValue is 0 and checkbox is set, skip entering info into table
+					containerItem.name = itemName
+					containerItem.link = itemLink
+					containerItem.id = itemID
+									
+					-- do the crap check in here
+					containerItem.crap = 0
+					
+					local tempcheck, tempreason = CheckLoot(itemID)
+					if debug then echo(itemLink.."-"..tempreason) end
+					if not tempcheck then 
+						containerItem.crap = 1 
+						crap_count = 1
+					end 
+					
+					-- check for quest items pending turn-in 
+					if itemQuality and itemQuality > 0 then
+						for k, v in pairs(KarniQuestlist_Pending) do
+							if ( v == itemName ) then 
+								containerItem.crap = 0
+								break
+							end
 						end
 					end
-				end
-				
-				-- Values
-				containerItem.itemvalue = itemValue
-				containerItem.currentvalue = itemValue * itemCount
-				containerItem.fullstackvalue = itemValue * itemStackCount
-				
-				containerItem.reason = tempreason
-				containerItem.quantity = itemCount
-				containerItem.quality = itemQuality
-				containerItem.type = itemType
-				containerItem.bag = bag
-				containerItem.slot = slot
-				
-				if KarniCrapConfig.HideQuestItems == false or ( KarniCrapConfig.HideQuestItems == true and itemValue > 0 ) then
-					table.insert(inventory_items, containerItem)
-					inventory_numitems = inventory_numitems + 1
+					
+					-- Values
+					containerItem.itemvalue = itemValue
+					containerItem.currentvalue = itemValue * itemCount
+					containerItem.fullstackvalue = itemValue * itemStackCount
+					
+					containerItem.reason = tempreason
+					containerItem.quantity = itemCount
+					containerItem.quality = itemQuality
+					containerItem.type = itemType
+					containerItem.bag = bag
+					containerItem.slot = slot
+					
+					if KarniCrapConfig.HideQuestItems == false or ( KarniCrapConfig.HideQuestItems == true and itemValue > 0 ) then
+						table.insert(inventory_items, containerItem)
+						inventory_numitems = inventory_numitems + 1
+					end
 				end
 			end
 		end
