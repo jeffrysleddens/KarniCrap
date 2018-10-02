@@ -1,9 +1,9 @@
-## Interface: 70300
+## Interface: 80000
 ## Author: Karnifex
 ## Title: Karni's Crap Filter
 ## Notes: A snazzy autolooter with value filtering, item white/blacklisting, and more!
-## Version: 7.3.0.2
-## X-Curse-Packaged-Version: 7.3.0.2
+## Version: 8.0.1.1
+## X-Curse-Packaged-Version: 8.0.1.1
 ## X-Curse-Project-Name: Karni's Crap Filter
 ## X-Curse-Project-ID: karnicrap
 ## X-WoWI-ID: 9441
