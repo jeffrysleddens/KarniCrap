@@ -35,4 +35,6 @@ clothList = {
 	["72988"]	= "Windwool Cloth",
 	["111557"]	= "Sumptuous Fur",
 	["124437"]	= "Shal'dorei Silk",
+	["152576"]	= "Tidespray Linen",
+	["152577"]	= "Deep Sea Satin",
 }
