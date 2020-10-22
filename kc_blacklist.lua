@@ -63,6 +63,7 @@ function KarniCrap_InitializeBlacklist()
 	end
 	blacklist_numitems = index
 	KarniCrap_BlacklistScrollBar_Update()
+	_G["KarniCrap_Blacklist"]:SetFrameLevel(2)
 	return
 end
 

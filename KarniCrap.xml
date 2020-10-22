@@ -2697,6 +2697,13 @@
 					<OnReceiveDrag>
 						KarniCrap_DragOntoBlacklist();
 					</OnReceiveDrag>
+					<OnMouseUp>
+						if _G["KarniCrap_Tab2"]:IsVisible() then
+							if CursorHasItem() then
+								KarniCrap_DragOntoBlacklist();
+							end
+						end
+					</OnMouseUp>
 				</Scripts>
 			</MessageFrame>
 
@@ -2785,6 +2792,13 @@
 					<OnReceiveDrag>
 						KarniCrap_DragOntoWhitelist();
 					</OnReceiveDrag>
+					<OnMouseUp>
+						if _G["KarniCrap_Tab2"]:IsVisible() then
+							if CursorHasItem() then
+								KarniCrap_DragOntoWhitelist();
+							end
+						end
+					</OnMouseUp>
 				</Scripts>
 			</MessageFrame>
 

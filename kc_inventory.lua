@@ -54,6 +54,7 @@ function KarniCrap_InventoryList()
 			if itemLink then
 				local _, itemCount = GetContainerItemInfo(bag,slot)
 				local itemName, _, itemQuality, _, _, itemType, _, itemStackCount, _, _, itemValue = GetItemInfo(itemLink)
+				if (not itemName) or (not itemQuality) or (not itemType) or (not itemStackCount) or (not itemValue) then return end
 				local _, _, itemID = string.find(itemLink, "item:(%d+):")
 
 				if itemID then

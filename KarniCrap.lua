@@ -535,6 +535,7 @@ end
 function CheckLoot(itemID)
 	if itemID == nil then return nil, "Blacklist" end
 	local lootName, lootLink, lootRarity, lootLevel, _, lootType, lootSubType, lootStackCount, _, _, lootValue = GetItemInfo(itemID)
+	if (not lootName) or (not lootLink) or (not lootRarity) or (not lootLevel) or (not lootType) or (not lootSubType) or (not lootStackCount) then return end
 	local temp
 
 	--[[ Blacklist ]]--
@@ -1214,25 +1215,33 @@ end
 -- possibly do a quantity check in here and then update quest item list whenever a quest item is looted
 function KarniCrap_GetQuestItems()
 	local i;
-	local numEntries, numQuests = GetNumQuestLogEntries()
+	local numEntries, numQuests = C_QuestLog.GetNumQuestLogEntries()
 	questlist_items = {}
 
 	if numEntries > 0 then
 		for i=1, numEntries do
-			SelectQuestLogEntry(i)
-			local _, _, _, _, isHeader, _, isComplete, _ = GetQuestLogTitle(i)
-			if not isHeader then
-				local numObjects=GetNumQuestLeaderBoards()
-				for i=1, numObjects do
-					local itemType, itemName, numItems, numNeeded, isDone = KarniCrap_GetQuestItemInfo(i)
-					if itemName and itemType == "item" then
-						-- If the quest isn't complete keep trying to loot the item
-						if (itemName == nil) or (itemName == "") or (itemName == " ") then KarniCrap_TimerFrame:Show() end
-						if not isComplete then
-							table.insert(questlist_items,itemName)
-						-- For completed quests add items to a list so the inventory manager won't try to destroy them
-						else
-							table.insert(KarniQuestlist_Pending, itemName)
+			--SelectQuestLogEntry(i)			
+			--local _, _, _, _, isHeader, _, isComplete, _ = GetQuestLogTitle(i)
+			local info = C_QuestLog.GetInfo(i)
+			if info then
+				local questID = info.questID
+				if questID then
+					local isHeader = info.isHeader
+					local isComplete = C_QuestLog.ReadyForTurnIn(questID)
+					if not isHeader then
+						local numObjects=GetNumQuestLeaderBoards()
+						for i=1, numObjects do
+							local itemType, itemName, numItems, numNeeded, isDone = KarniCrap_GetQuestItemInfo(i)
+							if itemName and itemType == "item" then
+								-- If the quest isn't complete keep trying to loot the item
+								if (itemName == nil) or (itemName == "") or (itemName == " ") then KarniCrap_TimerFrame:Show() end
+								if not isComplete then
+									table.insert(questlist_items,itemName)
+								-- For completed quests add items to a list so the inventory manager won't try to destroy them
+								else
+									table.insert(KarniQuestlist_Pending, itemName)
+								end
+							end
 						end
 					end
 				end
