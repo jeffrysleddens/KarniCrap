@@ -100,6 +100,7 @@ function KarniCrap_AddLootToWhitelist(itemLink)
 	else
 		echo("KarniCrap: /notcrap [itemlink] to add an item to the Always Loot list")
 	end
+	_G["KarniCrap_Blacklist"]:EnableMouse("false") -- disables the drag & drop so items can be clicked again
 	KarniCrap_InitializeWhitelist()
 	return
 end
