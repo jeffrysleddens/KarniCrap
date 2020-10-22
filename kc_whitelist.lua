@@ -65,6 +65,7 @@ function KarniCrap_InitializeWhitelist()
 	
 	whitelist_numitems = index
 	KarniCrap_WhitelistScrollBar_Update()
+	_G["KarniCrap_Whitelist"]:SetFrameLevel(2)
 	return
 end
 
@@ -99,7 +100,6 @@ function KarniCrap_AddLootToWhitelist(itemLink)
 	else
 		echo("KarniCrap: /notcrap [itemlink] to add an item to the Always Loot list")
 	end
-	_G["KarniCrap_Whitelist"]:EnableMouse("false"); -- disables the drag & drop so items can be clicked again
 	KarniCrap_InitializeWhitelist()
 	return
 end
